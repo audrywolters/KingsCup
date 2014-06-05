@@ -1,0 +1,472 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		911AC4D2194106D400207D50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D1194106D400207D50 /* Foundation.framework */; };
+		911AC4D4194106D400207D50 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D3194106D400207D50 /* CoreGraphics.framework */; };
+		911AC4D6194106D400207D50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D5194106D400207D50 /* UIKit.framework */; };
+		911AC4DC194106D400207D50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4DA194106D400207D50 /* InfoPlist.strings */; };
+		911AC4DE194106D400207D50 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4DD194106D400207D50 /* main.m */; };
+		911AC4E2194106D400207D50 /* KingsCupAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4E1194106D400207D50 /* KingsCupAppDelegate.m */; };
+		911AC4E5194106D400207D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4E3194106D400207D50 /* Main.storyboard */; };
+		911AC4E8194106D400207D50 /* KingsCupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4E7194106D400207D50 /* KingsCupViewController.m */; };
+		911AC4EA194106D400207D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4E9194106D400207D50 /* Images.xcassets */; };
+		911AC4F1194106D400207D50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4F0194106D400207D50 /* XCTest.framework */; };
+		911AC4F2194106D400207D50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D1194106D400207D50 /* Foundation.framework */; };
+		911AC4F3194106D400207D50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D5194106D400207D50 /* UIKit.framework */; };
+		911AC4FB194106D400207D50 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4F9194106D400207D50 /* InfoPlist.strings */; };
+		911AC4FD194106D400207D50 /* KingsCupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4FC194106D400207D50 /* KingsCupTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		911AC4F4194106D400207D50 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 911AC4C6194106D300207D50 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 911AC4CD194106D300207D50;
+			remoteInfo = KingsCup;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		911AC4CE194106D400207D50 /* KingsCup.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KingsCup.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		911AC4D1194106D400207D50 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		911AC4D3194106D400207D50 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		911AC4D5194106D400207D50 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		911AC4D9194106D400207D50 /* KingsCup-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KingsCup-Info.plist"; sourceTree = "<group>"; };
+		911AC4DB194106D400207D50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		911AC4DD194106D400207D50 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		911AC4DF194106D400207D50 /* KingsCup-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KingsCup-Prefix.pch"; sourceTree = "<group>"; };
+		911AC4E0194106D400207D50 /* KingsCupAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingsCupAppDelegate.h; sourceTree = "<group>"; };
+		911AC4E1194106D400207D50 /* KingsCupAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsCupAppDelegate.m; sourceTree = "<group>"; };
+		911AC4E4194106D400207D50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		911AC4E6194106D400207D50 /* KingsCupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingsCupViewController.h; sourceTree = "<group>"; };
+		911AC4E7194106D400207D50 /* KingsCupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsCupViewController.m; sourceTree = "<group>"; };
+		911AC4E9194106D400207D50 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		911AC4EF194106D400207D50 /* KingsCupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KingsCupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		911AC4F0194106D400207D50 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		911AC4F8194106D400207D50 /* KingsCupTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KingsCupTests-Info.plist"; sourceTree = "<group>"; };
+		911AC4FA194106D400207D50 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		911AC4FC194106D400207D50 /* KingsCupTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsCupTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		911AC4CB194106D300207D50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4D4194106D400207D50 /* CoreGraphics.framework in Frameworks */,
+				911AC4D6194106D400207D50 /* UIKit.framework in Frameworks */,
+				911AC4D2194106D400207D50 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		911AC4EC194106D400207D50 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4F1194106D400207D50 /* XCTest.framework in Frameworks */,
+				911AC4F3194106D400207D50 /* UIKit.framework in Frameworks */,
+				911AC4F2194106D400207D50 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		911AC4C5194106D300207D50 = {
+			isa = PBXGroup;
+			children = (
+				911AC4D7194106D400207D50 /* KingsCup */,
+				911AC4F6194106D400207D50 /* KingsCupTests */,
+				911AC4D0194106D400207D50 /* Frameworks */,
+				911AC4CF194106D400207D50 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		911AC4CF194106D400207D50 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4CE194106D400207D50 /* KingsCup.app */,
+				911AC4EF194106D400207D50 /* KingsCupTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		911AC4D0194106D400207D50 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4D1194106D400207D50 /* Foundation.framework */,
+				911AC4D3194106D400207D50 /* CoreGraphics.framework */,
+				911AC4D5194106D400207D50 /* UIKit.framework */,
+				911AC4F0194106D400207D50 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		911AC4D7194106D400207D50 /* KingsCup */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4E0194106D400207D50 /* KingsCupAppDelegate.h */,
+				911AC4E1194106D400207D50 /* KingsCupAppDelegate.m */,
+				911AC4E3194106D400207D50 /* Main.storyboard */,
+				911AC4E6194106D400207D50 /* KingsCupViewController.h */,
+				911AC4E7194106D400207D50 /* KingsCupViewController.m */,
+				911AC4E9194106D400207D50 /* Images.xcassets */,
+				911AC4D8194106D400207D50 /* Supporting Files */,
+			);
+			path = KingsCup;
+			sourceTree = "<group>";
+		};
+		911AC4D8194106D400207D50 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4D9194106D400207D50 /* KingsCup-Info.plist */,
+				911AC4DA194106D400207D50 /* InfoPlist.strings */,
+				911AC4DD194106D400207D50 /* main.m */,
+				911AC4DF194106D400207D50 /* KingsCup-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		911AC4F6194106D400207D50 /* KingsCupTests */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4FC194106D400207D50 /* KingsCupTests.m */,
+				911AC4F7194106D400207D50 /* Supporting Files */,
+			);
+			path = KingsCupTests;
+			sourceTree = "<group>";
+		};
+		911AC4F7194106D400207D50 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				911AC4F8194106D400207D50 /* KingsCupTests-Info.plist */,
+				911AC4F9194106D400207D50 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		911AC4CD194106D300207D50 /* KingsCup */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 911AC500194106D400207D50 /* Build configuration list for PBXNativeTarget "KingsCup" */;
+			buildPhases = (
+				911AC4CA194106D300207D50 /* Sources */,
+				911AC4CB194106D300207D50 /* Frameworks */,
+				911AC4CC194106D300207D50 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KingsCup;
+			productName = KingsCup;
+			productReference = 911AC4CE194106D400207D50 /* KingsCup.app */;
+			productType = "com.apple.product-type.application";
+		};
+		911AC4EE194106D400207D50 /* KingsCupTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 911AC503194106D400207D50 /* Build configuration list for PBXNativeTarget "KingsCupTests" */;
+			buildPhases = (
+				911AC4EB194106D400207D50 /* Sources */,
+				911AC4EC194106D400207D50 /* Frameworks */,
+				911AC4ED194106D400207D50 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				911AC4F5194106D400207D50 /* PBXTargetDependency */,
+			);
+			name = KingsCupTests;
+			productName = KingsCupTests;
+			productReference = 911AC4EF194106D400207D50 /* KingsCupTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		911AC4C6194106D300207D50 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = KingsCup;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = audrywolters;
+				TargetAttributes = {
+					911AC4EE194106D400207D50 = {
+						TestTargetID = 911AC4CD194106D300207D50;
+					};
+				};
+			};
+			buildConfigurationList = 911AC4C9194106D300207D50 /* Build configuration list for PBXProject "KingsCup" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 911AC4C5194106D300207D50;
+			productRefGroup = 911AC4CF194106D400207D50 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				911AC4CD194106D300207D50 /* KingsCup */,
+				911AC4EE194106D400207D50 /* KingsCupTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		911AC4CC194106D300207D50 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4EA194106D400207D50 /* Images.xcassets in Resources */,
+				911AC4DC194106D400207D50 /* InfoPlist.strings in Resources */,
+				911AC4E5194106D400207D50 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		911AC4ED194106D400207D50 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4FB194106D400207D50 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		911AC4CA194106D300207D50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4E2194106D400207D50 /* KingsCupAppDelegate.m in Sources */,
+				911AC4DE194106D400207D50 /* main.m in Sources */,
+				911AC4E8194106D400207D50 /* KingsCupViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		911AC4EB194106D400207D50 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				911AC4FD194106D400207D50 /* KingsCupTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		911AC4F5194106D400207D50 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 911AC4CD194106D300207D50 /* KingsCup */;
+			targetProxy = 911AC4F4194106D400207D50 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		911AC4DA194106D400207D50 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				911AC4DB194106D400207D50 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		911AC4E3194106D400207D50 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				911AC4E4194106D400207D50 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		911AC4F9194106D400207D50 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				911AC4FA194106D400207D50 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		911AC4FE194106D400207D50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		911AC4FF194106D400207D50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		911AC501194106D400207D50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KingsCup/KingsCup-Prefix.pch";
+				INFOPLIST_FILE = "KingsCup/KingsCup-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		911AC502194106D400207D50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KingsCup/KingsCup-Prefix.pch";
+				INFOPLIST_FILE = "KingsCup/KingsCup-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		911AC504194106D400207D50 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KingsCup.app/KingsCup";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KingsCup/KingsCup-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "KingsCupTests/KingsCupTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		911AC505194106D400207D50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/KingsCup.app/KingsCup";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KingsCup/KingsCup-Prefix.pch";
+				INFOPLIST_FILE = "KingsCupTests/KingsCupTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		911AC4C9194106D300207D50 /* Build configuration list for PBXProject "KingsCup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				911AC4FE194106D400207D50 /* Debug */,
+				911AC4FF194106D400207D50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		911AC500194106D400207D50 /* Build configuration list for PBXNativeTarget "KingsCup" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				911AC501194106D400207D50 /* Debug */,
+				911AC502194106D400207D50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		911AC503194106D400207D50 /* Build configuration list for PBXNativeTarget "KingsCupTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				911AC504194106D400207D50 /* Debug */,
+				911AC505194106D400207D50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 911AC4C6194106D300207D50 /* Project object */;
+}
