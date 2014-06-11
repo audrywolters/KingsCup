@@ -19,8 +19,6 @@
                                 [UIImage imageNamed:@"spades.png"],
                                 nil];
     
-    
-    
     //return @[@"<3", @"C>", @"c3", @"<>"];
 }
 
@@ -43,7 +41,19 @@
 
 + (NSArray *) descriptions
 {
-    return nil;
+    return @[@"each player starts drinking at the same time as the person to their left. you can’t stop until the player before you does!",
+             @"assign 2 drinks to a player",
+             @"take 3 drinks",
+             @"assign 2 drinks, take 2 drinks",
+             @"make up a rule to follow for the rest of the game\ni.e. drink with left hand, no first names, etc",
+             @"last person to put their thumb on the table drinks",
+             @"last person to raise their hand drinks",
+             @"choose a player to drink when you do\n(but only because of a rule)",
+             @"say a word. rhyme that word in a circle until a player repeats a word or flubs then they must drink",
+             @"think of a category of things i.e.brands of gum. players name item of said category in a circle until a repeat or flub. that player must drink",
+             @"all males drink",
+             @"all girls drink",
+             @"see that big cup in the middle of the table? pour some of your drink in it. last person to draw a king must drink the whole cup!"];
 }
 
 @end

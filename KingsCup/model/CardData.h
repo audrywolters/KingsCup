@@ -11,6 +11,7 @@
 @interface CardData : NSObject
 
 //need properties?
+//be instance? -
 + (NSArray *) suits;
 + (NSArray *) faces;
 + (NSArray *) titles;

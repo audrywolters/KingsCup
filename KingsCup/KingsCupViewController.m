@@ -37,18 +37,25 @@
 }
 
 
-- (IBAction)touchCardButton:(id)sender {
+- (IBAction)touchCardButton:(id)sender
+{
+    //if there is a card left in the deck
+    //if (card) {
+        
+        Card *card = [self.deck drawRandomCard];
+        
+        //set card data
+        self.cardTitle.text = card.title;
+        self.description.text = card.description;
+        self.faceTop.text = card.face;
+        self.faceBottom.text = card.face;
+        self.suitTop.image = card.suit;
+        self.suitBottom.image = card.suit;
     
-    Card *card = [self.deck drawRandomCard];
+    //} else {
+        //new game?
+    //}
     
-    //set card data
-    self.cardTitle.text = card.title;
-    self.description.text = card.description;
-    self.faceTop.text = card.face;
-    self.faceBottom.text = card.face;
-    self.suitTop.image = card.suit;
-    self.suitBottom.image = card.suit;
-
 }
 
 
