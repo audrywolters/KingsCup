@@ -95,7 +95,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="K" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-0i-9os">
-                                <rect key="frame" x="193" y="375" width="18" height="21"/>
+                                <rect key="frame" x="186" y="375" width="18" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
@@ -106,15 +106,22 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="&lt;3" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ffx-mF-eAM">
+                                <rect key="frame" x="196" y="375" width="27" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.92808361319999999" blue="0.52469518930000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="HzU-mu-yab"/>
                     <connections>
-                        <outlet property="cardTitle" destination="EQg-Ji-b1Z" id="kvp-GP-F6z"/>
+                        <outlet property="cardTitle" destination="EQg-Ji-b1Z" id="Ogq-aU-cqT"/>
                         <outlet property="description" destination="88o-cN-c5e" id="I8b-gl-fi5"/>
                         <outlet property="faceBottom" destination="TKE-0i-9os" id="tfo-qr-aOb"/>
                         <outlet property="faceTop" destination="L52-Fm-3vr" id="vW0-c2-f07"/>
+                        <outlet property="suitBottom" destination="ffx-mF-eAM" id="9Xi-Tm-GDC"/>
                         <outlet property="suitTop" destination="Vkx-2K-f8R" id="FAy-pd-Txn"/>
                     </connections>
                 </viewController>

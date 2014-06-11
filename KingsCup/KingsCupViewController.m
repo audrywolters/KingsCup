@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *faceTop;
 @property (weak, nonatomic) IBOutlet UILabel *faceBottom;
 @property (weak, nonatomic) IBOutlet UILabel *suitTop;
+@property (weak, nonatomic) IBOutlet UILabel *suitBottom;
 
 @end
 
@@ -25,7 +26,7 @@
 
 - (IBAction)touchCardButton:(id)sender {
     Deck *deck = [[Deck alloc] init];
-    //if declared deck in property, would instance be self.deck or _deck
+    //would instance be self.deck or _deck?
     [deck makeDeck];
     Card *card = [deck drawRandomCard];
     
@@ -34,10 +35,9 @@
     self.faceTop.text = card.face;
     self.faceBottom.text = card.face;
     self.suitTop.text = card.suit;
+    self.suitBottom.text = card.suit;
     
-    NSLog(@"%@", card.face);
-    NSLog(@"%@", card.suit);
-    NSLog(@"%@", card.title);
+
     
 }
 
