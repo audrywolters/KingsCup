@@ -13,7 +13,15 @@
 
 + (NSArray *) suits
 {
-    return @[@"<3", @"C>", @"c3", @"<>"];
+    return [NSArray arrayWithObjects: [UIImage imageNamed:@"hearts.png"],
+                                [UIImage imageNamed:@"diamonds.png"],
+                                [UIImage imageNamed:@"clubs.png"],
+                                [UIImage imageNamed:@"spades.png"],
+                                nil];
+    
+    
+    
+    //return @[@"<3", @"C>", @"c3", @"<>"];
 }
 
 

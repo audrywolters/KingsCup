@@ -33,7 +33,7 @@
 -(void) makeDeck;
 {
     //save the new card data
-    NSString *newSuit;
+    UIImage *newSuit;
     NSString *newFace;
     NSString *newTitle;
     

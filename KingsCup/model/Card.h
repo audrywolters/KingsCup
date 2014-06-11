@@ -11,7 +11,7 @@
 @interface Card : NSObject
 
 @property (nonatomic, weak) NSString *face;
-@property (nonatomic, weak) NSString *suit;
+@property (nonatomic, weak) UIImage *suit;
 @property (nonatomic, weak) NSString *title;
 @property (nonatomic, weak) NSString *description;
 

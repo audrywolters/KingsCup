@@ -10,8 +10,7 @@
 
 @interface CardData : NSObject
 
-//can't figure out how to make these as plain old variables
-//methods were the only way I could make it work
+//need properties?
 + (NSArray *) suits;
 + (NSArray *) faces;
 + (NSArray *) titles;

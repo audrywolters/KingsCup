@@ -11,41 +11,50 @@
 
 @interface KingsCupViewController ()
 
-//add properties of deck and card?
+@property (strong, nonatomic) Deck *deck;
+//have card property?
 @property (weak, nonatomic) IBOutlet UILabel *cardTitle;
 @property (weak, nonatomic) IBOutlet UILabel *description;
 @property (weak, nonatomic) IBOutlet UILabel *faceTop;
 @property (weak, nonatomic) IBOutlet UILabel *faceBottom;
-@property (weak, nonatomic) IBOutlet UILabel *suitTop;
-@property (weak, nonatomic) IBOutlet UILabel *suitBottom;
+@property (weak, nonatomic) IBOutlet UIImageView *suitTop;
+@property (weak, nonatomic) IBOutlet UIImageView *suitBottom;
+
 
 @end
 
 @implementation KingsCupViewController
 
 
-- (IBAction)touchCardButton:(id)sender {
-    Deck *deck = [[Deck alloc] init];
-    //would instance be self.deck or _deck?
-    [deck makeDeck];
-    Card *card = [deck drawRandomCard];
+//what is this? a setter?
+//why is it being called very button touch?
+- (Deck *)deck
+{
+    if (!_deck) _deck = [[Deck alloc] init];
+    [_deck makeDeck];
     
+    return _deck;
+}
+
+
+- (IBAction)touchCardButton:(id)sender {
+    
+    Card *card = [self.deck drawRandomCard];
+    
+    //set card data
     self.cardTitle.text = card.title;
     self.description.text = card.description;
     self.faceTop.text = card.face;
     self.faceBottom.text = card.face;
-    self.suitTop.text = card.suit;
-    self.suitBottom.text = card.suit;
-    
+    self.suitTop.image = card.suit;
+    self.suitBottom.image = card.suit;
 
-    
 }
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-   
- 
 }
 
 
