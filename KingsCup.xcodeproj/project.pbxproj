@@ -26,7 +26,6 @@
 		912C910619424AD400913C7E /* CardData.m in Sources */ = {isa = PBXBuildFile; fileRef = 912C910519424AD400913C7E /* CardData.m */; };
 		912C910919426DE000913C7E /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 912C910819426DE000913C7E /* Player.m */; };
 		91F0D4991946340B0027FB94 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F0D4981946340B0027FB94 /* IntroViewController.m */; };
-		91F0D49B19463A420027FB94 /* cardBack.gif in Resources */ = {isa = PBXBuildFile; fileRef = 91F0D49A19463A420027FB94 /* cardBack.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +68,6 @@
 		912C910819426DE000913C7E /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
 		91F0D4971946340B0027FB94 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		91F0D4981946340B0027FB94 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
-		91F0D49A19463A420027FB94 /* cardBack.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = cardBack.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,7 +149,6 @@
 		911AC4D8194106D400207D50 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				91F0D49A19463A420027FB94 /* cardBack.gif */,
 				911AC4E0194106D400207D50 /* KingsCupAppDelegate.h */,
 				911AC4E1194106D400207D50 /* KingsCupAppDelegate.m */,
 				911AC4D9194106D400207D50 /* KingsCup-Info.plist */,
@@ -260,7 +257,6 @@
 				911AC4EA194106D400207D50 /* Images.xcassets in Resources */,
 				911AC4DC194106D400207D50 /* InfoPlist.strings in Resources */,
 				911AC4E5194106D400207D50 /* Main.storyboard in Resources */,
-				91F0D49B19463A420027FB94 /* cardBack.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
