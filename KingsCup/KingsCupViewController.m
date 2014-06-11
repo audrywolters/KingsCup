@@ -11,6 +11,9 @@
 
 @interface KingsCupViewController ()
 
+@property (weak, nonatomic) IBOutlet UILabel *cardTitle;
+@property (weak, nonatomic) IBOutlet UILabel *description;
+
 @end
 
 @implementation KingsCupViewController
@@ -20,6 +23,11 @@
     Deck *deck = [[Deck alloc] init];
     [deck makeDeck];
     Card *card = [deck drawRandomCard];
+    
+    self.cardTitle.text = card.title;
+    self.description.text = card.description;
+    
+    
     NSLog(@"%@", card.face);
     NSLog(@"%@", card.suit);
     NSLog(@"%@", card.title);
