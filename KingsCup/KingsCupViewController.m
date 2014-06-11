@@ -7,6 +7,7 @@
 //
 
 #import "KingsCupViewController.h"
+#import "Deck.h"
 
 @interface KingsCupViewController ()
 
@@ -14,16 +15,34 @@
 
 @implementation KingsCupViewController
 
+
+- (IBAction)touchCardButton:(id)sender {
+    Deck *deck = [[Deck alloc] init];
+    [deck makeDeck];
+    Card *card = [deck drawRandomCard];
+    NSLog(@"%@", card.face);
+    NSLog(@"%@", card.suit);
+    NSLog(@"%@", card.title);
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
+   
+ 
 }
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)didFinishLaunchingWithOptions {
+    
 }
 
 @end
