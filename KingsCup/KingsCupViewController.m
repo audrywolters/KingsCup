@@ -26,24 +26,20 @@
 @implementation KingsCupViewController
 
 
-//what is this? a setter?
-//why is it being called very button touch?
 - (Deck *)deck
 {
-    if (!_deck) _deck = [[Deck alloc] init];
-    [_deck makeDeck];
-    
+    if (!_deck) {
+        _deck = [[Deck alloc] init];
+    }
     return _deck;
 }
 
 
 - (IBAction)touchCardButton:(id)sender
 {
+    Card *card = [self.deck drawRandomCard];
     //if there is a card left in the deck
-    //if (card) {
-        
-        Card *card = [self.deck drawRandomCard];
-        
+    if (card) {
         //set card data
         self.cardTitle.text = card.title;
         self.description.text = card.description;
@@ -51,29 +47,18 @@
         self.faceBottom.text = card.face;
         self.suitTop.image = card.suit;
         self.suitBottom.image = card.suit;
-    
-    //} else {
-        //new game?
-    //}
-    
-}
-
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
--(void)didFinishLaunchingWithOptions {
+        
+    } else {
+        self.cardTitle.text = card.title;
+        self.description.text = @"GAME OVER";
+        self.faceTop.text = card.face;
+        self.faceBottom.text = card.face;
+        self.suitTop.image = card.suit;
+        self.suitBottom.image = card.suit;
+    }
     
 }
+
+
 
 @end

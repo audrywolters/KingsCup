@@ -10,54 +10,46 @@
 #import "Card.h"
 #import "CardData.h"
 
-@interface Deck()
 
+@interface Deck()
 //array that holds all cards
 @property (nonatomic, strong) NSMutableArray *cards;
-
+@property (nonatomic, weak)  UIImage *suit;
 @end
+
 
 @implementation Deck
 
 
-
-//lazy instantiation of card array
--(NSMutableArray *)cards
+- (instancetype)init
 {
-    if (!_cards) _cards = [[NSMutableArray alloc] init];
-    return _cards;
-}
-
-
-//make deck
--(void) makeDeck;
-{
-    //save the new card data
-    UIImage *newSuit;
-    NSString *newFace;
-    NSString *newTitle;
+    self = [super init];
     
-    
-    //loop 4x to make suit
-    for (int i=0; i<4; i++) {
-        newSuit = CardData.suits[i];
-        
-        //loop 13x for rest of cards
-        for (int i=0; i<13; i++) {
-            newFace = CardData.faces[i];
-            newTitle = CardData.titles[i];
+    if (self) {
+        //loop 4x to make suit
+        for (int i=0; i<4; i++) {
+            self.suit = CardData.suits[i];
             
-           //create card
-            Card *card = [[Card alloc] init];
-            card.suit = newSuit;
-            card.face = newFace;
-            card.title = newTitle;
+            //loop 13x for rest of cards
+            for (int i=0; i<13; i++) {
+                
+                //create card
+                Card *card = [[Card alloc] init];
+                card.suit = self.suit;
+                card.face = CardData.faces[i];
+                card.title = CardData.titles[i];
+                card.description = CardData.descriptions[i];
+                
+                //add card to the cards array
+                [self.cards addObject:card];
+            }
             
-            //add card to the cards array
-            [self.cards addObject:card];
         }
-    
+        
     }
+    
+    return self;
+    
 }
 
 
@@ -65,15 +57,26 @@
 {
     Card *randomCard = nil;
     
-    unsigned randomNum = arc4random();
-    //random number within range of size of _cards
-    unsigned index = randomNum % [self.cards count];
-    //put card at random index into new card
-    randomCard = self.cards[index];
-    //remove that card from the _cards array
-    [self.cards removeObjectAtIndex:index];
-    
+    if ([self.cards count]) {
+        //create random number
+        int randomNum = arc4random();
+        int index = randomNum % [self.cards count];
+        //put card at random index into new card
+        randomCard = self.cards[index];
+        //remove that card from the cards array
+        [self.cards removeObjectAtIndex:index];
+    }
     return randomCard;
+}
+
+
+//lazy instantiation of card array
+-(NSMutableArray *)cards
+{
+    if (!_cards){
+        _cards = [[NSMutableArray alloc] init];
+    }
+    return _cards;
 }
 
 

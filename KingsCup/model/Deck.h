@@ -11,7 +11,6 @@
 @interface Deck : NSObject
 
 //creates the deck
--(void) makeDeck;
--(Card *) drawRandomCard;
+- (Card *) drawRandomCard;
 
 @end
