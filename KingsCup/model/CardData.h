@@ -10,6 +10,12 @@
 
 @interface CardData : NSObject
 
+@property (weak, nonatomic) NSArray *suits; //of UIImage
+@property (weak, nonatomic) NSArray *faces; //NSString
+@property (weak, nonatomic) NSArray *titles; //NSString
+@property (weak, nonatomic) NSArray *descriptions; //NSString
+
+
 //need properties?
 //be instance? -
 + (NSArray *) suits;

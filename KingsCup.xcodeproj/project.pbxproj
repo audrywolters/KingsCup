@@ -15,7 +15,6 @@
 		911AC4E2194106D400207D50 /* KingsCupAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4E1194106D400207D50 /* KingsCupAppDelegate.m */; };
 		911AC4E5194106D400207D50 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4E3194106D400207D50 /* Main.storyboard */; };
 		911AC4E8194106D400207D50 /* KingsCupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 911AC4E7194106D400207D50 /* KingsCupViewController.m */; };
-		911AC4EA194106D400207D50 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 911AC4E9194106D400207D50 /* Images.xcassets */; };
 		911AC4F1194106D400207D50 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4F0194106D400207D50 /* XCTest.framework */; };
 		911AC4F2194106D400207D50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D1194106D400207D50 /* Foundation.framework */; };
 		911AC4F3194106D400207D50 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 911AC4D5194106D400207D50 /* UIKit.framework */; };
@@ -25,6 +24,7 @@
 		915616571948E87400345ED8 /* CardData.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616511948E87400345ED8 /* CardData.m */; };
 		915616581948E87400345ED8 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616531948E87400345ED8 /* Deck.m */; };
 		915616591948E87400345ED8 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616551948E87400345ED8 /* Player.m */; };
+		919D76211950E63800D9292C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 919D76201950E63800D9292C /* Images.xcassets */; };
 		91F0D4991946340B0027FB94 /* IntroViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91F0D4981946340B0027FB94 /* IntroViewController.m */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +52,6 @@
 		911AC4E4194106D400207D50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		911AC4E6194106D400207D50 /* KingsCupViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KingsCupViewController.h; sourceTree = "<group>"; };
 		911AC4E7194106D400207D50 /* KingsCupViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KingsCupViewController.m; sourceTree = "<group>"; };
-		911AC4E9194106D400207D50 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		911AC4EF194106D400207D50 /* KingsCupTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KingsCupTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		911AC4F0194106D400207D50 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		911AC4F8194106D400207D50 /* KingsCupTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KingsCupTests-Info.plist"; sourceTree = "<group>"; };
@@ -66,6 +65,7 @@
 		915616531948E87400345ED8 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		915616541948E87400345ED8 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		915616551948E87400345ED8 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		919D76201950E63800D9292C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		91F0D4971946340B0027FB94 /* IntroViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntroViewController.h; sourceTree = "<group>"; };
 		91F0D4981946340B0027FB94 /* IntroViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntroViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,8 +132,8 @@
 				91F0D4981946340B0027FB94 /* IntroViewController.m */,
 				911AC4E6194106D400207D50 /* KingsCupViewController.h */,
 				911AC4E7194106D400207D50 /* KingsCupViewController.m */,
+				919D76201950E63800D9292C /* Images.xcassets */,
 				9156164D1948E87400345ED8 /* model */,
-				911AC4E9194106D400207D50 /* Images.xcassets */,
 				911AC4D8194106D400207D50 /* Supporting Files */,
 			);
 			path = KingsCup;
@@ -262,7 +262,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				911AC4EA194106D400207D50 /* Images.xcassets in Resources */,
+				919D76211950E63800D9292C /* Images.xcassets in Resources */,
 				911AC4DC194106D400207D50 /* InfoPlist.strings in Resources */,
 				911AC4E5194106D400207D50 /* Main.storyboard in Resources */,
 			);

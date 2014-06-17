@@ -69,11 +69,11 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EBm-KD-YEm">
                                 <rect key="frame" x="73" y="146" width="150" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" backgroundImage="cardFront">
+                                <state key="normal">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchCardButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Xap-vW-KKG"/>
+                                    <action selector="touchCardButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="cRU-2O-q7M"/>
                                 </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EQg-Ji-b1Z">
@@ -95,7 +95,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TKE-0i-9os">
-                                <rect key="frame" x="180" y="375" width="25" height="21"/>
+                                <rect key="frame" x="198" y="375" width="25" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <nil key="highlightedColor"/>
@@ -105,7 +105,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9rd-t9-aog">
-                                <rect key="frame" x="203" y="375" width="20" height="20"/>
+                                <rect key="frame" x="181" y="375" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Shs-sD-aDi">
+                                <rect key="frame" x="120" y="468" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -113,8 +117,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="HzU-mu-yab"/>
                     <connections>
-                        <outlet property="cardButton" destination="EQg-Ji-b1Z" id="mYB-Jd-7sb"/>
+                        <outlet property="cardButton" destination="EBm-KD-YEm" id="OIB-uN-wrM"/>
                         <outlet property="cardTitle" destination="EQg-Ji-b1Z" id="Ogq-aU-cqT"/>
+                        <outlet property="cup" destination="Shs-sD-aDi" id="Wtp-PV-u1B"/>
                         <outlet property="description" destination="88o-cN-c5e" id="I8b-gl-fi5"/>
                         <outlet property="faceBottom" destination="TKE-0i-9os" id="tfo-qr-aOb"/>
                         <outlet property="faceTop" destination="L52-Fm-3vr" id="vW0-c2-f07"/>
@@ -124,7 +129,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1085" y="87"/>
+            <point key="canvasLocation" x="1078" y="87"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dnK-f5-HZ7">
@@ -148,7 +153,6 @@
     </scenes>
     <resources>
         <image name="cardBack" width="175" height="275"/>
-        <image name="cardFront" width="125" height="200"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
