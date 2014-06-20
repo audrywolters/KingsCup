@@ -55,7 +55,7 @@
         
         //set card background
         [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
-        //set card data
+        //set all card data except description
         self.cardTitle.text = card.title;
         self.faceTop.text = card.face;
         self.suitTop.image = card.suit;
@@ -65,10 +65,18 @@
         self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         
-        //if it is a king
-        if ([card.face isEqual: @"K"]) {
+        //if a king
+        if ([card.title isEqualToString:@"King's Cup"]) {
             [self makeKing:card];
             
+        //if pictionary card
+        } else if ([card.title isEqualToString:@"Pictionary"]) {
+            [self makePictionary:card];
+            
+        //if charades card
+        } else if ([card.title isEqualToString:@"Charades"]) {
+            [self makeCharades:card];
+
         //if not a king
         } else {
             //set the description
@@ -77,7 +85,6 @@
     
     //else there are no more cards
     } else {
-        [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront" ] forState:UIControlStateNormal];
         self.cardTitle.text = nil;
         self.description.text = @"GAME OVER";
         self.faceTop.text = nil;
@@ -123,13 +130,19 @@
 
 - (void)makePictionary:(Card *)card
 {
+    NSLog(@"Pictionary time!");
+    self.description.text = card.description;
     
+    //dynamo button
 }
 
 
 - (void)makeCharades:(Card *)card
 {
+    NSLog(@"Charades time!");
+    self.description.text = card.description;
     
+    //dynamo button
 }
 
 
@@ -139,9 +152,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.cup.image = [UIImage imageNamed:@"cup1.png"];
     
-    NSLog(@"Is Tradtional: %hhd", self.isTraditional);
+    //set the empty cup image
+    self.cup.image = [UIImage imageNamed:@"cup1.png"];
 }
 
 
