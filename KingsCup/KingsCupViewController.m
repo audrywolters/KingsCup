@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UIButton *cardButton;
+@property (weak, nonatomic) IBOutlet UIButton *timeButton;
+@property (weak, nonatomic) IBOutlet UIButton *pictionaryButton;
 @property (weak, nonatomic) IBOutlet UILabel *cardTitle;
 @property (weak, nonatomic) IBOutlet UILabel *description;
 //top graphics
@@ -26,6 +28,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
 
 - (IBAction)touchCardButton:(id)sender;
+- (IBAction)touchTimeButton:(id)sender;
+- (IBAction)touchPictionaryButton:(id)sender;
+- (void)disableButtons;
 - (void)makeKing:(Card *)card;
 - (void)makePictionary:(Card *)card;
 - (void)makeCharades:(Card *)card;
@@ -49,6 +54,7 @@
 {
     //get a random card
     Card *card = [self.deck drawRandomCard];
+    [self disableButtons];
     
     //if there was a card able to be drawn
     if (card) {
@@ -98,6 +104,7 @@
 
 
 
+
 - (void)makeKing:(Card *)card
 {
     self.kingCount++;
@@ -128,24 +135,62 @@
 }
 
 
-- (void)makePictionary:(Card *)card
-{
-    NSLog(@"Pictionary time!");
-    self.description.text = card.description;
-    
-    //dynamo button
-}
 
 
 - (void)makeCharades:(Card *)card
 {
-    NSLog(@"Charades time!");
+    //set description
     self.description.text = card.description;
     
-    //dynamo button
+    //show button
+    self.timeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.timeButton addTarget:self action:@selector(touchTimeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.timeButton setTitle:@"start" forState:UIControlStateNormal];
+    self.timeButton.frame = CGRectMake(80.0, 200.0, 160.0, 40.0);
+    [self.view addSubview:self.timeButton];
+}
+
+- (void)touchTimeButton:(id)sender
+{
+    NSLog(@"Button clicked!");
+    [self disableButtons];
 }
 
 
+
+
+
+- (void)makePictionary:(Card *)card
+{
+    //set description
+    self.description.text = card.description;
+    
+    //show button
+    self.pictionaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.pictionaryButton addTarget:self action:@selector(touchPictionaryButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.pictionaryButton setTitle:@"start" forState:UIControlStateNormal];
+    self.pictionaryButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    [self.view addSubview:self.pictionaryButton];
+    
+}
+
+- (void)touchPictionaryButton:(id)sender
+{
+    NSLog(@"pictionary button clicked!");
+    [self disableButtons];
+}
+
+
+
+//bad to have blanket method like this?
+- (void)disableButtons
+{
+    [self.timeButton setEnabled:NO];
+    self.timeButton.hidden = YES;
+    
+    [self.pictionaryButton setEnabled:NO];
+    self.pictionaryButton.hidden = YES;
+}
 
 
 
