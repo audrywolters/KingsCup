@@ -23,10 +23,13 @@
 @property (weak, nonatomic) IBOutlet UIImageView *suitBottom;
 //count the number of kings
 @property (nonatomic) int kingCount;
-
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
 
 - (IBAction)touchCardButton:(id)sender;
+- (void)makeKing:(Card *)card;
+- (void)makePictionary:(Card *)card;
+- (void)makeCharades:(Card *)card;
+
 @end
 
 @implementation KingsCupViewController
@@ -35,66 +38,46 @@
 - (Deck *)deck
 {
     if (!_deck) {
-        _deck = [[Deck alloc] init];
+        _deck = [[Deck alloc]initWithFlag:self.isTraditional];
     }
     return _deck;
 }
 
 
+
 - (IBAction)touchCardButton:(id)sender
 {
-    //create new card
+    //get a random card
     Card *card = [self.deck drawRandomCard];
     
-    
-    
-    //if there is a card left in the deck
+    //if there was a card able to be drawn
     if (card) {
-
-        //if it is a king increase king count by 1
-        if ([card.face isEqual: @"K"]) {
-            self.kingCount++;
-        }
         
-        //coresponding graphics and text for each King
-        if (self.kingCount == 0) {
-            self.description.text = card.description;
-            
-        } else if (self.kingCount == 1) {
-            self.description.text = card.description;
-            self.cup.image = [UIImage imageNamed:@"cup2.png"];
-            
-        } else if (self.kingCount == 2) {
-            self.description.text = card.description;
-            self.cup.image = [UIImage imageNamed:@"cup3.png"];
-            
-        } else if (self.kingCount == 3) {
-            self.description.text = card.description;
-            self.cup.image = [UIImage imageNamed:@"cup4.png"];
-            
-        } else if (self.kingCount == 4){
-            self.description.text = @"drink the whole cup";
-            self.cup.image = [UIImage imageNamed:@"cup1.png"];
-            //animation later
-        }
-        
-        
-        //set the button image to be cardFront
-        [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront" ] forState:UIControlStateNormal];
+        //set card background
+        [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
         //set card data
         self.cardTitle.text = card.title;
         self.faceTop.text = card.face;
         self.suitTop.image = card.suit;
-        
-        //flip bottom bits
         self.faceBottom.text = card.face;
-        self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.image = card.suit;
+        //flip bottom bits
+        self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         
-        
+        //if it is a king
+        if ([card.face isEqual: @"K"]) {
+            [self makeKing:card];
+            
+        //if not a king
+        } else {
+            //set the description
+            self.description.text = card.description;
+        }
+    
     //else there are no more cards
     } else {
+        [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront" ] forState:UIControlStateNormal];
         self.cardTitle.text = nil;
         self.description.text = @"GAME OVER";
         self.faceTop.text = nil;
@@ -105,10 +88,60 @@
     
 }
 
+
+
+
+- (void)makeKing:(Card *)card
+{
+    self.kingCount++;
+    
+    //coresponding graphics and text for each King
+    if (self.kingCount == 0) {
+        self.description.text = card.description;
+        
+    } else if (self.kingCount == 1) {
+        self.description.text = card.description;
+        self.cup.image = [UIImage imageNamed:@"cup2.png"];
+        
+    } else if (self.kingCount == 2) {
+        self.description.text = card.description;
+        self.cup.image = [UIImage imageNamed:@"cup3.png"];
+        
+    } else if (self.kingCount == 3) {
+        self.description.text = card.description;
+        self.cup.image = [UIImage imageNamed:@"cup4.png"];
+        
+    } else if (self.kingCount == 4){
+        self.description.text = @"you must drink the whole cup!";
+        self.cup.image = [UIImage imageNamed:@"cup1.png"];
+        //animation later
+    }
+    
+    
+}
+
+
+- (void)makePictionary:(Card *)card
+{
+    
+}
+
+
+- (void)makeCharades:(Card *)card
+{
+    
+}
+
+
+
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
+    
+    NSLog(@"Is Tradtional: %hhd", self.isTraditional);
 }
 
 

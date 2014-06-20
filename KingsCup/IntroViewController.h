@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @class KingsCupViewController;
 #import "KingsCupViewController.h"
+#import "PlayersViewController.h"
 
 @interface IntroViewController : UIViewController
 

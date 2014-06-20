@@ -21,24 +21,36 @@
 @implementation Deck
 
 
-- (instancetype)init
+//isTraditional comes from other viewControllers
+- (instancetype)initWithFlag:(BOOL)isTraditional_
 {
     self = [super init];
     
     if (self) {
+        self.isTraditional = isTraditional_;
+        
+        CardData *cardData = [[CardData alloc]init];
+        
+        //get trad/alt info from card data
+        if (self.isTraditional) {
+            [cardData makeTraditionalDeck];
+        } else {
+            [cardData makeAlternateDeck];
+        }
+        
         //loop 4x to make suit
-        for (int i=0; i<4; i++) {
-            self.suit = CardData.suits[i];
+        for (int i=0; i<[cardData.suits count]; i++) {
+            self.suit = cardData.suits[i];
             
             //loop 13x for rest of cards
-            for (int i=0; i<13; i++) {
+            for (int i=0; i<[cardData.faces count]; i++) {
                 
                 //create card
                 Card *card = [[Card alloc] init];
                 card.suit = self.suit;
-                card.face = CardData.faces[i];
-                card.title = CardData.titles[i];
-                card.description = CardData.descriptions[i];
+                card.face = cardData.faces[i];
+                card.title = cardData.titles[i];
+                card.description = cardData.descriptions[i];
                 
                 //add card to the cards array
                 [self.cards addObject:card];
@@ -47,7 +59,7 @@
         }
         
     }
-    
+
     return self;
     
 }
@@ -57,6 +69,7 @@
 {
     Card *randomCard = nil;
     
+    //if there are cards in the deck
     if ([self.cards count]) {
         //create random number
         int randomNum = arc4random();

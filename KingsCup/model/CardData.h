@@ -10,17 +10,16 @@
 
 @interface CardData : NSObject
 
-@property (weak, nonatomic) NSArray *suits; //of UIImage
-@property (weak, nonatomic) NSArray *faces; //NSString
-@property (weak, nonatomic) NSArray *titles; //NSString
-@property (weak, nonatomic) NSArray *descriptions; //NSString
+@property (strong, nonatomic) NSArray *suits; //of UIImage
+@property (strong, nonatomic) NSArray *faces; //NSString
+@property (strong, nonatomic) NSArray *titles; //NSString
+@property (strong, nonatomic) NSArray *descriptions; //NSString
+//to decide which deck data to send
+@property (nonatomic) BOOL isTraditional;
 
 
-//need properties?
-//be instance? -
-+ (NSArray *) suits;
-+ (NSArray *) faces;
-+ (NSArray *) titles;
-+ (NSArray *) descriptions;
+- (void) makeTraditionalDeck;
+- (void) makeAlternateDeck;
+
 
 @end
