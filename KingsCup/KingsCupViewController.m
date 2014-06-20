@@ -152,7 +152,6 @@
 
 - (void)touchTimeButton:(id)sender
 {
-    NSLog(@"Button clicked!");
     [self disableButtons];
 }
 
@@ -176,8 +175,11 @@
 
 - (void)touchPictionaryButton:(id)sender
 {
-    NSLog(@"pictionary button clicked!");
     [self disableButtons];
+    
+    //go to the pictionary view
+    PictionaryViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
+    [self presentViewController:pvc animated:YES completion:nil];
 }
 
 

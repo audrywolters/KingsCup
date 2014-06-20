@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IntroViewController.h"
+#import "PictionaryViewController.h"
 
 @interface KingsCupViewController : UIViewController
 
