@@ -19,9 +19,10 @@
 
 /*
  - (IBAction)traditionalRulesClick:(id)sender {
- //PlayersViewController *playersVC = [[PlayersViewController alloc] init];
- //playersVC.isTraditional = YES;
- //[self.navigationController pushViewController:playersVC animated:YES];
+     PlayersViewController *playersVC = [[PlayersViewController alloc] init];
+     playersVC.isTraditional = YES;
+     [self.navigationController pushViewController:playersVC animated:YES];
+ 
      CardData *cardData = [[CardData alloc] init];
      cardData.isTraditional = YES;
  }

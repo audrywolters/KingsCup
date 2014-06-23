@@ -10,10 +10,8 @@
 
 @interface Player : NSObject
 
-@property (nonatomic) NSInteger *playerId;
 @property (nonatomic, weak) NSString *name;
-//can be image?
-@property (nonatomic, weak) UIView *avatar;
+@property (nonatomic, weak) UIColor *color;
 @property (nonatomic, weak) NSMutableArray *drinkMate;
 
 @end
