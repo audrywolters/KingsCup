@@ -15,29 +15,51 @@
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
 
+- (IBAction)touchStartButton:(id)sender;
 - (IBAction)touchAddPlayer:(id)sender;
+- (void)showPlayer:player;
 @end
+
 
 @implementation PlayersViewController
 
+static const int MAX_PLAYERS = 6;
+
+- (IBAction)touchStartButton:(id)sender {
+}
+
 - (void)touchAddPlayer:(id)sender
 {
-    self.nameField.hidden = NO;
+    if ([self.players count] < MAX_PLAYERS ) {
+        //make text field for name entry
+        CGRect nameRect = CGRectMake(40, 150, 240, 30);
+        self.nameField = [[UITextField alloc] initWithFrame:nameRect];
+        self.nameField.borderStyle = UITextBorderStyleLine;
+        self.nameField.placeholder = @"Enter your name";
+        self.nameField.returnKeyType = UIReturnKeyDone;
+        self.nameField.delegate = self;
+        [self.view addSubview:self.nameField];
+        
+    } else {
+        //TODO: add label or warning thingy
+        NSLog(@"oops too many players");
+    }
 }
 
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)nameField
 {
-    //create and save the player
+    //TODO: add user validation
+    
+    //create and save player
     Player *player = [[Player alloc]init];
     player.name = nameField.text;
-    player.color = self.colors[0];
-    [self.colors removeObjectAtIndex:0];
-    //add player to array
+    player.color = self.colors[[self.players count]]; //if 5th time called, there are 5 saved players, get the 5th color in array
     [self.players addObject:player];
-    NSLog(@"%@", player.name);
-    NSLog(@"%@", player.color);
+    
+    //populate players into view
+    [self showPlayer:player];
     
     //hide keyboard and text field
     [nameField resignFirstResponder];
@@ -48,21 +70,72 @@
 
 
 
-- (void)viewDidLoad
+- (void)showPlayer:(Player *)player
 {
-    [super viewDidLoad];
+    int xPlacement = 0;
+    int yPlacement = 0;
     
-    //should put in method?
-    //make text field for name entry
-    CGRect nameRect = CGRectMake(40, 150, 240, 30);
-    self.nameField = [[UITextField alloc] initWithFrame:nameRect];
-    self.nameField.borderStyle = UITextBorderStyleLine;
-    self.nameField.placeholder = @"Enter your name";
-    self.nameField.returnKeyType = UIReturnKeyDone;
-    self.nameField.delegate = self;
-    [self.view addSubview:self.nameField];
-    //keep hidden until touchAddPlayer
-    self.nameField.hidden = YES;
+    switch ([self.players count])
+    {
+        case 0:
+            NSLog(@"Something went wrong with players count");
+            break;
+            
+        case 1:
+            xPlacement = 50;
+            yPlacement = 200;
+            break;
+            
+        case 2:
+            xPlacement = 120;
+            yPlacement = 200;
+            break;
+            
+        case 3:
+            xPlacement = 190;
+            yPlacement = 200;
+            break;
+            
+        case 4:
+            xPlacement = 50;
+            yPlacement = 300;
+            break;
+            
+        case 5:
+            xPlacement = 120;
+            yPlacement = 300;
+            break;
+            
+        case 6:
+            xPlacement = 190;
+            yPlacement = 300;
+            break;
+            
+        default:
+            NSLog(@"Something went wrong with players count");
+            break;
+    }
+    
+    //player's name
+    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,yPlacement,50,30)];
+    playerNameLabel.text = player.name;
+    playerNameLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:playerNameLabel];
+    
+    //player's color square
+    UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, (yPlacement + 30), 50, 50)];
+    playerColorSquare.backgroundColor = player.color;
+    [self.view addSubview:playerColorSquare];
+}
+
+
+
+- (NSMutableArray *)players
+{
+    if (!_players) {
+        _players = [[NSMutableArray alloc]init];
+    }
+    return _players;
 }
 
 
@@ -101,32 +174,6 @@
 
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 
 @end

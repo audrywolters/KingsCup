@@ -187,6 +187,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
+                                    <action selector="touchStartButton:" destination="n7X-hZ-b71" eventType="touchUpInside" id="fQ4-ij-0ys"/>
                                     <segue destination="vXZ-lx-hvc" kind="push" id="dK9-uP-Jqa"/>
                                 </connections>
                             </button>
