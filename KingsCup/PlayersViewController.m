@@ -131,7 +131,7 @@ static const int MAX_PLAYERS = 6;
     playerNameLabel.text = player.name;
     [self.view addSubview:playerNameLabel];
     playerNameLabel.textAlignment = NSTextAlignmentCenter;
-    //TODO: this bugs out kings cup controller name
+    //TODO: this bugs out kings cup controller nameLabel
     playerNameLabel.adjustsFontSizeToFitWidth = YES;
     
     //player's color square
