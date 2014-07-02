@@ -13,5 +13,6 @@
 @interface KingsCupViewController : UIViewController
 
 @property (nonatomic) BOOL isTraditional;
+@property (strong, nonatomic) NSMutableArray *players;
 
 @end

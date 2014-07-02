@@ -8,6 +8,7 @@
 
 #import "KingsCupViewController.h"
 #import "Deck.h"
+#import "Player.h"
 
 @interface KingsCupViewController ()
 
@@ -34,6 +35,8 @@
 - (void)makeKing:(Card *)card;
 - (void)makePictionary:(Card *)card;
 - (void)makeCharades:(Card *)card;
+- (void)makePlayers;
+- (void)showPlayer;
 
 @end
 
@@ -75,21 +78,21 @@
         if ([card.title isEqualToString:@"King's Cup"]) {
             [self makeKing:card];
             
-        //if pictionary card
+            //if pictionary card
         } else if ([card.title isEqualToString:@"Pictionary"]) {
             [self makePictionary:card];
             
-        //if charades card
+            //if charades card
         } else if ([card.title isEqualToString:@"Charades"]) {
             [self makeCharades:card];
-
-        //if not a king
+            
+            //if not a king
         } else {
             //set the description
             self.description.text = card.description;
         }
-    
-    //else there are no more cards
+        
+        //else there are no more cards
     } else {
         self.cardTitle.text = nil;
         self.description.text = @"GAME OVER";
@@ -184,7 +187,7 @@
 
 
 
-//bad to have blanket method like this?
+//TODO: bad to have blanket method like this?
 - (void)disableButtons
 {
     [self.timeButton setEnabled:NO];
@@ -196,12 +199,77 @@
 
 
 
+- (void)makePlayers
+{
+    
+}
+
+
+
+- (void)showPlayer
+{
+    
+    for (int i=0; i<[self.players count]; i++) {
+        
+        
+        Player *player = self.players[i];
+        int xPlacement = 0;
+        
+        switch (i)
+        {
+            case 0:
+                xPlacement = 30;
+                break;
+                
+            case 1:
+                xPlacement = 70;
+                break;
+                
+            case 2:
+                xPlacement = 110;
+                break;
+                
+            case 3:
+                xPlacement = 150;
+                break;
+                
+            case 4:
+                xPlacement = 190;
+                break;
+                
+            case 5:
+                xPlacement = 230;
+                break;
+                
+            default:
+                NSLog(@"Something went wrong with players count");
+                break;
+        }
+        
+        //player's name
+        UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,30,30,20)];
+        playerNameLabel.text = player.name;
+        playerNameLabel.textAlignment = NSTextAlignmentCenter;
+        playerNameLabel.adjustsFontSizeToFitWidth = YES;
+        [self.view addSubview:playerNameLabel];
+        
+        //player's color square
+        UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, 50, 30, 30)];
+        playerColorSquare.backgroundColor = player.color;
+        [self.view addSubview:playerColorSquare];
+    }
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     //set the empty cup image
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
+    [self showPlayer];
+    
+    NSLog(@"%d", [self.players count]);
 }
 
 

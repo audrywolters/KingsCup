@@ -56,7 +56,7 @@
         <!--Game-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController title="KingsCupViewController" id="vXZ-lx-hvc" userLabel="Game" customClass="KingsCupViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="kvc" title="KingsCupViewController" id="vXZ-lx-hvc" userLabel="Game" customClass="KingsCupViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -159,7 +159,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pxz-f7-m4k" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1736" y="87"/>
+            <point key="canvasLocation" x="1761" y="87"/>
         </scene>
         <!--Players View Controller - PlayersViewController-->
         <scene sceneID="GvK-E0-BVv">
@@ -188,7 +188,6 @@
                                 </state>
                                 <connections>
                                     <action selector="touchStartButton:" destination="n7X-hZ-b71" eventType="touchUpInside" id="fQ4-ij-0ys"/>
-                                    <segue destination="vXZ-lx-hvc" kind="push" id="dK9-uP-Jqa"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6O-Gl-oz2">
@@ -205,6 +204,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="riJ-aP-6Rj"/>
+                    <connections>
+                        <outlet property="startButton" destination="gzl-l2-gGE" id="ip4-Ik-4Q3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHJ-ZD-0A0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

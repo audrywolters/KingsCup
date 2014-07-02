@@ -38,8 +38,6 @@
 {
     PlayersViewController *playersVC = segue.destinationViewController;
     
-    NSLog(@"prepareForSegue: %@", segue.identifier);
-    
     if ([segue.identifier isEqualToString:@"toTraditionalPlayers"]) {
         playersVC.isTraditional = YES;
     

@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSMutableArray *players; //of Player
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 
 - (IBAction)touchStartButton:(id)sender;
 - (IBAction)touchAddPlayer:(id)sender;
@@ -25,7 +26,11 @@
 
 static const int MAX_PLAYERS = 6;
 
-- (IBAction)touchStartButton:(id)sender {
+- (IBAction)touchStartButton:(id)sender
+{
+    KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
+    kvc.players = self.players;
+    [self presentViewController:kvc animated:YES completion:nil];
 }
 
 - (void)touchAddPlayer:(id)sender
@@ -60,6 +65,11 @@ static const int MAX_PLAYERS = 6;
     
     //populate players into view
     [self showPlayer:player];
+    
+    //show start button if 2nd player added
+    if ([self.players count] == 2) {
+        self.startButton.hidden = NO;
+    }
     
     //hide keyboard and text field
     [nameField resignFirstResponder];
@@ -117,13 +127,15 @@ static const int MAX_PLAYERS = 6;
     }
     
     //player's name
-    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,yPlacement,50,30)];
+    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,yPlacement,50,50)];
     playerNameLabel.text = player.name;
-    playerNameLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:playerNameLabel];
+    playerNameLabel.textAlignment = NSTextAlignmentCenter;
+    //TODO: this bugs out kings cup controller name
+    playerNameLabel.adjustsFontSizeToFitWidth = YES;
     
     //player's color square
-    UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, (yPlacement + 30), 50, 50)];
+    UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,(yPlacement + 30), 50, 50)];
     playerColorSquare.backgroundColor = player.color;
     [self.view addSubview:playerColorSquare];
 }
@@ -173,7 +185,14 @@ static const int MAX_PLAYERS = 6;
 }
 
 
-
+- (void)viewDidLoad
+{
+    //hide start button so at least 2 players are added
+    self.startButton.hidden = YES;
+    
+    
+    
+}
 
 
 @end
