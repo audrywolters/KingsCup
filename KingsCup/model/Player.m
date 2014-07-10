@@ -10,4 +10,11 @@
 
 @implementation Player
 
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat: @"Name=%@, Color=%@", self.name, self.color];
+}
+
+
 @end

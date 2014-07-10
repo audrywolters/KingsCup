@@ -27,6 +27,11 @@
 //count the number of kings
 @property (nonatomic) int kingCount;
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
+//who's turn it is
+@property (nonatomic) NSInteger playerTurn;
+@property (strong, nonatomic) UILabel *playerNameLabel;
+@property (strong, nonatomic) UILabel *playerColorSquare;
+
 
 - (IBAction)touchCardButton:(id)sender;
 - (IBAction)touchTimeButton:(id)sender;
@@ -35,12 +40,15 @@
 - (void)makeKing:(Card *)card;
 - (void)makePictionary:(Card *)card;
 - (void)makeCharades:(Card *)card;
-- (void)makePlayers;
-- (void)showPlayer;
+- (void)displayPlayers;
+- (void)trackTurns;
 
 @end
 
 @implementation KingsCupViewController
+
+
+static const int FONT_SIZE = 8;
 
 
 - (Deck *)deck
@@ -74,6 +82,7 @@
         self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         
+        
         //if a king
         if ([card.title isEqualToString:@"King's Cup"]) {
             [self makeKing:card];
@@ -86,11 +95,16 @@
         } else if ([card.title isEqualToString:@"Charades"]) {
             [self makeCharades:card];
             
-            //if not a king
+            //if not a special card
         } else {
             //set the description
             self.description.text = card.description;
         }
+        
+        
+        //track player turn
+        [self trackTurns];
+        
         
         //else there are no more cards
     } else {
@@ -108,32 +122,58 @@
 
 
 
+
+- (void)trackTurns
+{
+    //if the turn is at the end of of the players, or empty, reset
+    if ((self.playerTurn == [self.players count]) || self.playerTurn == 0) {
+        self.playerTurn = 1;
+        
+        //else increment
+    } else {
+        self.playerTurn++;
+    }
+    
+    //TODO: delete
+    //self.playerNameLabel.frame = CGRectMake(50, 50, 50, 500);
+    
+}
+
+
+
 - (void)makeKing:(Card *)card
 {
     self.kingCount++;
     
-    //coresponding graphics and text for each King
-    if (self.kingCount == 0) {
-        self.description.text = card.description;
-        
-    } else if (self.kingCount == 1) {
-        self.description.text = card.description;
-        self.cup.image = [UIImage imageNamed:@"cup2.png"];
-        
-    } else if (self.kingCount == 2) {
-        self.description.text = card.description;
-        self.cup.image = [UIImage imageNamed:@"cup3.png"];
-        
-    } else if (self.kingCount == 3) {
-        self.description.text = card.description;
-        self.cup.image = [UIImage imageNamed:@"cup4.png"];
-        
-    } else if (self.kingCount == 4){
-        self.description.text = @"you must drink the whole cup!";
-        self.cup.image = [UIImage imageNamed:@"cup1.png"];
-        //animation later
-    }
+    //change king's cup image and card description for each of the 4 cards
     
+    switch (self.kingCount) {
+        case 0:
+            self.description.text = card.description;
+            break;
+            
+        case 1:
+            self.description.text = card.description;
+            self.cup.image = [UIImage imageNamed:@"cup2.png"];
+            break;
+            
+        case 2:
+            self.description.text = card.description;
+            self.cup.image = [UIImage imageNamed:@"cup3.png"];
+            break;
+            
+        case 3:
+            self.description.text = card.description;
+            self.cup.image = [UIImage imageNamed:@"cup4.png"];
+            break;
+            
+        case 4:
+            self.description.text = @"you must drink the whole cup!";
+            self.cup.image = [UIImage imageNamed:@"cup1.png"];
+            //TODO: animation
+            break;
+            
+    }
     
 }
 
@@ -152,6 +192,8 @@
     self.timeButton.frame = CGRectMake(80.0, 200.0, 160.0, 40.0);
     [self.view addSubview:self.timeButton];
 }
+
+
 
 - (void)touchTimeButton:(id)sender
 {
@@ -199,66 +241,93 @@
 
 
 
-- (void)makePlayers
+
+
+
+
+- (void)findPlacement
 {
+    CGFloat xPlacement = 0;
+    CGFloat additionalWidth = 40;
+    
+    Player *firstPlayer = ((Player *)[self.players objectAtIndex:0]);
+    
+    //find xplacement for first player avatar
+    switch ([self.players count])
+    {
+        case 0:
+            //not valid
+            NSLog(@"Something went wrong with player placement");
+            break;
+            
+        case 1:
+            NSLog(@"Something went wrong with player placement");
+            break;
+            
+        case 2:
+            xPlacement = 80;
+            *firstPlayer.xPlacement = xPlacement;
+            break;
+            
+        case 3:
+            xPlacement = 55;
+            *firstPlayer.xPlacement = xPlacement;
+            break;
+            
+        case 4:
+            xPlacement = 35;
+            *firstPlayer.xPlacement = xPlacement;
+            break;
+            
+        case 5:
+            xPlacement = 15;
+            *firstPlayer.xPlacement = xPlacement;
+            break;
+            
+        case 6:
+            xPlacement = 0;
+            *firstPlayer.xPlacement = xPlacement;
+            break;
+            
+        default:
+            NSLog(@"Something went wrong with players placement");
+            break;
+    }
+    
+    
+    //get placement for rest of players
+    for (int i=1; i<[self.players count]; i++) {
+        additionalWidth++;
+        xPlacement = xPlacement + additionalWidth;
+        
+        Player *nextPlayer = ((Player *)[self.players objectAtIndex:i]);
+        *nextPlayer.xPlacement = xPlacement;
+        
+    }
     
 }
 
 
-
-- (void)showPlayer
+- (void)displayPlayers
 {
-    
-    for (int i=0; i<[self.players count]; i++) {
+    //for each player in array
+    for (Player *player in self.players) {
+        //show player's name
+        self.playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(*(player.xPlacement),30,30,20)];
+        self.playerNameLabel.text = player.name;
+        self.playerNameLabel.textAlignment = NSTextAlignmentCenter;
+        self.playerNameLabel.font = [self.playerNameLabel.font fontWithSize:FONT_SIZE];
+        //self.playerNameLabel.adjustsFontSizeToFitWidth = YES;
         
+        [self.view addSubview:self.playerNameLabel];
         
-        Player *player = self.players[i];
-        int xPlacement = 0;
-        
-        switch (i)
-        {
-            case 0:
-                xPlacement = 30;
-                break;
-                
-            case 1:
-                xPlacement = 70;
-                break;
-                
-            case 2:
-                xPlacement = 110;
-                break;
-                
-            case 3:
-                xPlacement = 150;
-                break;
-                
-            case 4:
-                xPlacement = 190;
-                break;
-                
-            case 5:
-                xPlacement = 230;
-                break;
-                
-            default:
-                NSLog(@"Something went wrong with players count");
-                break;
-        }
-        
-        //player's name
-        UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,30,30,20)];
-        playerNameLabel.text = player.name;
-        playerNameLabel.textAlignment = NSTextAlignmentCenter;
-        playerNameLabel.adjustsFontSizeToFitWidth = YES;
-        [self.view addSubview:playerNameLabel];
-        
-        //player's color square
-        UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, 50, 30, 30)];
-        playerColorSquare.backgroundColor = player.color;
-        [self.view addSubview:playerColorSquare];
+        //show player's color square
+        self.playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(*(player.xPlacement), 50, 30, 30)];
+        self.playerColorSquare.backgroundColor = player.color;
+        [self.view addSubview:self.playerColorSquare];
     }
 }
+
 
 
 - (void)viewDidLoad
@@ -267,10 +336,11 @@
     
     //set the empty cup image
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
-    [self showPlayer];
+    [self findPlacement];
+    [self displayPlayers];
     
-    NSLog(@"%d", [self.players count]);
 }
+
 
 
 @end

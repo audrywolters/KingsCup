@@ -10,8 +10,12 @@
 
 @interface Player : NSObject
 
-@property (nonatomic, weak) NSString *name;
-@property (nonatomic, weak) UIColor *color;
-@property (nonatomic, weak) NSMutableArray *drinkMate;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, strong) NSMutableArray *drinkMate;
+@property (nonatomic) CGFloat *xPlacement;
+@property (nonatomic) CGFloat *yPlacement;
+
+- (NSString *)description;
 
 @end

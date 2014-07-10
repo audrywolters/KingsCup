@@ -197,7 +197,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="touchAddPlayer:" destination="n7X-hZ-b71" eventType="touchUpInside" id="SEl-j4-0Uq"/>
+                                    <action selector="touchAddPlayerButton:" destination="n7X-hZ-b71" eventType="touchUpInside" id="U5t-fL-bbl"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -205,6 +205,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="riJ-aP-6Rj"/>
                     <connections>
+                        <outlet property="addPlayerButton" destination="C6O-Gl-oz2" id="7UN-aP-n7j"/>
                         <outlet property="startButton" destination="gzl-l2-gGE" id="ip4-Ik-4Q3"/>
                     </connections>
                 </viewController>

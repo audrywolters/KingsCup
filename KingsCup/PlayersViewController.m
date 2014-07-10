@@ -14,10 +14,11 @@
 @property (strong, nonatomic) NSMutableArray *players; //of Player
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
+@property (weak, nonatomic) IBOutlet UIButton *addPlayerButton;
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 
 - (IBAction)touchStartButton:(id)sender;
-- (IBAction)touchAddPlayer:(id)sender;
+- (IBAction)touchAddPlayerButton:(id)sender;
 - (void)showPlayer:player;
 @end
 
@@ -25,16 +26,35 @@
 @implementation PlayersViewController
 
 static const int MAX_PLAYERS = 6;
+static const int MAX_NAME_LENGTH = 7;
+static const int FONT_SIZE = 11;
+
 
 - (IBAction)touchStartButton:(id)sender
 {
     KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
+    
+    //send players array
     kvc.players = self.players;
+    
+    //send game style choice
+    if (self.isTraditional) {
+        kvc.isTraditional = YES;
+        
+    } else if (!self.isTraditional) {
+        kvc.isTraditional = NO;
+    }
+    
+    
     [self presentViewController:kvc animated:YES completion:nil];
 }
 
-- (void)touchAddPlayer:(id)sender
+
+
+- (void)touchAddPlayerButton:(id)sender
 {
+    self.addPlayerButton.enabled = NO;
+    
     if ([self.players count] < MAX_PLAYERS ) {
         //make text field for name entry
         CGRect nameRect = CGRectMake(40, 150, 240, 30);
@@ -53,35 +73,56 @@ static const int MAX_PLAYERS = 6;
 
 
 
+//When user finishes entering name
+//print the user's stuff
 - (BOOL)textFieldShouldReturn:(UITextField *)nameField
 {
-    //TODO: add user validation
+    self.addPlayerButton.enabled = YES;
     
-    //create and save player
-    Player *player = [[Player alloc]init];
-    player.name = nameField.text;
-    player.color = self.colors[[self.players count]]; //if 5th time called, there are 5 saved players, get the 5th color in array
-    [self.players addObject:player];
+    //if the text field is empty, don't add player
+    if ([nameField.text  isEqual: @""]) {
+        //do nothing
     
-    //populate players into view
-    [self showPlayer:player];
+    //else add player
+    } else {
+        //create player
+        Player *player = [[Player alloc]init];
+        
+        //get name from text field
+        player.name = nameField.text;
+        
+        //get the color for the player
+        int numPlayers = [self.players count]; //if 5th time called, there are 5 saved players, get the 5th color in array
+        player.color = self.colors[numPlayers];
+        
+        //save player
+        [self.players addObject:player];
+        
+        //populate players into view
+        [self showPlayer:player];
+    }
+    
     
     //show start button if 2nd player added
     if ([self.players count] == 2) {
         self.startButton.hidden = NO;
     }
     
+    
     //hide keyboard and text field
     [nameField resignFirstResponder];
     nameField.text = @"";
     nameField.hidden = YES;
     return YES;
+    
 }
 
 
 
+//print the player after it is created
 - (void)showPlayer:(Player *)player
 {
+    
     int xPlacement = 0;
     int yPlacement = 0;
     
@@ -126,18 +167,27 @@ static const int MAX_PLAYERS = 6;
             break;
     }
     
+    
     //player's name
     UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,yPlacement,50,50)];
     playerNameLabel.text = player.name;
-    [self.view addSubview:playerNameLabel];
     playerNameLabel.textAlignment = NSTextAlignmentCenter;
-    //TODO: this bugs out kings cup controller nameLabel
-    playerNameLabel.adjustsFontSizeToFitWidth = YES;
+    playerNameLabel.font = [playerNameLabel.font fontWithSize:FONT_SIZE];
+    //playerNameLabel.adjustsFontSizeToFitWidth = YES;
+    [self.view addSubview:playerNameLabel];
     
     //player's color square
     UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,(yPlacement + 30), 50, 50)];
     playerColorSquare.backgroundColor = player.color;
     [self.view addSubview:playerColorSquare];
+}
+
+
+
+//don't allow more than 10 characters in name
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return (newLength > MAX_NAME_LENGTH) ? NO : YES;
 }
 
 
@@ -171,28 +221,14 @@ static const int MAX_PLAYERS = 6;
 
 
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    //send game rules to king's cup VC
-    KingsCupViewController *kingsCupVC = segue.destinationViewController;
-    
-    if (self.isTraditional) {
-        kingsCupVC.isTraditional = YES;
-        
-    } else if (!self.isTraditional) {
-        kingsCupVC.isTraditional = NO;
-    }
-}
-
-
 - (void)viewDidLoad
 {
-    //hide start button so at least 2 players are added
+    //hide start button until at least 2 players are added
     self.startButton.hidden = YES;
-    
-    
-    
 }
+
+
+
 
 
 @end
