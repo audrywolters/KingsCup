@@ -123,8 +123,8 @@ static const int FONT_SIZE = 11;
 - (void)showPlayer:(Player *)player
 {
     
-    int xPlacement = 0;
-    int yPlacement = 0;
+    CGFloat xPlacement = 0;
+    CGFloat yPlacement = 0;
     
     switch ([self.players count])
     {
@@ -167,9 +167,11 @@ static const int FONT_SIZE = 11;
             break;
     }
     
+  
+    
     
     //player's name
-    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,yPlacement,50,50)];
+    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, yPlacement,50,50)];
     playerNameLabel.text = player.name;
     playerNameLabel.textAlignment = NSTextAlignmentCenter;
     playerNameLabel.font = [playerNameLabel.font fontWithSize:FONT_SIZE];

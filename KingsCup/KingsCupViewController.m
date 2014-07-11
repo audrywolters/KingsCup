@@ -29,8 +29,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
 //who's turn it is
 @property (nonatomic) NSInteger playerTurn;
-@property (strong, nonatomic) UILabel *playerNameLabel;
-@property (strong, nonatomic) UILabel *playerColorSquare;
+//placement
+@property (nonatomic) CGFloat currentX;
+@property (nonatomic) CGFloat bufferWidth;
 
 
 - (IBAction)touchCardButton:(id)sender;
@@ -40,8 +41,9 @@
 - (void)makeKing:(Card *)card;
 - (void)makePictionary:(Card *)card;
 - (void)makeCharades:(Card *)card;
-- (void)displayPlayers;
+- (void)displayPlayer:(Player *)player;
 - (void)trackTurns;
+- (void)highlightCurrentPlayer;
 
 @end
 
@@ -104,6 +106,7 @@ static const int FONT_SIZE = 8;
         
         //track player turn
         [self trackTurns];
+        [self highlightCurrentPlayer];
         
         
         //else there are no more cards
@@ -118,26 +121,6 @@ static const int FONT_SIZE = 8;
     
 }
 
-
-
-
-
-
-- (void)trackTurns
-{
-    //if the turn is at the end of of the players, or empty, reset
-    if ((self.playerTurn == [self.players count]) || self.playerTurn == 0) {
-        self.playerTurn = 1;
-        
-        //else increment
-    } else {
-        self.playerTurn++;
-    }
-    
-    //TODO: delete
-    //self.playerNameLabel.frame = CGRectMake(50, 50, 50, 500);
-    
-}
 
 
 
@@ -245,87 +228,86 @@ static const int FONT_SIZE = 8;
 
 
 
+
+
+
+
+
 - (void)findPlacement
 {
-    CGFloat xPlacement = 0;
-    CGFloat additionalWidth = 40;
+    //TODO: there must be a one incrementing because squares get farther apart each square
+    //TODO: magic numbers?
+    self.bufferWidth = 40;
     
-    Player *firstPlayer = ((Player *)[self.players objectAtIndex:0]);
+    Player *firstPlayer = [self.players objectAtIndex:0];
+
+    self.currentX = 175;
     
-    //find xplacement for first player avatar
-    switch ([self.players count])
-    {
-        case 0:
-            //not valid
-            NSLog(@"Something went wrong with player placement");
-            break;
-            
-        case 1:
-            NSLog(@"Something went wrong with player placement");
-            break;
-            
-        case 2:
-            xPlacement = 80;
-            *firstPlayer.xPlacement = xPlacement;
-            break;
-            
-        case 3:
-            xPlacement = 55;
-            *firstPlayer.xPlacement = xPlacement;
-            break;
-            
-        case 4:
-            xPlacement = 35;
-            *firstPlayer.xPlacement = xPlacement;
-            break;
-            
-        case 5:
-            xPlacement = 15;
-            *firstPlayer.xPlacement = xPlacement;
-            break;
-            
-        case 6:
-            xPlacement = 0;
-            *firstPlayer.xPlacement = xPlacement;
-            break;
-            
-        default:
-            NSLog(@"Something went wrong with players placement");
-            break;
+    //move starting point over 25 pixels for each player
+    for (int i=0; i<[self.players count]; i++){
+        self.currentX = self.currentX - 25;
     }
+    firstPlayer.xPlacement = self.currentX;
     
     
     //get placement for rest of players
     for (int i=1; i<[self.players count]; i++) {
-        additionalWidth++;
-        xPlacement = xPlacement + additionalWidth;
+        self.bufferWidth++;
+        self.currentX = self.currentX + self.bufferWidth;
         
-        Player *nextPlayer = ((Player *)[self.players objectAtIndex:i]);
-        *nextPlayer.xPlacement = xPlacement;
+        Player *nextPlayer = [self.players objectAtIndex:i];
+        nextPlayer.xPlacement = self.currentX;
         
     }
     
 }
 
 
-- (void)displayPlayers
+- (void)trackTurns
 {
-    //for each player in array
-    for (Player *player in self.players) {
-        //show player's name
-        self.playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(*(player.xPlacement),30,30,20)];
-        self.playerNameLabel.text = player.name;
-        self.playerNameLabel.textAlignment = NSTextAlignmentCenter;
-        self.playerNameLabel.font = [self.playerNameLabel.font fontWithSize:FONT_SIZE];
-        //self.playerNameLabel.adjustsFontSizeToFitWidth = YES;
+    //if the turn is at the end of of the players, or empty, reset
+    if ((self.playerTurn == [self.players count]) || self.playerTurn == 0) {
+        self.playerTurn = 1;
         
-        [self.view addSubview:self.playerNameLabel];
-        
-        //show player's color square
-        self.playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(*(player.xPlacement), 50, 30, 30)];
-        self.playerColorSquare.backgroundColor = player.color;
-        [self.view addSubview:self.playerColorSquare];
+        //else increment
+    } else {
+        self.playerTurn++;
     }
+}
+
+
+
+- (void)highlightCurrentPlayer
+{
+    //reset all squares
+    for (Player *player in self.players) {
+        [player.colorSquare removeFromSuperview];
+        [player.nameLabel removeFromSuperview];
+        [self displayPlayer:player];
+    }
+    
+    //highlight the current player
+    Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
+    currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:FONT_SIZE + 3];
+    currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (50 - 5), 40, 40);
+}
+
+
+
+- (void)displayPlayer:(Player *)player
+{
+    //show player's name
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,30,30,20)];
+    player.nameLabel.text = player.name;
+    player.nameLabel.textAlignment = NSTextAlignmentCenter;
+    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
+    [self.view addSubview:player.nameLabel];
+    
+    //show player's color square
+    player.colorSquare = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
+    player.colorSquare.backgroundColor = player.color;
+    [self.view addSubview:player.colorSquare];
+    
 }
 
 
@@ -336,8 +318,14 @@ static const int FONT_SIZE = 8;
     
     //set the empty cup image
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
+    
+    //find the placement for player avatars
     [self findPlacement];
-    [self displayPlayers];
+    
+    //send each player to be displayed
+    for (Player *player in self.players) {
+        [self displayPlayer:player];
+    }
     
 }
 
