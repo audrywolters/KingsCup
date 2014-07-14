@@ -34,6 +34,7 @@
 //placement
 @property (nonatomic) CGFloat currentX;
 @property (nonatomic) CGFloat bufferWidth;
+@property (strong, nonatomic) NSMutableArray *colorSquares;
 
 
 - (IBAction)touchCardButton:(id)sender;
@@ -47,6 +48,9 @@
 - (void)displayPlayer:(Player *)player;
 - (void)trackTurns;
 - (void)highlightCurrentPlayer;
+- (void)displayDrinkMates;
+- (void)enableDrinkMateButtons;
+- (void)disableDrinkMateButtons;
 
 
 @end
@@ -66,6 +70,15 @@ static const int FONT_SIZE = 8;
 }
 
 
+- (NSMutableArray *)colorSquares
+{
+    if (!_colorSquares) {
+        _colorSquares = [[NSMutableArray alloc] init];
+    }
+    
+    return _colorSquares;
+}
+
 
 - (IBAction)touchCardButton:(id)sender
 {
@@ -75,6 +88,10 @@ static const int FONT_SIZE = 8;
     
     //if there was a card able to be drawn
     if (self.currentCard) {
+        
+        //track player turn and reset player squares
+        [self trackTurns];
+        [self highlightCurrentPlayer];
         
         //set card background
         [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
@@ -89,28 +106,35 @@ static const int FONT_SIZE = 8;
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         
         
+        
+        
         //if a king
         if ([self.currentCard.title isEqualToString:@"King's Cup"]) {
             [self makeKing:self.currentCard];
             
-            //if pictionary card
+        //if pictionary card
         } else if ([self.currentCard.title isEqualToString:@"Pictionary"]) {
             [self makePictionary:self.currentCard];
             
-            //if charades card
+        //if charades card
         } else if ([self.currentCard.title isEqualToString:@"Charades"]) {
             [self makeCharades:self.currentCard];
+          
+        //if drink mate
+        } else if ([self.currentCard.title isEqualToString:@"Drink Mate"]){
             
-            //if not a special card
+            self.description.text = self.currentCard.description;
+            [self enableDrinkMateButtons];
+        
+        //if not a special card
         } else {
             //set the description
             self.description.text = self.currentCard.description;
         }
         
+       
         
-        //track player turn
-        [self trackTurns];
-        [self highlightCurrentPlayer];
+        
         
         
         //else there are no more cards
@@ -215,7 +239,6 @@ static const int FONT_SIZE = 8;
 }
 
 
-
 //TODO: bad to have blanket method like this?
 - (void)disableButtons
 {
@@ -228,7 +251,41 @@ static const int FONT_SIZE = 8;
 
 
 
+- (void)enableDrinkMateButtons
+{
+    int currentPlayerNum = self.currentPlayer.number;
+    for (Player *player in self.players) {
+        if (player.number == currentPlayerNum) {
+            //keep disabled
+        } else {
+            //player.colorSquare.backgroundColor = [UIColor brownColor];
+            //make buttons clickable
+            [player.colorSquare setEnabled:YES];
+        }
+    }
+}
 
+
+- (void)disableDrinkMateButtons
+{
+    for (Player *player in self.players) {
+        [player.colorSquare setEnabled:NO];
+    }
+}
+
+
+- (void)displayDrinkMates
+{
+    CGFloat bufferWidth = 0;
+    
+    for (int i=0; i<[self.currentPlayer.drinkMates count]; i++) {
+        UILabel *drinkMateLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.currentPlayer.xPlacement + bufferWidth), 87,6,6)];
+        drinkMateLabel.backgroundColor = [self.currentPlayer.drinkMates objectAtIndex:i];
+        [self.view addSubview:drinkMateLabel];
+        bufferWidth = bufferWidth + 8;
+    }
+    
+   }
 
 
 
@@ -241,10 +298,14 @@ static const int FONT_SIZE = 8;
     
     
     //set that person to be the drink buddy
-    [self.currentPlayer.drinkMate addObject:playerClicked.name];
+    [self.currentPlayer.drinkMates addObject:playerClicked.color];
     
-    NSLog(@"Current Player: %@", self.currentPlayer);
-    NSLog(@"Player # clicked: %d", [clickedColorSquare tag]);
+    //disable buttons
+    [self disableDrinkMateButtons];
+    
+    [self displayDrinkMates];
+    //NSLog(@"Current Player: %@", self.currentPlayer);
+    //NSLog(@"Player # clicked: %d", [clickedColorSquare tag]);
 
 }
 
@@ -328,8 +389,11 @@ static const int FONT_SIZE = 8;
     player.colorSquare.tag = player.number;
     [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
     [player.colorSquare addTarget:self action:@selector(touchPlayerColorSquare:) forControlEvents:UIControlEventTouchUpInside];
-    //[player.colorSquare setEnabled:NO];
+    [player.colorSquare setEnabled:NO];
     [self.view addSubview:player.colorSquare];
+    
+    //add to array for dealing with later
+    //[self.colorSquares addObject:player.colorSquare];
     
 }
 

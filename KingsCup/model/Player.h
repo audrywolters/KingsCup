@@ -13,7 +13,7 @@
 @property (nonatomic) NSInteger number;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) UIColor *color;
-@property (nonatomic, strong) NSMutableArray *drinkMate;
+@property (nonatomic, strong) NSMutableArray *drinkMates;
 @property (nonatomic) CGFloat xPlacement;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *colorSquare;

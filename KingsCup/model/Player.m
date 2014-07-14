@@ -17,4 +17,13 @@
 }
 
 
+- (NSMutableArray *) drinkMates
+{
+    if (!_drinkMates) {
+        _drinkMates = [[NSMutableArray alloc]init];
+    }
+    
+    return _drinkMates;
+}
+
 @end
