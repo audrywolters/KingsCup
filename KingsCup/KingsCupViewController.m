@@ -12,6 +12,7 @@
 
 @interface KingsCupViewController ()
 
+@property (strong, nonatomic) Card *currentCard;
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UIButton *cardButton;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
@@ -29,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
 //who's turn it is
 @property (nonatomic) NSInteger playerTurn;
+@property (strong, nonatomic) Player *currentPlayer;
 //placement
 @property (nonatomic) CGFloat currentX;
 @property (nonatomic) CGFloat bufferWidth;
@@ -37,6 +39,7 @@
 - (IBAction)touchCardButton:(id)sender;
 - (IBAction)touchTimeButton:(id)sender;
 - (IBAction)touchPictionaryButton:(id)sender;
+- (IBAction)touchPlayerColorSquare:(id)sender;
 - (void)disableButtons;
 - (void)makeKing:(Card *)card;
 - (void)makePictionary:(Card *)card;
@@ -44,6 +47,7 @@
 - (void)displayPlayer:(Player *)player;
 - (void)trackTurns;
 - (void)highlightCurrentPlayer;
+
 
 @end
 
@@ -66,41 +70,41 @@ static const int FONT_SIZE = 8;
 - (IBAction)touchCardButton:(id)sender
 {
     //get a random card
-    Card *card = [self.deck drawRandomCard];
+    self.currentCard = [self.deck drawRandomCard];
     [self disableButtons];
     
     //if there was a card able to be drawn
-    if (card) {
+    if (self.currentCard) {
         
         //set card background
         [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
         //set all card data except description
-        self.cardTitle.text = card.title;
-        self.faceTop.text = card.face;
-        self.suitTop.image = card.suit;
-        self.faceBottom.text = card.face;
-        self.suitBottom.image = card.suit;
+        self.cardTitle.text = self.currentCard.title;
+        self.faceTop.text = self.currentCard.face;
+        self.suitTop.image = self.currentCard.suit;
+        self.faceBottom.text = self.currentCard.face;
+        self.suitBottom.image = self.currentCard.suit;
         //flip bottom bits
         self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         
         
         //if a king
-        if ([card.title isEqualToString:@"King's Cup"]) {
-            [self makeKing:card];
+        if ([self.currentCard.title isEqualToString:@"King's Cup"]) {
+            [self makeKing:self.currentCard];
             
             //if pictionary card
-        } else if ([card.title isEqualToString:@"Pictionary"]) {
-            [self makePictionary:card];
+        } else if ([self.currentCard.title isEqualToString:@"Pictionary"]) {
+            [self makePictionary:self.currentCard];
             
             //if charades card
-        } else if ([card.title isEqualToString:@"Charades"]) {
-            [self makeCharades:card];
+        } else if ([self.currentCard.title isEqualToString:@"Charades"]) {
+            [self makeCharades:self.currentCard];
             
             //if not a special card
         } else {
             //set the description
-            self.description.text = card.description;
+            self.description.text = self.currentCard.description;
         }
         
         
@@ -228,9 +232,21 @@ static const int FONT_SIZE = 8;
 
 
 
+- (IBAction)touchPlayerColorSquare:(id)sender
+{
+    //figure out which player was picked
+    UIButton *clickedColorSquare = (UIButton *)sender;
+    int playerClickedNum = [clickedColorSquare tag];
+    Player *playerClicked = [self.players objectAtIndex:playerClickedNum - 1];
+    
+    
+    //set that person to be the drink buddy
+    [self.currentPlayer.drinkMate addObject:playerClicked.name];
+    
+    NSLog(@"Current Player: %@", self.currentPlayer);
+    NSLog(@"Player # clicked: %d", [clickedColorSquare tag]);
 
-
-
+}
 
 
 - (void)findPlacement
@@ -273,6 +289,8 @@ static const int FONT_SIZE = 8;
     } else {
         self.playerTurn++;
     }
+    
+    self.currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
 }
 
 
@@ -290,6 +308,7 @@ static const int FONT_SIZE = 8;
     Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
     currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:FONT_SIZE + 3];
     currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (50 - 5), 40, 40);
+    [currentPlayer.colorSquare setEnabled:NO];
 }
 
 
@@ -304,8 +323,12 @@ static const int FONT_SIZE = 8;
     [self.view addSubview:player.nameLabel];
     
     //show player's color square
-    player.colorSquare = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
     player.colorSquare.backgroundColor = player.color;
+    player.colorSquare.tag = player.number;
+    [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
+    [player.colorSquare addTarget:self action:@selector(touchPlayerColorSquare:) forControlEvents:UIControlEventTouchUpInside];
+    //[player.colorSquare setEnabled:NO];
     [self.view addSubview:player.colorSquare];
     
 }

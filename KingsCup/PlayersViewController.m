@@ -88,6 +88,9 @@ static const int FONT_SIZE = 11;
         //create player
         Player *player = [[Player alloc]init];
         
+        //set id #
+        player.number = [self.players count] + 1;
+        
         //get name from text field
         player.name = nameField.text;
         
