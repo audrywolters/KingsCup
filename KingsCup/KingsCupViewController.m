@@ -9,6 +9,7 @@
 #import "KingsCupViewController.h"
 #import "Deck.h"
 #import "Player.h"
+#import "CardData.h"
 
 @interface KingsCupViewController ()
 
@@ -16,7 +17,7 @@
 @property (strong, nonatomic) Deck *deck;
 @property (weak, nonatomic) IBOutlet UIButton *cardButton;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
-@property (weak, nonatomic) IBOutlet UIButton *pictionaryButton;
+@property (weak, nonatomic) IBOutlet UIButton *drawingButton;
 @property (weak, nonatomic) IBOutlet UILabel *cardTitle;
 @property (weak, nonatomic) IBOutlet UILabel *description;
 //top graphics
@@ -35,15 +36,23 @@
 @property (nonatomic) CGFloat currentX;
 @property (nonatomic) CGFloat bufferWidth;
 @property (strong, nonatomic) NSMutableArray *colorSquares;
+//timer
+@property (nonatomic) NSTimer *timer;
+@property (nonatomic) UILabel *timerLabel;
+@property (nonatomic) int seconds;
+//generate random words
+@property (nonatomic) UIButton *generateRandomWordButton;
+@property (nonatomic) NSString *randomWord;
+@property (nonatomic) UILabel *randomWordLabel;
 
 
 - (IBAction)touchCardButton:(id)sender;
 - (IBAction)touchTimeButton:(id)sender;
-- (IBAction)touchPictionaryButton:(id)sender;
+- (IBAction)touchDrawingButton:(id)sender;
 - (IBAction)touchPlayerColorSquare:(id)sender;
 - (void)disableButtons;
 - (void)makeKing:(Card *)card;
-- (void)makePictionary:(Card *)card;
+- (void)makeDrawing:(Card *)card;
 - (void)makeCharades:(Card *)card;
 - (void)displayPlayer:(Player *)player;
 - (void)trackTurns;
@@ -51,6 +60,8 @@
 - (void)displayDrinkMates;
 - (void)enableDrinkMateButtons;
 - (void)disableDrinkMateButtons;
+//get random word
+- (void)generateRandomWord;
 
 
 @end
@@ -59,31 +70,47 @@
 
 
 static const int FONT_SIZE = 8;
+NSString *const GUESS_THE_DRAWING = @"Guess the Drawing";
+NSString *const CHARADES = @"Charades";
+NSString *const KINGS_CUP = @"King's Cup";
+NSString *const DRINK_MATE = @"Drink Mate";
 
 
-- (Deck *)deck
+- (void)generateRandomWord
 {
-    if (!_deck) {
-        _deck = [[Deck alloc]initWithFlag:self.isTraditional];
-    }
-    return _deck;
-}
-
-
-- (NSMutableArray *)colorSquares
-{
-    if (!_colorSquares) {
-        _colorSquares = [[NSMutableArray alloc] init];
+    //get rid of button
+    [self.generateRandomWordButton removeFromSuperview];
+    
+    CardData *data = [[CardData alloc]init];
+    int randomNum = arc4random();
+    int index = randomNum % [data.charadesWords count];
+    
+    //if a charades card, get a charades word
+    if (self.currentCard.title == CHARADES) {
+        self.randomWord = data.charadesWords[index];
+        [data.charadesWords removeObjectAtIndex:index];
+        
+        //if a guess the drawing card, get a drawing word
+    } else if (self.currentCard.title == GUESS_THE_DRAWING) {
+        self.randomWord = data.drawingWords[index];
+        [data.drawingWords removeObjectAtIndex:index];
     }
     
-    return _colorSquares;
+    
+    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    self.randomWordLabel.text = self.randomWord;
+    [self.view addSubview:self.randomWordLabel];
+    
 }
+
 
 
 - (IBAction)touchCardButton:(id)sender
 {
     //get a random card
     self.currentCard = [self.deck drawRandomCard];
+    
+    self.randomWordLabel.hidden = YES;
     [self disableButtons];
     
     //if there was a card able to be drawn
@@ -107,33 +134,29 @@ static const int FONT_SIZE = 8;
         
         
         
-        
         //if a king
-        if ([self.currentCard.title isEqualToString:@"King's Cup"]) {
+        if ([self.currentCard.title isEqualToString:KINGS_CUP]) {
             [self makeKing:self.currentCard];
             
-        //if pictionary card
-        } else if ([self.currentCard.title isEqualToString:@"Pictionary"]) {
-            [self makePictionary:self.currentCard];
+            //if pictionary card
+        } else if ([self.currentCard.title isEqualToString:GUESS_THE_DRAWING]) {
+            [self makeDrawing:self.currentCard];
             
-        //if charades card
-        } else if ([self.currentCard.title isEqualToString:@"Charades"]) {
+            //if charades card
+        } else if ([self.currentCard.title isEqualToString:CHARADES]) {
             [self makeCharades:self.currentCard];
-          
-        //if drink mate
-        } else if ([self.currentCard.title isEqualToString:@"Drink Mate"]){
+            
+            //if drink mate
+        } else if ([self.currentCard.title isEqualToString:DRINK_MATE]){
             
             self.description.text = self.currentCard.description;
             [self enableDrinkMateButtons];
-        
-        //if not a special card
+            
+            //if not a special card
         } else {
             //set the description
             self.description.text = self.currentCard.description;
         }
-        
-       
-        
         
         
         
@@ -196,40 +219,78 @@ static const int FONT_SIZE = 8;
     //set description
     self.description.text = card.description;
     
-    //show button
+    //show time button
     self.timeButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.timeButton addTarget:self action:@selector(touchTimeButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.timeButton setTitle:@"start" forState:UIControlStateNormal];
-    self.timeButton.frame = CGRectMake(80.0, 200.0, 160.0, 40.0);
+    self.timeButton.frame = CGRectMake(80, 200, 160, 40);
     [self.view addSubview:self.timeButton];
+    
+    //show gen random word button
+    self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.generateRandomWordButton addTarget:self action:@selector(generateRandomWord) forControlEvents:UIControlEventTouchUpInside];
+    [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
+    self.generateRandomWordButton.frame = CGRectMake(80, 250, 200, 40);
+    [self.view addSubview:self.generateRandomWordButton];
+    
+    
 }
 
 
 
 - (void)touchTimeButton:(id)sender
 {
+    //get rid of start button
     [self disableButtons];
+    
+    //create timer and call runTimer
+    self.seconds = 60;
+    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 200, 50, 40)];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runTimer) userInfo:nil repeats:YES];
+    
+    
+    
+}
+
+- (void)runTimer
+{
+    //run timer every one second
+    self.seconds = self.seconds - 1;
+    self.timerLabel.text = [NSString stringWithFormat:@":%i", self.seconds];
+    self.timerLabel.textColor = [UIColor redColor];
+    [self.view addSubview:self.timerLabel];
+    
+    //if at end of time display drink!
+    if (self.seconds == -1) {
+        self.timerLabel.text = @"Drink!";
+    }
+    
+    //after drink! remove timer
+    if (self.seconds == -2) {
+        [self.timer invalidate];
+        self.timer = nil;
+        [self.timerLabel removeFromSuperview];
+    }
 }
 
 
 
 
-
-- (void)makePictionary:(Card *)card
+- (void)makeDrawing:(Card *)card
 {
     //set description
     self.description.text = card.description;
     
     //show button
-    self.pictionaryButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.pictionaryButton addTarget:self action:@selector(touchPictionaryButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.pictionaryButton setTitle:@"start" forState:UIControlStateNormal];
-    self.pictionaryButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
-    [self.view addSubview:self.pictionaryButton];
+    self.drawingButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.drawingButton addTarget:self action:@selector(touchDrawingButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.drawingButton setTitle:@"start" forState:UIControlStateNormal];
+    self.drawingButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    [self.view addSubview:self.drawingButton];
     
 }
 
-- (void)touchPictionaryButton:(id)sender
+- (void)touchDrawingButton:(id)sender
 {
     [self disableButtons];
     
@@ -239,21 +300,24 @@ static const int FONT_SIZE = 8;
 }
 
 
-//TODO: bad to have blanket method like this?
+
 - (void)disableButtons
 {
-    [self.timeButton setEnabled:NO];
-    self.timeButton.hidden = YES;
+    [self.timeButton removeFromSuperview];
+    [self.drawingButton removeFromSuperview];
+    [self.generateRandomWordButton removeFromSuperview];
+    [self.randomWordLabel removeFromSuperview];
     
-    [self.pictionaryButton setEnabled:NO];
-    self.pictionaryButton.hidden = YES;
+    [self.timer invalidate];
+    self.timer = nil;
+    [self.timerLabel removeFromSuperview];
 }
 
 
 
 - (void)enableDrinkMateButtons
 {
-    int currentPlayerNum = self.currentPlayer.number;
+    NSInteger currentPlayerNum = self.currentPlayer.number;
     for (Player *player in self.players) {
         if (player.number == currentPlayerNum) {
             //keep disabled
@@ -285,7 +349,7 @@ static const int FONT_SIZE = 8;
         bufferWidth = bufferWidth + 8;
     }
     
-   }
+}
 
 
 
@@ -293,7 +357,7 @@ static const int FONT_SIZE = 8;
 {
     //figure out which player was picked
     UIButton *clickedColorSquare = (UIButton *)sender;
-    int playerClickedNum = [clickedColorSquare tag];
+    NSInteger playerClickedNum = [clickedColorSquare tag];
     Player *playerClicked = [self.players objectAtIndex:playerClickedNum - 1];
     
     
@@ -304,9 +368,7 @@ static const int FONT_SIZE = 8;
     [self disableDrinkMateButtons];
     
     [self displayDrinkMates];
-    //NSLog(@"Current Player: %@", self.currentPlayer);
-    //NSLog(@"Player # clicked: %d", [clickedColorSquare tag]);
-
+    
 }
 
 
@@ -317,7 +379,7 @@ static const int FONT_SIZE = 8;
     self.bufferWidth = 40;
     
     Player *firstPlayer = [self.players objectAtIndex:0];
-
+    
     self.currentX = 175;
     
     //move starting point over 25 pixels for each player
@@ -414,6 +476,25 @@ static const int FONT_SIZE = 8;
         [self displayPlayer:player];
     }
     
+}
+
+
+- (Deck *)deck
+{
+    if (!_deck) {
+        _deck = [[Deck alloc]initWithFlag:self.isTraditional];
+    }
+    return _deck;
+}
+
+
+- (NSMutableArray *)colorSquares
+{
+    if (!_colorSquares) {
+        _colorSquares = [[NSMutableArray alloc] init];
+    }
+    
+    return _colorSquares;
 }
 
 

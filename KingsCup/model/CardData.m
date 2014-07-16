@@ -87,7 +87,7 @@
     self.titles = @[@"I’ve Never",
                     @"Story",
                     @"Charades",
-                    @"Pictionary",
+                    @"Guess the Drawing",
                     @"Rule",
                     @"Truth or Dare",
                     @"Dance Party",
@@ -111,6 +111,118 @@
                           @"if you like boys (you know, in that way) drink!",
                           @"if you like girls (you know, in that way) drink!",
                           @"pour some of your drink into that big cup on the table. last person to draw a king must drink the whole cup!"];
+}
+
+
+
+
+
+
+- (NSMutableArray *)drawingWords
+{
+    if (!_drawingWords) {
+      
+        _drawingWords = [NSMutableArray arrayWithObjects:
+                         @"Elephant",
+                         @"Point",
+                         @"Star",
+                         @"Tree",
+                         @"Tail",
+                         @"Basketball",
+                         @"Frankenstein",
+                         @"String",
+                         @"Cage",
+                         @"Spider man",
+                         @"Penguin",
+                         @"Shovel",
+                         @"Popcorn",
+                         @"Butter",
+                         @"Lipstick",
+                         @"Soap",
+                         @"Money",
+                         @"Banana",
+                         @"Jellyfish",
+                         @"Scarf",
+                         @"Fly",
+                         @"Peel",
+                         @"Moon",
+                         @"Electricity",
+                         @"Leash",
+                         @"Skate",
+                         @"Ring",
+                         @"Vest",
+                         @"Hello",
+                         @"Grass",
+                         @"Button",
+                         @"Kick",
+                         @"Head",
+                         @"Sunglasses",
+                         @"Chair",
+                         @"Scissors",
+                         @"Mouth",
+                         @"Telephone",
+                         @"Chin",
+                         @"Smile",
+                         nil];
+    }
+    
+    return _drawingWords;
+}
+
+
+
+
+
+
+
+
+
+- (NSMutableArray *)charadesWords
+{
+    if (!_charadesWords) {
+        _charadesWords = [NSMutableArray arrayWithObjects:@"Ping Pong",
+                           @"Snowball",
+                           @"Roof",
+                           @"Fly",
+                           @"Fang",
+                           @"Bicycle",
+                           @"Bear",
+                           @"Cape",
+                           @"Puppet",
+                           @"Piano",
+                           @"Salute",
+                           @"Penguin",
+                           @"Banana Peel",
+                           @"Flashlight",
+                           @"Earthquake",
+                           @"Road",
+                           @"Rain",
+                           @"Alarm Clock",
+                           @"Chop",
+                           @"Pajamas",
+                           @"Slam Dunk",
+                           @"Fiddle",
+                           @"Nap",
+                           @"Robot",
+                           @"Puppy",
+                           @"Outer Space",
+                           @"Goodbye",
+                           @"Ice",
+                           @"Car",
+                           @"Pants",
+                           @"Braid",
+                           @"Bonnet",
+                           @"Bedbug",
+                           @"Worm",
+                           @"Easel",
+                           @"Cat",
+                           @"Bite",
+                           @"Remote Control",
+                           @"Dentist",
+                           @"Spider Web",
+                          nil];
+    }
+    return _charadesWords;
 }
 
 
