@@ -10,6 +10,7 @@
 #import "Deck.h"
 #import "Player.h"
 #import "CardData.h"
+#import "IntroViewController.h"
 
 @interface KingsCupViewController ()
 
@@ -50,6 +51,7 @@
 - (IBAction)touchTimeButton:(id)sender;
 - (IBAction)touchDrawingButton:(id)sender;
 - (IBAction)touchPlayerColorSquare:(id)sender;
+- (IBAction)touchQuitGame:(id)sender;
 - (void)disableButtons;
 - (void)makeKing:(Card *)card;
 - (void)makeDrawing:(Card *)card;
@@ -64,6 +66,8 @@
 - (void)generateRandomWord;
 
 
+
+
 @end
 
 @implementation KingsCupViewController
@@ -74,6 +78,8 @@ NSString *const GUESS_THE_DRAWING = @"Guess the Drawing";
 NSString *const CHARADES = @"Charades";
 NSString *const KINGS_CUP = @"King's Cup";
 NSString *const DRINK_MATE = @"Drink Mate";
+//TODO: fix magic numbers
+//TODO: arrange methods chronologically
 
 
 - (void)generateRandomWord
@@ -85,17 +91,19 @@ NSString *const DRINK_MATE = @"Drink Mate";
     int randomNum = arc4random();
     int index = randomNum % [data.charadesWords count];
     
+    /*
     //if a charades card, get a charades word
     if (self.currentCard.title == CHARADES) {
+     */
         self.randomWord = data.charadesWords[index];
         [data.charadesWords removeObjectAtIndex:index];
-        
+      /*
         //if a guess the drawing card, get a drawing word
     } else if (self.currentCard.title == GUESS_THE_DRAWING) {
         self.randomWord = data.drawingWords[index];
         [data.drawingWords removeObjectAtIndex:index];
     }
-    
+    */
     
     self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
     self.randomWordLabel.text = self.randomWord;
@@ -295,7 +303,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     [self disableButtons];
     
     //go to the pictionary view
-    PictionaryViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
+    DrawingViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
     [self presentViewController:pvc animated:YES completion:nil];
 }
 
@@ -459,6 +467,24 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
 }
 
+//TODO: fix view controller switch (make one intro view controller)
+- (IBAction)touchQuitGame:(id)sender
+{
+    
+    NSLog(@"HI");
+    //dismiss view controller
+    
+    
+    //[self.navigationController popToRootViewControllerAnimated:YES];
+    
+    /*
+    IntroViewController *ivc = [self.storyboard instantiateViewControllerWithIdentifier:@"ivc"];
+    [self presentViewController:ivc animated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+     */
+ 
+}
+
 
 
 - (void)viewDidLoad
@@ -476,6 +502,12 @@ NSString *const DRINK_MATE = @"Drink Mate";
         [self displayPlayer:player];
     }
     
+    //make quit button
+    UIButton *quitGameButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [quitGameButton addTarget:self action:@selector(touchQuitGame:) forControlEvents:UIControlEventTouchUpInside];
+    [quitGameButton setTitle:@"Quit Game" forState:UIControlStateNormal];
+    quitGameButton.frame = CGRectMake(10, 300, 80, 30);
+    [self.view addSubview:quitGameButton];
 }
 
 

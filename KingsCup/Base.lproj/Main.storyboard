@@ -7,7 +7,7 @@
         <!--Intro View Controller - IntroViewController-->
         <scene sceneID="SMt-n2-WG1">
             <objects>
-                <viewController title="IntroViewController" id="hC1-hh-uoV" customClass="IntroViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ivc" title="IntroViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="hC1-hh-uoV" customClass="IntroViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ze5-qV-EWZ"/>
                         <viewControllerLayoutGuide type="bottom" id="zIu-Bb-qWy"/>
@@ -24,7 +24,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Jc-lp-fWa">
-                                <rect key="frame" x="103" y="269" width="114" height="30"/>
+                                <rect key="frame" x="103" y="220" width="114" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Traditional Rules">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -34,7 +34,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DdY-bP-Uns">
-                                <rect key="frame" x="108" y="337" width="105" height="30"/>
+                                <rect key="frame" x="108" y="348" width="105" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Alternate Rules">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,6 +43,20 @@
                                     <segue destination="n7X-hZ-b71" kind="push" identifier="toAlternatePlayers" id="IaZ-86-65E"/>
                                 </connections>
                             </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Drink 2 Waterfall Thumbs Give 3" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="SFR-qc-JJm">
+                                <rect key="frame" x="122" y="242" width="76" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="Dance Party Charades Guess the Drawing I've Never" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="pMI-qR-4Wn">
+                                <rect key="frame" x="85" y="370" width="151" height="83"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -112,7 +126,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Shs-sD-aDi">
-                                <rect key="frame" x="120" y="468" width="80" height="80"/>
+                                <rect key="frame" x="120" y="458" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -134,10 +148,10 @@
             </objects>
             <point key="canvasLocation" x="1364" y="87"/>
         </scene>
-        <!--Pictionary View Controller-->
+        <!--Drawing View Controller-->
         <scene sceneID="lOR-Tb-aVM">
             <objects>
-                <viewController storyboardIdentifier="pvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQK-xI-5bw" customClass="PictionaryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="pvc" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rQK-xI-5bw" customClass="DrawingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="yWJ-3r-eHM"/>
                         <viewControllerLayoutGuide type="bottom" id="TWh-fn-BPT"/>
@@ -145,15 +159,6 @@
                     <view key="view" contentMode="scaleToFill" id="mnF-xI-OQF">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pictionary!" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cqc-In-dqa">
-                                <rect key="frame" x="120" y="147" width="81" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
@@ -174,14 +179,14 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Players" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCu-rs-ckA">
-                                <rect key="frame" x="132" y="54" width="57" height="21"/>
+                                <rect key="frame" x="132" y="84" width="57" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gzl-l2-gGE">
-                                <rect key="frame" x="121" y="453" width="79" height="30"/>
+                                <rect key="frame" x="121" y="518" width="79" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Start Game">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -191,7 +196,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="C6O-Gl-oz2">
-                                <rect key="frame" x="123" y="90" width="75" height="30"/>
+                                <rect key="frame" x="123" y="113" width="75" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Add Player">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>

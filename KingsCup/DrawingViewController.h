@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PictionaryViewController : UIViewController
+@interface DrawingViewController : UIViewController
 
 @end

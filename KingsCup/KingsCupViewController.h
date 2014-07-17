@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "IntroViewController.h"
-#import "PictionaryViewController.h"
+#import "DrawingViewController.h"
 
 @interface KingsCupViewController : UIViewController
 
