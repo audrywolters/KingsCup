@@ -11,6 +11,7 @@
 #import "Player.h"
 #import "CardData.h"
 #import "IntroViewController.h"
+#import "PlayersViewController.h"
 
 @interface KingsCupViewController ()
 
@@ -78,7 +79,7 @@ NSString *const GUESS_THE_DRAWING = @"Guess the Drawing";
 NSString *const CHARADES = @"Charades";
 NSString *const KINGS_CUP = @"King's Cup";
 NSString *const DRINK_MATE = @"Drink Mate";
-//TODO: fix magic numbers
+
 //TODO: arrange methods chronologically
 
 
@@ -302,9 +303,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
 {
     [self disableButtons];
     
-    //go to the pictionary view
-    DrawingViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
-    [self presentViewController:pvc animated:YES completion:nil];
+    //go to the guess the drawing view
+    DrawingViewController *dvc = [self.storyboard instantiateViewControllerWithIdentifier:@"dvc"];
+    [self presentViewController:dvc animated:YES completion:nil];
 }
 
 
@@ -330,8 +331,6 @@ NSString *const DRINK_MATE = @"Drink Mate";
         if (player.number == currentPlayerNum) {
             //keep disabled
         } else {
-            //player.colorSquare.backgroundColor = [UIColor brownColor];
-            //make buttons clickable
             [player.colorSquare setEnabled:YES];
         }
     }
@@ -467,24 +466,14 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
 }
 
-//TODO: fix view controller switch (make one intro view controller)
+
+
 - (IBAction)touchQuitGame:(id)sender
 {
-    
-    NSLog(@"HI");
-    //dismiss view controller
-    
-    
-    //[self.navigationController popToRootViewControllerAnimated:YES];
-    
-    /*
-    IntroViewController *ivc = [self.storyboard instantiateViewControllerWithIdentifier:@"ivc"];
-    [self presentViewController:ivc animated:YES completion:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
-     */
- 
+    //go to the players VC
+    PlayersViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
+    [self presentViewController:pvc animated:YES completion:nil];
 }
-
 
 
 - (void)viewDidLoad
@@ -506,7 +495,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     UIButton *quitGameButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [quitGameButton addTarget:self action:@selector(touchQuitGame:) forControlEvents:UIControlEventTouchUpInside];
     [quitGameButton setTitle:@"Quit Game" forState:UIControlStateNormal];
-    quitGameButton.frame = CGRectMake(10, 300, 80, 30);
+    quitGameButton.frame = CGRectMake(10, 535, 80, 30);
     [self.view addSubview:quitGameButton];
 }
 

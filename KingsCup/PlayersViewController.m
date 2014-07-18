@@ -15,41 +15,40 @@
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UIButton *addPlayerButton;
-@property (weak, nonatomic) IBOutlet UIButton *startButton;
+@property (weak, nonatomic) IBOutlet UIButton *deletePlayerButton;
+@property (weak, nonatomic) IBOutlet UIButton *traditionalButton;
+@property (weak, nonatomic) IBOutlet UIButton *alternateButton;
 
-- (IBAction)touchStartButton:(id)sender;
 - (IBAction)touchAddPlayerButton:(id)sender;
-- (void)showPlayer:player;
+- (IBAction)touchDeletePlayerButton:(id)sender;
+- (void)findPlacement:player;
+- (IBAction)touchTraditionalButton:(id)sender;
+- (IBAction)touchAlternateButton:(id)sender;
+
 @end
 
 
 @implementation PlayersViewController
 
+static const int MIN_PLAYERS = 2;
 static const int MAX_PLAYERS = 6;
 static const int MAX_NAME_LENGTH = 7;
 static const int FONT_SIZE = 11;
 
 
-- (IBAction)touchStartButton:(id)sender
+
+- (void)viewDidLoad
 {
-    KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
-    
-    //send players array
-    kvc.players = self.players;
-    
-    //send game style choice
-    if (self.isTraditional) {
-        kvc.isTraditional = YES;
-        
-    } else if (!self.isTraditional) {
-        kvc.isTraditional = NO;
-    }
-    
-    
-    [self presentViewController:kvc animated:YES completion:nil];
+    //hide buttons until at least 2 players are added
+    self.traditionalButton.hidden = YES;
+    self.alternateButton.hidden = YES;
+    //hide button unitl 1 player added
+    self.deletePlayerButton.hidden = YES;
 }
 
 
+
+#pragma mark <create and display player>
 
 - (void)touchAddPlayerButton:(id)sender
 {
@@ -64,17 +63,30 @@ static const int FONT_SIZE = 11;
         self.nameField.returnKeyType = UIReturnKeyDone;
         self.nameField.delegate = self;
         [self.view addSubview:self.nameField];
-        
-    } else {
-        //TODO: add label or warning thingy
-        NSLog(@"oops too many players");
+    }
+}
+
+- (IBAction)touchDeletePlayerButton:(id)sender
+{
+    Player *lastPlayerAdded = [self.players lastObject];
+    [self.players removeLastObject];
+
+    //TODO: does not delete these when returning from kvc
+    [lastPlayerAdded.nameLabel removeFromSuperview];
+    [lastPlayerAdded.colorSquare removeFromSuperview];
+
+    if ([self.players count] < 1) {
+        self.deletePlayerButton.hidden = YES;
+    }
+    
+    if ([self.players count] < 2) {
+        self.traditionalButton.hidden = YES;
+        self.alternateButton.hidden = YES;
     }
 }
 
 
-
-//When user finishes entering name
-//print the user's stuff
+//When user finishes entering name, store player information
 - (BOOL)textFieldShouldReturn:(UITextField *)nameField
 {
     self.addPlayerButton.enabled = YES;
@@ -82,7 +94,7 @@ static const int FONT_SIZE = 11;
     //if the text field is empty, don't add player
     if ([nameField.text  isEqual: @""]) {
         //do nothing
-    
+        
     //else add player
     } else {
         //create player
@@ -95,22 +107,34 @@ static const int FONT_SIZE = 11;
         player.name = nameField.text;
         
         //get the color for the player
-        int numPlayers = [self.players count]; //if 5th time called, there are 5 saved players, get the 5th color in array
+        NSInteger numPlayers = [self.players count]; //if 5th time called, there are 5 saved players, get the 5th color in array
         player.color = self.colors[numPlayers];
         
         //save player
         [self.players addObject:player];
         
         //populate players into view
-        [self showPlayer:player];
+        [self findPlacement:player];
+        [self displayPlayer:player];
     }
     
     
-    //show start button if 2nd player added
-    if ([self.players count] == 2) {
-        self.startButton.hidden = NO;
+    //show start button if 2nd players added
+    if ([self.players count] == MIN_PLAYERS) {
+        self.traditionalButton.hidden = NO;
+        self.alternateButton.hidden = NO;
     }
     
+    
+    //hide add player button if 6 players added
+    if ([self.players count] == MAX_PLAYERS) {
+        self.addPlayerButton.hidden = YES;
+    }
+    
+    //show delete player button if there are at least 1 player
+    if ([self.players count] >= 1) {
+        self.deletePlayerButton.hidden = NO;
+    }
     
     //hide keyboard and text field
     [nameField resignFirstResponder];
@@ -120,15 +144,15 @@ static const int FONT_SIZE = 11;
     
 }
 
+//don't allow more than 10 characters in name
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    NSUInteger newLength = [textField.text length] + [string length] - range.length;
+    return (newLength > MAX_NAME_LENGTH) ? NO : YES;
+}
 
 
-//print the player after it is created
-- (void)showPlayer:(Player *)player
+- (void)findPlacement:(Player *)player
 {
-    
-    CGFloat xPlacement = 0;
-    CGFloat yPlacement = 0;
-    
     switch ([self.players count])
     {
         case 0:
@@ -136,33 +160,33 @@ static const int FONT_SIZE = 11;
             break;
             
         case 1:
-            xPlacement = 50;
-            yPlacement = 200;
+            player.xPlacement = 50;
+            player.yPlacement = 200;
             break;
             
         case 2:
-            xPlacement = 120;
-            yPlacement = 200;
+            player.xPlacement = 120;
+            player.yPlacement = 200;
             break;
             
         case 3:
-            xPlacement = 190;
-            yPlacement = 200;
+            player.xPlacement = 190;
+            player.yPlacement = 200;
             break;
             
         case 4:
-            xPlacement = 50;
-            yPlacement = 300;
+            player.xPlacement = 50;
+            player.yPlacement = 300;
             break;
             
         case 5:
-            xPlacement = 120;
-            yPlacement = 300;
+            player.xPlacement = 120;
+            player.yPlacement = 300;
             break;
             
         case 6:
-            xPlacement = 190;
-            yPlacement = 300;
+            player.xPlacement = 190;
+            player.yPlacement = 300;
             break;
             
         default:
@@ -171,31 +195,54 @@ static const int FONT_SIZE = 11;
     }
     
   
-    
-    
+}
+
+
+- (void)displayPlayer:(Player *)player
+{
     //player's name
-    UILabel *playerNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement, yPlacement,50,50)];
-    playerNameLabel.text = player.name;
-    playerNameLabel.textAlignment = NSTextAlignmentCenter;
-    playerNameLabel.font = [playerNameLabel.font fontWithSize:FONT_SIZE];
-    //playerNameLabel.adjustsFontSizeToFitWidth = YES;
-    [self.view addSubview:playerNameLabel];
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement, player.yPlacement,50,50)];
+    player.nameLabel.text = player.name;
+    player.nameLabel.textAlignment = NSTextAlignmentCenter;
+    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
+    [self.view addSubview:player.nameLabel];
     
     //player's color square
-    UILabel *playerColorSquare = [[UILabel alloc] initWithFrame:CGRectMake(xPlacement,(yPlacement + 30), 50, 50)];
-    playerColorSquare.backgroundColor = player.color;
-    [self.view addSubview:playerColorSquare];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,(player.yPlacement + 30), 50, 50)];
+    player.colorSquare.backgroundColor = player.color;
+    [self.view addSubview:player.colorSquare];
+    
 }
 
 
 
-//don't allow more than 10 characters in name
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSUInteger newLength = [textField.text length] + [string length] - range.length;
-    return (newLength > MAX_NAME_LENGTH) ? NO : YES;
+
+#pragma mark <touch start buttons>
+
+- (IBAction)touchTraditionalButton:(id)sender
+{
+    KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
+    //send players array
+    kvc.players = self.players;
+    //send game state
+    kvc.isTraditional = YES;
+    //go to King's cup
+    [self presentViewController:kvc animated:YES completion:nil];
 }
 
 
+- (IBAction)touchAlternateButton:(id)sender
+{
+    KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
+    kvc.players = self.players;
+    kvc.isTraditional = NO;
+    [self presentViewController:kvc animated:YES completion:nil];
+}
+
+
+
+
+#pragma mark <init objects>
 
 - (NSMutableArray *)players
 {
@@ -223,17 +270,6 @@ static const int FONT_SIZE = 11;
     }
     return _colors;
 }
-
-
-
-- (void)viewDidLoad
-{
-    //hide start button until at least 2 players are added
-    self.startButton.hidden = YES;
-}
-
-
-
 
 
 @end

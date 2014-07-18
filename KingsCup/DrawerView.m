@@ -5,7 +5,7 @@
 //  Created by Audry Wolters on 7/17/14.
 //  Copyright (c) 2014 audrywolters. All rights reserved.
 //
-//  This code taken from Akiel Khan
+//  This code inspired by Akiel Khan
 //    http://code.tutsplus.com/tutorials/smooth-freehand-drawing-on-ios--mobile-13164
 //
 
@@ -16,10 +16,15 @@
     UIBezierPath *path; // (3)
 }
 
-
-- (id)initWithCoder:(NSCoder *)aDecoder // (1)
+/*
+ - (id)initWithCoder:(NSCoder *)aDecoder // (1)
+ {
+ if (self = [super initWithCoder:aDecoder])
+ */
+- (id)initWithFrame:(CGRect)frame
 {
-    if (self = [super initWithCoder:aDecoder])
+    self = [super initWithFrame:frame];
+    if (self)
     {
         [self setMultipleTouchEnabled:NO]; // (2)
         [self setBackgroundColor:[UIColor whiteColor]];
@@ -32,7 +37,7 @@
 
 - (void)drawRect:(CGRect)rect // (5)
 {
-    [[UIColor blackColor] setStroke];
+    [[UIColor blueColor] setStroke];
     [path stroke];
 }
 

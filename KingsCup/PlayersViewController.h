@@ -10,6 +10,6 @@
 
 @interface PlayersViewController : UIViewController
 
-@property (nonatomic) BOOL isTraditional;
+//@property (nonatomic) BOOL isTraditional;
 
 @end
