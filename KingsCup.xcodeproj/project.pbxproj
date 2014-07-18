@@ -24,6 +24,7 @@
 		915616571948E87400345ED8 /* CardData.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616511948E87400345ED8 /* CardData.m */; };
 		915616581948E87400345ED8 /* Deck.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616531948E87400345ED8 /* Deck.m */; };
 		915616591948E87400345ED8 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 915616551948E87400345ED8 /* Player.m */; };
+		919867B6197853300030615A /* DrawerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 919867B5197853300030615A /* DrawerView.m */; };
 		919A76981954C9F7006E156C /* DrawingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 919A76971954C9F7006E156C /* DrawingViewController.m */; };
 		919D76211950E63800D9292C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 919D76201950E63800D9292C /* Images.xcassets */; };
 		919D76241950E98B00D9292C /* PlayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 919D76231950E98B00D9292C /* PlayersViewController.m */; };
@@ -67,6 +68,8 @@
 		915616531948E87400345ED8 /* Deck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Deck.m; sourceTree = "<group>"; };
 		915616541948E87400345ED8 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
 		915616551948E87400345ED8 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		919867B4197853300030615A /* DrawerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawerView.h; sourceTree = "<group>"; };
+		919867B5197853300030615A /* DrawerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawerView.m; sourceTree = "<group>"; };
 		919A76961954C9F7006E156C /* DrawingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DrawingViewController.h; sourceTree = "<group>"; };
 		919A76971954C9F7006E156C /* DrawingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DrawingViewController.m; sourceTree = "<group>"; };
 		919D76201950E63800D9292C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -138,6 +141,8 @@
 				91F0D4981946340B0027FB94 /* IntroViewController.m */,
 				919D76221950E98B00D9292C /* PlayersViewController.h */,
 				919D76231950E98B00D9292C /* PlayersViewController.m */,
+				919867B4197853300030615A /* DrawerView.h */,
+				919867B5197853300030615A /* DrawerView.m */,
 				911AC4E6194106D400207D50 /* KingsCupViewController.h */,
 				911AC4E7194106D400207D50 /* KingsCupViewController.m */,
 				919A76961954C9F7006E156C /* DrawingViewController.h */,
@@ -300,6 +305,7 @@
 				911AC4DE194106D400207D50 /* main.m in Sources */,
 				91F0D4991946340B0027FB94 /* IntroViewController.m in Sources */,
 				915616591948E87400345ED8 /* Player.m in Sources */,
+				919867B6197853300030615A /* DrawerView.m in Sources */,
 				915616561948E87400345ED8 /* Card.m in Sources */,
 				911AC4E8194106D400207D50 /* KingsCupViewController.m in Sources */,
 				919A76981954C9F7006E156C /* DrawingViewController.m in Sources */,

@@ -8,6 +8,7 @@
 
 #import "DrawingViewController.h"
 #import "CardData.h"
+#import "DrawerView.h"
 
 @interface DrawingViewController ()
 
@@ -18,6 +19,9 @@
 @property (nonatomic) int seconds;
 @property (strong, nonatomic) UILabel *timerLabel;
 @property (nonatomic) NSTimer *timer;
+//drawing stuff
+//@property (strong, nonatomic) UIBezierPath *path;
+@property (nonatomic) DrawerView *drawer;
 
 - (IBAction)touchReturnToGame:(id)sender;
 - (IBAction)touchGenerateRandomWord:(id)sender;
@@ -26,6 +30,8 @@
 @end
 
 @implementation DrawingViewController
+
+
 
 
 - (IBAction)touchStartTimer:(id)sender
@@ -128,7 +134,11 @@
     [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
     self.generateRandomWordButton.frame = CGRectMake(81, 100, 100, 40);
     [self.view addSubview:self.generateRandomWordButton];
-     
+    
+    //make the drawer view
+    self.drawer = [[DrawerView alloc] initWithFrame:CGRectMake(10, 10, 200, 200)];
+    [self.view addSubview:self.drawer];
+   
 }
 
      
