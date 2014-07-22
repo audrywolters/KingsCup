@@ -5,22 +5,15 @@
 //  Created by Audry Wolters on 7/17/14.
 //  Copyright (c) 2014 audrywolters. All rights reserved.
 //
-//  This code inspired by Akiel Khan
+//  DrawerView code by Akiel Khan
 //    http://code.tutsplus.com/tutorials/smooth-freehand-drawing-on-ios--mobile-13164
 //
 
 #import "DrawerView.h"
 
 @implementation DrawerView
-{
-    UIBezierPath *path; // (3)
-}
 
-/*
- - (id)initWithCoder:(NSCoder *)aDecoder // (1)
- {
- if (self = [super initWithCoder:aDecoder])
- */
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -28,8 +21,8 @@
     {
         [self setMultipleTouchEnabled:NO]; // (2)
         [self setBackgroundColor:[UIColor whiteColor]];
-        path = [UIBezierPath bezierPath];
-        [path setLineWidth:2.0];
+        self.path = [UIBezierPath bezierPath];
+        [self.path setLineWidth:2.0];
     }
     return self;
 }
@@ -38,7 +31,7 @@
 - (void)drawRect:(CGRect)rect // (5)
 {
     [[UIColor blueColor] setStroke];
-    [path stroke];
+    [self.path stroke];
 }
 
 
@@ -46,7 +39,7 @@
 {
     UITouch *touch = [touches anyObject];
     CGPoint p = [touch locationInView:self];
-    [path moveToPoint:p];
+    [self.path moveToPoint:p];
 }
 
 
@@ -54,7 +47,7 @@
 {
     UITouch *touch = [touches anyObject];
     CGPoint p = [touch locationInView:self];
-    [path addLineToPoint:p]; // (4)
+    [self.path addLineToPoint:p]; // (4)
     [self setNeedsDisplay];
 }
 
@@ -69,6 +62,11 @@
 {
     [self touchesEnded:touches withEvent:event];
 }
+
+
+
+
+
 
 
 @end

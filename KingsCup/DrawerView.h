@@ -10,4 +10,5 @@
 
 @interface DrawerView : UIView
 
+@property (strong, nonatomic) UIBezierPath *path;
 @end

@@ -19,8 +19,6 @@
 @property (nonatomic) int seconds;
 @property (strong, nonatomic) UILabel *timerLabel;
 @property (nonatomic) NSTimer *timer;
-//drawing stuff
-//@property (strong, nonatomic) UIBezierPath *path;
 @property (nonatomic) DrawerView *drawer;
 
 - (IBAction)touchReturnToGame:(id)sender;
@@ -109,10 +107,11 @@
     
 }
 
-
-- (void)viewDidLoad
+- (void)setScreen
 {
-    [super viewDidLoad];
+    //make the drawer view
+    self.drawer = [[DrawerView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [self.view addSubview:self.drawer];
     
     //make back button
     self.returnToGameButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -121,17 +120,46 @@
     self.returnToGameButton.frame = CGRectMake(80, 210, 160, 40);
     [self.view addSubview:self.returnToGameButton];
     
+    //make clear button
+    UIButton *clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [clearButton addTarget:self action:@selector(touchClearButton) forControlEvents:UIControlEventTouchUpInside];
+    [clearButton setTitle:@"Clear" forState:UIControlStateNormal];
+    clearButton.frame = CGRectMake(0, 10, 60, 30);
+    [self.view addSubview:clearButton];
+    
+    
+}
+
+- (void)touchClearButton
+{
+    [self setScreen];
+
+    //[self.drawer.path removeAllPoints];
+    //[[UIColor blueColor] setStroke];
+    //[self.drawer.path stroke];
+    
+    //self.drawer.path = nil;
+    //self.drawer.path = [UIBezierPath bezierPath];
+    
+    //self.drawer = [[DrawerView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //[self.view insertSubview:self.drawer atIndex:2];
+    
+}
+
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self setScreen];
     //make random word button
     self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.generateRandomWordButton addTarget:self action:@selector(touchGenerateRandomWord:) forControlEvents:UIControlEventTouchUpInside];
     [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
     self.generateRandomWordButton.frame = CGRectMake(81, 100, 100, 40);
     [self.view addSubview:self.generateRandomWordButton];
-    
-    //make the drawer view
-    self.drawer = [[DrawerView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //self.drawer = [[DrawerView alloc] initWithFrame:CGRectMake(0, 10, 200, 200)];
-    [self.view addSubview:self.drawer];
+
+
    
 }
 

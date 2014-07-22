@@ -22,13 +22,15 @@
 @property (weak, nonatomic) IBOutlet UIButton *drawingButton;
 @property (weak, nonatomic) IBOutlet UILabel *cardTitle;
 @property (weak, nonatomic) IBOutlet UILabel *description;
+@property (weak, nonatomic) IBOutlet UIButton *playAgainButton;
+@property (weak, nonatomic) IBOutlet UIButton *quitButton;
 //top graphics
 @property (weak, nonatomic) IBOutlet UILabel *faceTop;
 @property (weak, nonatomic) IBOutlet UIImageView *suitTop;
 //bottom graphics
 @property (weak, nonatomic) IBOutlet UILabel *faceBottom;
 @property (weak, nonatomic) IBOutlet UIImageView *suitBottom;
-//count the number of kings
+//keep track of kings
 @property (nonatomic) int kingCount;
 @property (weak, nonatomic) IBOutlet UIImageView *cup;
 //who's turn it is
@@ -47,29 +49,36 @@
 @property (nonatomic) NSString *randomWord;
 @property (nonatomic) UILabel *randomWordLabel;
 
-
+//cycle through cards
 - (IBAction)touchCardButton:(id)sender;
-- (IBAction)touchTimeButton:(id)sender;
-- (IBAction)touchDrawingButton:(id)sender;
-- (IBAction)touchPlayerColorSquare:(id)sender;
-- (IBAction)touchQuitGame:(id)sender;
-- (void)disableButtons;
-- (void)makeKing:(Card *)card;
-- (void)makeDrawing:(Card *)card;
-- (void)makeCharades:(Card *)card;
-- (void)displayPlayer:(Player *)player;
 - (void)trackTurns;
+- (IBAction)touchPlayAgainButton:(id)sender;
+//display player
+- (void)findPlacement;
+- (void)displayPlayer:(Player *)player;
 - (void)highlightCurrentPlayer;
+- (void)resetDisplayedPlayers;
+//drink mates
 - (void)displayDrinkMates;
 - (void)enableDrinkMateButtons;
 - (void)disableDrinkMateButtons;
-//get random word
+//king
+- (void)makeKingCard:(Card *)card;
+//charades
+- (void)makeCharadesCard:(Card *)card;
 - (void)generateRandomWord;
-
-
-
+- (IBAction)touchTimeButton:(id)sender;
+- (void)runTimer;
+//guess the drawing
+- (void)makeDrawingCard:(Card *)card;
+- (IBAction)touchDrawingButton:(id)sender;
+- (IBAction)touchPlayerColorSquare:(id)sender;
+- (IBAction)touchQuitGameButton:(id)sender;
+//whole game
+- (void)disableButtons;
 
 @end
+
 
 @implementation KingsCupViewController
 
@@ -80,45 +89,40 @@ NSString *const CHARADES = @"Charades";
 NSString *const KINGS_CUP = @"King's Cup";
 NSString *const DRINK_MATE = @"Drink Mate";
 
-//TODO: arrange methods chronologically
 
 
-- (void)generateRandomWord
+
+
+#pragma mark <View Did Load>
+
+- (void)viewDidLoad
 {
-    //get rid of button
-    [self.generateRandomWordButton removeFromSuperview];
+    [super viewDidLoad];
     
-    CardData *data = [[CardData alloc]init];
-    int randomNum = arc4random();
-    int index = randomNum % [data.charadesWords count];
+    //set the empty cup image
+    self.cup.image = [UIImage imageNamed:@"cup1.png"];
     
-    /*
-    //if a charades card, get a charades word
-    if (self.currentCard.title == CHARADES) {
-     */
-        self.randomWord = data.charadesWords[index];
-        [data.charadesWords removeObjectAtIndex:index];
-      /*
-        //if a guess the drawing card, get a drawing word
-    } else if (self.currentCard.title == GUESS_THE_DRAWING) {
-        self.randomWord = data.drawingWords[index];
-        [data.drawingWords removeObjectAtIndex:index];
+    //find the placement for player avatars
+    [self findPlacement];
+    
+    //send each player to be displayed
+    for (Player *player in self.players) {
+        [self displayPlayer:player];
     }
-    */
-    
-    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
-    self.randomWordLabel.text = self.randomWord;
-    [self.view addSubview:self.randomWordLabel];
-    
 }
 
 
+
+
+#pragma mark <Cycle Through Cards>
 
 - (IBAction)touchCardButton:(id)sender
 {
     //get a random card
     self.currentCard = [self.deck drawRandomCard];
     
+    //hide buttons and labels
+    //ranom word label must be hidden seperately cuz of timing
     self.randomWordLabel.hidden = YES;
     [self disableButtons];
     
@@ -145,15 +149,15 @@ NSString *const DRINK_MATE = @"Drink Mate";
         
         //if a king
         if ([self.currentCard.title isEqualToString:KINGS_CUP]) {
-            [self makeKing:self.currentCard];
+            [self makeKingCard:self.currentCard];
             
             //if pictionary card
         } else if ([self.currentCard.title isEqualToString:GUESS_THE_DRAWING]) {
-            [self makeDrawing:self.currentCard];
+            [self makeDrawingCard:self.currentCard];
             
             //if charades card
         } else if ([self.currentCard.title isEqualToString:CHARADES]) {
-            [self makeCharades:self.currentCard];
+            [self makeCharadesCard:self.currentCard];
             
             //if drink mate
         } else if ([self.currentCard.title isEqualToString:DRINK_MATE]){
@@ -169,7 +173,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
         
         
         
-        //else there are no more cards
+    //else there are no more cards
     } else {
         self.cardTitle.text = nil;
         self.description.text = @"GAME OVER";
@@ -177,14 +181,184 @@ NSString *const DRINK_MATE = @"Drink Mate";
         self.faceBottom.text = nil;
         self.suitTop.image = nil;
         self.suitBottom.image = nil;
+        
+        //play again?
+        self.playAgainButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [self.playAgainButton addTarget:self action:@selector(touchPlayAgainButton:) forControlEvents:UIControlEventTouchUpInside];
+        [self.playAgainButton setTitle:@"Play Again?" forState:UIControlStateNormal];
+        self.playAgainButton.frame = CGRectMake(100, 300, 60, 300);
+        [self.view addSubview:self.playAgainButton];
+        
     }
     
 }
 
 
 
+- (void)trackTurns
+{
+    //if the turn is at the end of of the players, or empty, reset
+    if (self.playerTurn == [self.players count] || self.playerTurn == 0) {
+        self.playerTurn = 1;
+        
+    //else increment
+    } else {
+        self.playerTurn++;
+    }
+    
+    //set the current player
+    self.currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
+}
 
-- (void)makeKing:(Card *)card
+
+
+
+
+#pragma mark <Display Players>
+
+- (void)findPlacement
+{
+    //TODO: there must be a one incrementing because squares get farther apart each square
+    //TODO: magic numbers?
+    self.bufferWidth = 40;
+    
+    Player *firstPlayer = [self.players objectAtIndex:0];
+    
+    self.currentX = 175;
+    
+    //move starting point over 25 pixels for each player
+    for (int i=0; i<[self.players count]; i++){
+        self.currentX = self.currentX - 25;
+    }
+    firstPlayer.xPlacement = self.currentX;
+    
+    
+    //get placement for rest of players
+    for (int i=1; i<[self.players count]; i++) {
+        self.bufferWidth++;
+        self.currentX = self.currentX + self.bufferWidth;
+        
+        Player *nextPlayer = [self.players objectAtIndex:i];
+        nextPlayer.xPlacement = self.currentX;
+        
+    }
+    
+}
+
+
+
+- (void)displayPlayer:(Player *)player
+{
+    //show player's name
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,30,30,20)];
+    player.nameLabel.text = player.name;
+    player.nameLabel.textAlignment = NSTextAlignmentCenter;
+    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
+    [self.view addSubview:player.nameLabel];
+    
+    //show player's color square
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
+    player.colorSquare.backgroundColor = player.color;
+    player.colorSquare.tag = player.number;
+    [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
+    [player.colorSquare addTarget:self action:@selector(touchPlayerColorSquare:) forControlEvents:UIControlEventTouchUpInside];
+    [player.colorSquare setEnabled:NO];
+    [self.view addSubview:player.colorSquare];
+    
+    
+}
+
+
+
+- (void)highlightCurrentPlayer
+{
+    [self resetDisplayedPlayers];
+    
+    //highlight the current player
+    Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
+    currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:FONT_SIZE + 3];
+    currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (50 - 5), 40, 40);
+    [currentPlayer.colorSquare setEnabled:NO];
+}
+
+
+- (void)resetDisplayedPlayers
+{
+    //destroy and recreate players
+    for (Player *player in self.players) {
+        [player.colorSquare removeFromSuperview];
+        [player.nameLabel removeFromSuperview];
+        [self displayPlayer:player];
+    }
+}
+
+
+#pragma mark <Drink Mate>
+
+- (void)displayDrinkMates
+{
+    CGFloat bufferWidth = 0;
+    
+    for (int i=0; i<[self.currentPlayer.drinkMates count]; i++) {
+        UILabel *drinkMateLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.currentPlayer.xPlacement + bufferWidth), 87,6,6)];
+        drinkMateLabel.backgroundColor = [self.currentPlayer.drinkMates objectAtIndex:i];
+        [self.view addSubview:drinkMateLabel];
+        bufferWidth = bufferWidth + 8;
+    }
+    
+}
+
+
+
+- (IBAction)touchPlayerColorSquare:(id)sender
+{
+    //figure out which player was picked
+    UIButton *clickedColorSquare = (UIButton *)sender;
+    NSInteger playerClickedNum = [clickedColorSquare tag];
+    Player *playerClicked = [self.players objectAtIndex:playerClickedNum - 1];
+    
+    
+    //set that person to be the drink buddy
+    [self.currentPlayer.drinkMates addObject:playerClicked.color];
+    
+    //disable buttons
+    [self disableDrinkMateButtons];
+    
+    [self displayDrinkMates];
+    
+}
+
+
+
+- (void)enableDrinkMateButtons
+{
+    NSInteger currentPlayerNum = self.currentPlayer.number;
+    for (Player *player in self.players) {
+        if (player.number == currentPlayerNum) {
+            //keep disabled
+        } else {
+            [player.colorSquare setEnabled:YES];
+        }
+    }
+}
+
+
+
+- (void)disableDrinkMateButtons
+{
+    for (Player *player in self.players) {
+        [player.colorSquare setEnabled:NO];
+    }
+}
+
+
+
+
+
+
+#pragma mark <King>
+
+- (void)makeKingCard:(Card *)card
 {
     self.kingCount++;
     
@@ -223,7 +397,10 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
-- (void)makeCharades:(Card *)card
+
+#pragma mark <Charades>
+
+- (void)makeCharadesCard:(Card *)card
 {
     //set description
     self.description.text = card.description;
@@ -231,7 +408,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //show time button
     self.timeButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.timeButton addTarget:self action:@selector(touchTimeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.timeButton setTitle:@"start" forState:UIControlStateNormal];
+    [self.timeButton setTitle:@"Start" forState:UIControlStateNormal];
     self.timeButton.frame = CGRectMake(80, 200, 160, 40);
     [self.view addSubview:self.timeButton];
     
@@ -247,6 +424,27 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
+- (void)generateRandomWord
+{
+    //get rid of button
+    [self.generateRandomWordButton removeFromSuperview];
+    
+    //get random word
+    CardData *data = [[CardData alloc]init];
+    int randomNum = arc4random();
+    int index = randomNum % [data.charadesWords count];
+    self.randomWord = data.charadesWords[index];
+    [data.charadesWords removeObjectAtIndex:index];
+    
+    //show random word
+    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    self.randomWordLabel.text = self.randomWord;
+    [self.view addSubview:self.randomWordLabel];
+    
+}
+
+
+
 - (void)touchTimeButton:(id)sender
 {
     //get rid of start button
@@ -256,10 +454,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
     self.seconds = 60;
     self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 200, 50, 40)];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runTimer) userInfo:nil repeats:YES];
-    
-    
-    
 }
+
+
 
 - (void)runTimer
 {
@@ -285,7 +482,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
-- (void)makeDrawing:(Card *)card
+#pragma mark <Guess the Drawing>
+
+- (void)makeDrawingCard:(Card *)card
 {
     //set description
     self.description.text = card.description;
@@ -299,6 +498,8 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
 }
 
+
+
 - (void)touchDrawingButton:(id)sender
 {
     [self disableButtons];
@@ -310,12 +511,16 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
+
+#pragma mark <Disable Buttons>
+
 - (void)disableButtons
 {
     [self.timeButton removeFromSuperview];
     [self.drawingButton removeFromSuperview];
     [self.generateRandomWordButton removeFromSuperview];
     [self.randomWordLabel removeFromSuperview];
+    [self.playAgainButton removeFromSuperview];
     
     [self.timer invalidate];
     self.timer = nil;
@@ -324,181 +529,28 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
-- (void)enableDrinkMateButtons
+
+
+#pragma mark <Game State>
+
+- (IBAction)touchQuitGameButton:(id)sender
 {
-    NSInteger currentPlayerNum = self.currentPlayer.number;
-    for (Player *player in self.players) {
-        if (player.number == currentPlayerNum) {
-            //keep disabled
-        } else {
-            [player.colorSquare setEnabled:YES];
-        }
-    }
-}
-
-
-- (void)disableDrinkMateButtons
-{
-    for (Player *player in self.players) {
-        [player.colorSquare setEnabled:NO];
-    }
-}
-
-
-- (void)displayDrinkMates
-{
-    CGFloat bufferWidth = 0;
-    
-    for (int i=0; i<[self.currentPlayer.drinkMates count]; i++) {
-        UILabel *drinkMateLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.currentPlayer.xPlacement + bufferWidth), 87,6,6)];
-        drinkMateLabel.backgroundColor = [self.currentPlayer.drinkMates objectAtIndex:i];
-        [self.view addSubview:drinkMateLabel];
-        bufferWidth = bufferWidth + 8;
-    }
-    
-}
-
-
-
-- (IBAction)touchPlayerColorSquare:(id)sender
-{
-    //figure out which player was picked
-    UIButton *clickedColorSquare = (UIButton *)sender;
-    NSInteger playerClickedNum = [clickedColorSquare tag];
-    Player *playerClicked = [self.players objectAtIndex:playerClickedNum - 1];
-    
-    
-    //set that person to be the drink buddy
-    [self.currentPlayer.drinkMates addObject:playerClicked.color];
-    
-    //disable buttons
-    [self disableDrinkMateButtons];
-    
-    [self displayDrinkMates];
-    
-}
-
-
-- (void)findPlacement
-{
-    //TODO: there must be a one incrementing because squares get farther apart each square
-    //TODO: magic numbers?
-    self.bufferWidth = 40;
-    
-    Player *firstPlayer = [self.players objectAtIndex:0];
-    
-    self.currentX = 175;
-    
-    //move starting point over 25 pixels for each player
-    for (int i=0; i<[self.players count]; i++){
-        self.currentX = self.currentX - 25;
-    }
-    firstPlayer.xPlacement = self.currentX;
-    
-    
-    //get placement for rest of players
-    for (int i=1; i<[self.players count]; i++) {
-        self.bufferWidth++;
-        self.currentX = self.currentX + self.bufferWidth;
-        
-        Player *nextPlayer = [self.players objectAtIndex:i];
-        nextPlayer.xPlacement = self.currentX;
-        
-    }
-    
-}
-
-
-- (void)trackTurns
-{
-    //if the turn is at the end of of the players, or empty, reset
-    if ((self.playerTurn == [self.players count]) || self.playerTurn == 0) {
-        self.playerTurn = 1;
-        
-        //else increment
-    } else {
-        self.playerTurn++;
-    }
-    
-    self.currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
-}
-
-
-
-- (void)highlightCurrentPlayer
-{
-    //reset all squares
-    for (Player *player in self.players) {
-        [player.colorSquare removeFromSuperview];
-        [player.nameLabel removeFromSuperview];
-        [self displayPlayer:player];
-    }
-    
-    //highlight the current player
-    Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
-    currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:FONT_SIZE + 3];
-    currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (50 - 5), 40, 40);
-    [currentPlayer.colorSquare setEnabled:NO];
-}
-
-
-
-- (void)displayPlayer:(Player *)player
-{
-    //show player's name
-    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,30,30,20)];
-    player.nameLabel.text = player.name;
-    player.nameLabel.textAlignment = NSTextAlignmentCenter;
-    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
-    [self.view addSubview:player.nameLabel];
-    
-    //show player's color square
-    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
-    player.colorSquare.backgroundColor = player.color;
-    player.colorSquare.tag = player.number;
-    [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
-    [player.colorSquare addTarget:self action:@selector(touchPlayerColorSquare:) forControlEvents:UIControlEventTouchUpInside];
-    [player.colorSquare setEnabled:NO];
-    [self.view addSubview:player.colorSquare];
-    
-    //add to array for dealing with later
-    //[self.colorSquares addObject:player.colorSquare];
-    
-}
-
-
-
-- (IBAction)touchQuitGame:(id)sender
-{
-    //go to the players VC
     PlayersViewController *pvc = [self.storyboard instantiateViewControllerWithIdentifier:@"pvc"];
     [self presentViewController:pvc animated:YES completion:nil];
 }
 
 
-- (void)viewDidLoad
+- (IBAction)touchPlayAgainButton:(id)sender
 {
-    [super viewDidLoad];
-    
-    //set the empty cup image
-    self.cup.image = [UIImage imageNamed:@"cup1.png"];
-    
-    //find the placement for player avatars
-    [self findPlacement];
-    
-    //send each player to be displayed
-    for (Player *player in self.players) {
-        [self displayPlayer:player];
-    }
-    
-    //make quit button
-    UIButton *quitGameButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [quitGameButton addTarget:self action:@selector(touchQuitGame:) forControlEvents:UIControlEventTouchUpInside];
-    [quitGameButton setTitle:@"Quit Game" forState:UIControlStateNormal];
-    quitGameButton.frame = CGRectMake(10, 535, 80, 30);
-    [self.view addSubview:quitGameButton];
+    KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
+    kvc.players = self.players;
+    [self presentViewController:kvc animated:NO completion:nil];
 }
 
+
+
+
+#pragma mark <Init>
 
 - (Deck *)deck
 {

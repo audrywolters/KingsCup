@@ -63,9 +63,19 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Shs-sD-aDi">
-                                <rect key="frame" x="120" y="458" width="80" height="80"/>
+                                <rect key="frame" x="120" y="450" width="80" height="80"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UFn-R6-3YC">
+                                <rect key="frame" x="123" y="538" width="74" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Quit Game">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchQuitGameButton:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="oup-6D-1OU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.92808361319999999" blue="0.52469518930000003" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -77,6 +87,7 @@
                         <outlet property="description" destination="88o-cN-c5e" id="I8b-gl-fi5"/>
                         <outlet property="faceBottom" destination="TKE-0i-9os" id="tfo-qr-aOb"/>
                         <outlet property="faceTop" destination="L52-Fm-3vr" id="vW0-c2-f07"/>
+                        <outlet property="quitButton" destination="UFn-R6-3YC" id="Vq5-nV-Lfg"/>
                         <outlet property="suitBottom" destination="9rd-t9-aog" id="pjB-ou-k0r"/>
                         <outlet property="suitTop" destination="ZKI-x8-HnL" id="U73-Lk-P1r"/>
                     </connections>
