@@ -9,7 +9,7 @@
 #import "PlayersViewController.h"
 #import "KingsCupViewController.h"
 #import "Player.h"
-#import "Colors.h"
+#import "UIColor+KCColors.h"
 
 @interface PlayersViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) NSMutableArray *players; //of Player
@@ -43,16 +43,15 @@ static const int FONT_SIZE = 11;
 {
     //[[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:12.0]];
     
-    //make add player button
-    //player's color square
+    //add player button
     self.addPlayerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addPlayerButton addTarget:self
                              action:@selector(touchAddPlayerButton:)
                    forControlEvents:UIControlEventTouchUpInside];
     [self.addPlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
-    [self.addPlayerButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [self.addPlayerButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.addPlayerButton setTitle:@"Add Player" forState:UIControlStateNormal];
-    self.addPlayerButton.frame = CGRectMake(100, 90, 200, 50);
+    self.addPlayerButton.frame = CGRectMake(60, 130, 200, 50);
     [self.view addSubview:self.addPlayerButton];
     
     
