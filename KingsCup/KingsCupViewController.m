@@ -99,6 +99,8 @@ NSString *const DRINK_MATE = @"Drink Mate";
 {
     [super viewDidLoad];
     
+    [[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:11.0]];
+    
     //set the empty cup image
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
     
@@ -493,7 +495,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     self.drawingButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.drawingButton addTarget:self action:@selector(touchDrawingButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.drawingButton setTitle:@"start" forState:UIControlStateNormal];
-    self.drawingButton.frame = CGRectMake(80.0, 210.0, 160.0, 40.0);
+    self.drawingButton.frame = CGRectMake(80, 210, 160, 40);
     [self.view addSubview:self.drawingButton];
     
 }

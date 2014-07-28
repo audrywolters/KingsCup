@@ -47,8 +47,8 @@
                     @"King's Cup"];
     
     self.descriptions = @[@"each player starts drinking at the same time as the person to their left. you can’t stop until the player before you does!",
-                          @"assign 2 drinks to a player or 1 drink to 2 players",
-                          @"take 3 drinks",
+                          @"assign 2 drinks",
+                          @"assign 3 drinks",
                           @"assign 2 drinks, take 2 drinks",
                           @"make a rule to follow for the rest of the game i.e. drink with left hand, no first names. rule breakers must drink.",
                           @"last person to put their thumb on the table drinks",

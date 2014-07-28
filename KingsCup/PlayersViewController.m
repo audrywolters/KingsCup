@@ -9,15 +9,17 @@
 #import "PlayersViewController.h"
 #import "KingsCupViewController.h"
 #import "Player.h"
+#import "Colors.h"
 
 @interface PlayersViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) NSMutableArray *players; //of Player
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
-@property (weak, nonatomic) IBOutlet UIButton *addPlayerButton;
+@property (strong, nonatomic) IBOutlet UIButton *addPlayerButton;
 @property (weak, nonatomic) IBOutlet UIButton *deletePlayerButton;
 @property (weak, nonatomic) IBOutlet UIButton *traditionalButton;
 @property (weak, nonatomic) IBOutlet UIButton *alternateButton;
+@property (weak, nonatomic) IBOutlet UIImageView *cupAnimation;
 
 - (IBAction)touchAddPlayerButton:(id)sender;
 - (IBAction)touchDeletePlayerButton:(id)sender;
@@ -39,12 +41,53 @@ static const int FONT_SIZE = 11;
 
 - (void)viewDidLoad
 {
+    //[[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:12.0]];
+    
+    //make add player button
+    //player's color square
+    self.addPlayerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addPlayerButton addTarget:self
+                             action:@selector(touchAddPlayerButton:)
+                   forControlEvents:UIControlEventTouchUpInside];
+    [self.addPlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.addPlayerButton setTitleColor:[UIColor greenColor] forState:UIControlStateNormal];
+    [self.addPlayerButton setTitle:@"Add Player" forState:UIControlStateNormal];
+    self.addPlayerButton.frame = CGRectMake(100, 90, 200, 50);
+    [self.view addSubview:self.addPlayerButton];
+    
+    
     //hide buttons until at least 2 players are added
     self.traditionalButton.hidden = YES;
     self.alternateButton.hidden = YES;
     //hide button unitl 1 player added
     self.deletePlayerButton.hidden = YES;
+    
+    
+    //cup animation
+    NSArray *cupAnimationImages = [[NSArray alloc] initWithObjects:
+                                   [UIImage imageNamed:@"cup1.png"],
+                                   [UIImage imageNamed:@"cup2.png"],
+                                   [UIImage imageNamed:@"cup3.png"],
+                                   [UIImage imageNamed:@"cup4.png"],
+                                   [UIImage imageNamed:@"cup5.png"],
+                                   [UIImage imageNamed:@"cup4.png"],
+                                   [UIImage imageNamed:@"cup5.png"],
+                                   [UIImage imageNamed:@"cup4.png"],
+                                   [UIImage imageNamed:@"cup5.png"],
+                                   [UIImage imageNamed:@"cup4.png"],
+                                   [UIImage imageNamed:@"cup3.png"],
+                                   [UIImage imageNamed:@"cup2.png"],
+                                   [UIImage imageNamed:@"cup1.png"],
+                                   [UIImage imageNamed:@"cup1.png"],
+                                    nil];
+    
+    self.cupAnimation.animationImages = cupAnimationImages;
+    self.cupAnimation.animationDuration = 5;
+    
+    [self.cupAnimation startAnimating];
+    
 }
+
 
 
 
@@ -58,6 +101,7 @@ static const int FONT_SIZE = 11;
         //make text field for name entry
         CGRect nameRect = CGRectMake(40, 150, 240, 30);
         self.nameField = [[UITextField alloc] initWithFrame:nameRect];
+        self.nameField.font = [UIFont fontWithName:@"Pixelette" size:12];
         self.nameField.borderStyle = UITextBorderStyleLine;
         self.nameField.placeholder = @"Enter your name";
         self.nameField.returnKeyType = UIReturnKeyDone;
@@ -200,11 +244,14 @@ static const int FONT_SIZE = 11;
 
 - (void)displayPlayer:(Player *)player
 {
+    
+     //[[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:12.0]];
     //player's name
     player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement, player.yPlacement,50,50)];
     player.nameLabel.text = player.name;
     player.nameLabel.textAlignment = NSTextAlignmentCenter;
-    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
+    [player.nameLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
+    player.nameLabel.textColor = [UIColor whiteColor];
     [self.view addSubview:player.nameLabel];
     
     //player's color square
