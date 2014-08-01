@@ -132,6 +132,7 @@
 
 - (void)touchClearButton
 {
+    //TODO: self.drawer = nil; not working
     [self setScreen];
 
     //[self.drawer.path removeAllPoints];
@@ -141,6 +142,7 @@
     //self.drawer.path = nil;
     //self.drawer.path = [UIBezierPath bezierPath];
     
+    //self.drawer = nil;
     //self.drawer = [[DrawerView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     //[self.view insertSubview:self.drawer atIndex:2];
     

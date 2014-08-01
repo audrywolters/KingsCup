@@ -15,6 +15,7 @@
 @property (strong, nonatomic) NSMutableArray *players; //of Player
 @property (strong, nonatomic) NSMutableArray *colors;  //of Color
 @property (strong, nonatomic) UITextField *nameField;
+@property (strong, nonatomic) UIImageView *nameFieldBox;
 @property (strong, nonatomic) IBOutlet UIButton *addPlayerButton;
 @property (weak, nonatomic) IBOutlet UIButton *deletePlayerButton;
 @property (weak, nonatomic) IBOutlet UIButton *traditionalButton;
@@ -51,15 +52,60 @@ static const int FONT_SIZE = 11;
     [self.addPlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
     [self.addPlayerButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.addPlayerButton setTitle:@"Add Player" forState:UIControlStateNormal];
-    self.addPlayerButton.frame = CGRectMake(60, 130, 200, 50);
+    self.addPlayerButton.frame = CGRectMake(58, 140, 200, 30);
     [self.view addSubview:self.addPlayerButton];
     
+    
+    
+    //add delete player button
+    self.deletePlayerButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.deletePlayerButton addTarget:self
+                                action:@selector(touchDeletePlayerButton:)
+                      forControlEvents:UIControlEventTouchUpInside];
+    [self.deletePlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.deletePlayerButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
+    [self.deletePlayerButton setTitle:@"Delete Player" forState:UIControlStateNormal];
+    self.deletePlayerButton.frame = CGRectMake(58, 215, 200, 30);
+    [self.view addSubview:self.deletePlayerButton];
+    
+    
+    
+    //add text field box
+    self.nameFieldBox = [[UIImageView alloc] initWithFrame:CGRectMake(58, 177, 210, 30)];
+    self.nameFieldBox.image = [UIImage imageNamed:@"nameBox.png"];
+    [self.view addSubview:self.nameFieldBox];
+    
+    
+    //add traditional button
+    self.traditionalButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.traditionalButton addTarget:self
+                                action:@selector(touchTraditionalButton:)
+                      forControlEvents:UIControlEventTouchUpInside];
+    [self.traditionalButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.traditionalButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
+    [self.traditionalButton setTitle:@"Traditional Rules >" forState:UIControlStateNormal];
+    self.traditionalButton.frame = CGRectMake(58, 486, 210, 30);
+    [self.view addSubview:self.traditionalButton];
+    
+    
+    //add alternate button
+    self.alternateButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.alternateButton addTarget:self
+                               action:@selector(touchAlternateButton:)
+                     forControlEvents:UIControlEventTouchUpInside];
+    [self.alternateButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.alternateButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
+    [self.alternateButton setTitle:@"Alternate Rules >" forState:UIControlStateNormal];
+    self.alternateButton.frame = CGRectMake(58, 518, 210, 30);
+    [self.view addSubview:self.alternateButton];
     
     //hide buttons until at least 2 players are added
     self.traditionalButton.hidden = YES;
     self.alternateButton.hidden = YES;
     //hide button unitl 1 player added
     self.deletePlayerButton.hidden = YES;
+    //hide text field image until add player clicked
+    self.nameFieldBox.hidden = YES;
     
     
     //cup animation
@@ -96,13 +142,21 @@ static const int FONT_SIZE = 11;
 {
     self.addPlayerButton.enabled = NO;
     
+    //show text field box
+    self.nameFieldBox.hidden = NO;
+    
     if ([self.players count] < MAX_PLAYERS ) {
         //make text field for name entry
-        CGRect nameRect = CGRectMake(40, 150, 240, 30);
-        self.nameField = [[UITextField alloc] initWithFrame:nameRect];
-        self.nameField.font = [UIFont fontWithName:@"Pixelette" size:12];
-        self.nameField.borderStyle = UITextBorderStyleLine;
+        //CGRect nameRect = CGRectMake(40, 170, 240, 30);
+        self.nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, 177, 210, 30)];
+        self.nameField.font = [UIFont fontWithName:@"Pixelette" size:17];
+                //self.nameField.borderStyle = ;
         self.nameField.placeholder = @"Enter your name";
+        [self.nameField setTextColor:[UIColor kcLightGray]];
+        self.nameField.attributedPlaceholder = [[NSAttributedString alloc]
+                                                initWithString:@"Enter Your Name"
+                                                    attributes:@{NSForegroundColorAttributeName:[UIColor kcLightGray]}];
+        self.nameField.textAlignment = NSTextAlignmentCenter;
         self.nameField.returnKeyType = UIReturnKeyDone;
         self.nameField.delegate = self;
         [self.view addSubview:self.nameField];
@@ -126,6 +180,10 @@ static const int FONT_SIZE = 11;
         self.traditionalButton.hidden = YES;
         self.alternateButton.hidden = YES;
     }
+    
+    if ([self.players count] < MAX_PLAYERS) {
+        self.addPlayerButton.hidden = NO;
+    }
 }
 
 
@@ -133,6 +191,9 @@ static const int FONT_SIZE = 11;
 - (BOOL)textFieldShouldReturn:(UITextField *)nameField
 {
     self.addPlayerButton.enabled = YES;
+    
+    //hide text field box
+    self.nameFieldBox.hidden = YES;
     
     //if the text field is empty, don't add player
     if ([nameField.text  isEqual: @""]) {
@@ -203,33 +264,33 @@ static const int FONT_SIZE = 11;
             break;
             
         case 1:
-            player.xPlacement = 50;
-            player.yPlacement = 200;
+            player.xPlacement = 58;
+            player.yPlacement = 265;
             break;
             
         case 2:
-            player.xPlacement = 120;
-            player.yPlacement = 200;
+            player.xPlacement = 134;
+            player.yPlacement = 265;
             break;
             
         case 3:
-            player.xPlacement = 190;
-            player.yPlacement = 200;
+            player.xPlacement = 211;
+            player.yPlacement = 265;
             break;
             
         case 4:
-            player.xPlacement = 50;
-            player.yPlacement = 300;
+            player.xPlacement = 58;
+            player.yPlacement = 350;
             break;
             
         case 5:
-            player.xPlacement = 120;
-            player.yPlacement = 300;
+            player.xPlacement = 134;
+            player.yPlacement = 350;
             break;
             
         case 6:
-            player.xPlacement = 190;
-            player.yPlacement = 300;
+            player.xPlacement = 211;
+            player.yPlacement = 350;
             break;
             
         default:
@@ -254,7 +315,7 @@ static const int FONT_SIZE = 11;
     [self.view addSubview:player.nameLabel];
     
     //player's color square
-    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,(player.yPlacement + 30), 50, 50)];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,(player.yPlacement + 35), 50, 50)];
     player.colorSquare.backgroundColor = player.color;
     [self.view addSubview:player.colorSquare];
     
