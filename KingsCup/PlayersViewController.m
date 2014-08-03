@@ -13,7 +13,7 @@
 
 @interface PlayersViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) NSMutableArray *players; //of Player
-@property (strong, nonatomic) NSMutableArray *colors;  //of Color
+@property (strong, nonatomic) NSMutableArray *colors;  //of Image
 @property (strong, nonatomic) UITextField *nameField;
 @property (strong, nonatomic) UIImageView *nameFieldBox;
 @property (strong, nonatomic) IBOutlet UIButton *addPlayerButton;
@@ -35,21 +35,21 @@
 
 static const int MIN_PLAYERS = 2;
 static const int MAX_PLAYERS = 6;
-static const int MAX_NAME_LENGTH = 7;
-static const int FONT_SIZE = 11;
+static const int MAX_NAME_LENGTH = 8;
+static const int FONT_SIZE = 17;
+static const int SMALL_FONT_SIZE = 11;
+
 
 
 
 - (void)viewDidLoad
 {
-    //[[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:12.0]];
-    
     //add player button
     self.addPlayerButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addPlayerButton addTarget:self
                              action:@selector(touchAddPlayerButton:)
                    forControlEvents:UIControlEventTouchUpInside];
-    [self.addPlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.addPlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
     [self.addPlayerButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.addPlayerButton setTitle:@"Add Player" forState:UIControlStateNormal];
     self.addPlayerButton.frame = CGRectMake(58, 140, 200, 30);
@@ -62,7 +62,7 @@ static const int FONT_SIZE = 11;
     [self.deletePlayerButton addTarget:self
                                 action:@selector(touchDeletePlayerButton:)
                       forControlEvents:UIControlEventTouchUpInside];
-    [self.deletePlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.deletePlayerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
     [self.deletePlayerButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.deletePlayerButton setTitle:@"Delete Player" forState:UIControlStateNormal];
     self.deletePlayerButton.frame = CGRectMake(58, 215, 200, 30);
@@ -81,10 +81,10 @@ static const int FONT_SIZE = 11;
     [self.traditionalButton addTarget:self
                                 action:@selector(touchTraditionalButton:)
                       forControlEvents:UIControlEventTouchUpInside];
-    [self.traditionalButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.traditionalButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
     [self.traditionalButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.traditionalButton setTitle:@"Traditional Rules >" forState:UIControlStateNormal];
-    self.traditionalButton.frame = CGRectMake(58, 486, 210, 30);
+    self.traditionalButton.frame = CGRectMake(58, 480 , 210, 30);
     [self.view addSubview:self.traditionalButton];
     
     
@@ -93,7 +93,7 @@ static const int FONT_SIZE = 11;
     [self.alternateButton addTarget:self
                                action:@selector(touchAlternateButton:)
                      forControlEvents:UIControlEventTouchUpInside];
-    [self.alternateButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:17]];
+    [self.alternateButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
     [self.alternateButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     [self.alternateButton setTitle:@"Alternate Rules >" forState:UIControlStateNormal];
     self.alternateButton.frame = CGRectMake(58, 518, 210, 30);
@@ -149,8 +149,7 @@ static const int FONT_SIZE = 11;
         //make text field for name entry
         //CGRect nameRect = CGRectMake(40, 170, 240, 30);
         self.nameField = [[UITextField alloc] initWithFrame:CGRectMake(58, 177, 210, 30)];
-        self.nameField.font = [UIFont fontWithName:@"Pixelette" size:17];
-                //self.nameField.borderStyle = ;
+        self.nameField.font = [UIFont fontWithName:@"Pixelette" size:FONT_SIZE - 2];
         self.nameField.placeholder = @"Enter your name";
         [self.nameField setTextColor:[UIColor kcLightGray]];
         self.nameField.attributedPlaceholder = [[NSAttributedString alloc]
@@ -304,20 +303,21 @@ static const int FONT_SIZE = 11;
 
 - (void)displayPlayer:(Player *)player
 {
-    
-     //[[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:12.0]];
     //player's name
-    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement, player.yPlacement,50,50)];
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement-10, player.yPlacement,70,50)];
     player.nameLabel.text = player.name;
     player.nameLabel.textAlignment = NSTextAlignmentCenter;
-    [player.nameLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
-    player.nameLabel.textColor = [UIColor whiteColor];
+    [player.nameLabel setFont:[UIFont fontWithName:@"Pixelette" size:SMALL_FONT_SIZE]];
+    player.nameLabel.textColor = [UIColor kcLightGray];
     [self.view addSubview:player.nameLabel];
     
     //player's color square
     player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,(player.yPlacement + 35), 50, 50)];
+    
     player.colorSquare.backgroundColor = player.color;
+    //[player.colorSquare setImage:player.color forState:UIControlStateNormal];
     [self.view addSubview:player.colorSquare];
+    player.colorSquare.enabled = NO;
     
 }
 
@@ -363,16 +363,23 @@ static const int FONT_SIZE = 11;
 
 - (NSMutableArray *)colors
 {
+    //TODO: MAKE ARRAY OF IMAGES
     if (!_colors) {
         _colors = [[NSMutableArray alloc] initWithObjects:
-                   [UIColor redColor],
-                   [UIColor yellowColor],
-                   [UIColor greenColor],
-                   [UIColor purpleColor],
-                   [UIColor blueColor],
-                   [UIColor orangeColor],
-                   [UIColor blackColor],
-                   [UIColor brownColor],
+                   [UIColor kcDarkGreen],
+                   [UIColor kcMidGreen],
+                   [UIColor kcLightGreen],
+                   [UIColor kcYellow],
+                   [UIColor kcOrange],
+                   [UIColor kcRed],
+                   /*
+                   [UIImage imageNamed:@"bigColorSquareDarkGreen.png"],
+                   [UIImage imageNamed:@"bigColorSquareMidGreen.png"],
+                   [UIImage imageNamed:@"bigColorSquareLightGreen.png"],
+                   [UIImage imageNamed:@"bigColorSquareYellow.png"],
+                   [UIImage imageNamed:@"bigColorSquareOrange.png"],
+                   [UIImage imageNamed:@"bigColorSquareRed.png"],
+                    */
                    nil];
     }
     return _colors;

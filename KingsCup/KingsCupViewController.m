@@ -12,6 +12,7 @@
 #import "CardData.h"
 #import "IntroViewController.h"
 #import "PlayersViewController.h"
+#import "UIColor+KCColors.h"
 
 @interface KingsCupViewController ()
 
@@ -83,7 +84,12 @@
 @implementation KingsCupViewController
 
 
-static const int FONT_SIZE = 8;
+static const int SMALL_FONT = 9;
+static const int BODY_FONT = 11;
+static const int FONT_SIZE = 15;
+static const int BUTTON_FONT = 17;
+static const int LARGE_FONT = 35;
+
 NSString *const GUESS_THE_DRAWING = @"Guess the Drawing";
 NSString *const CHARADES = @"Charades";
 NSString *const KINGS_CUP = @"King's Cup";
@@ -99,7 +105,15 @@ NSString *const DRINK_MATE = @"Drink Mate";
 {
     [super viewDidLoad];
     
-    [[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:11.0]];
+    [[UILabel appearance] setFont:[UIFont fontWithName:@"Pixelette" size:BODY_FONT]];
+    [[UILabel appearance] setTextColor:[UIColor kcDarkGray]];
+    
+    
+    [self.faceTop setFont:[UIFont fontWithName:@"Pixelette" size:LARGE_FONT]];
+    [self.faceBottom setFont:[UIFont fontWithName:@"Pixelette" size:LARGE_FONT]];
+    [self.cardTitle setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
+    [self.quitButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
+    [self.quitButton setTitleColor:[UIColor kcYellow] forState:UIControlStateNormal];
     
     //set the empty cup image
     self.cup.image = [UIImage imageNamed:@"cup1.png"];
@@ -137,6 +151,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
         
         //set card background
         [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
+        
         //set all card data except description
         self.cardTitle.text = self.currentCard.title;
         self.faceTop.text = self.currentCard.face;
@@ -146,6 +161,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
         //flip bottom bits
         self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
+        
         
         
         
@@ -183,6 +199,8 @@ NSString *const DRINK_MATE = @"Drink Mate";
         self.faceBottom.text = nil;
         self.suitTop.image = nil;
         self.suitBottom.image = nil;
+        self.cardButton.enabled = NO;
+        //TODO: background see through
         
         //play again?
         self.playAgainButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -222,10 +240,11 @@ NSString *const DRINK_MATE = @"Drink Mate";
 {
     //TODO: there must be a one incrementing because squares get farther apart each square
     //TODO: magic numbers?
-    self.bufferWidth = 40;
+    self.bufferWidth = 45;
     
     Player *firstPlayer = [self.players objectAtIndex:0];
     
+    //middle of screen (for two players)
     self.currentX = 175;
     
     //move starting point over 25 pixels for each player
@@ -252,22 +271,21 @@ NSString *const DRINK_MATE = @"Drink Mate";
 - (void)displayPlayer:(Player *)player
 {
     //show player's name
-    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,30,30,20)];
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,22,32,20)];
     player.nameLabel.text = player.name;
     player.nameLabel.textAlignment = NSTextAlignmentCenter;
-    player.nameLabel.font = [player.nameLabel.font fontWithSize:FONT_SIZE];
+    player.nameLabel.font = [UIFont fontWithName:@"Pixelette" size:SMALL_FONT];
+    player.nameLabel.textColor = [UIColor kcLightGray];
     [self.view addSubview:player.nameLabel];
     
     //show player's color square
-    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement, 50, 30, 30)];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,42,32,32)];
     player.colorSquare.backgroundColor = player.color;
     player.colorSquare.tag = player.number;
     [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
     [player.colorSquare addTarget:self action:@selector(touchPlayerColorSquare:) forControlEvents:UIControlEventTouchUpInside];
     [player.colorSquare setEnabled:NO];
     [self.view addSubview:player.colorSquare];
-    
-    
 }
 
 
@@ -278,8 +296,12 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
     //highlight the current player
     Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
-    currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:FONT_SIZE + 3];
-    currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (50 - 5), 40, 40);
+    
+    //make current player bigger
+    [currentPlayer.nameLabel.font fontWithSize:SMALL_FONT + 3];
+    currentPlayer.nameLabel.frame = CGRectMake(currentPlayer.xPlacement, 22 - 5, 30, 20);
+    currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (42 - 5), 40, 40);
+    
     [currentPlayer.colorSquare setEnabled:NO];
 }
 
@@ -407,20 +429,14 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //set description
     self.description.text = card.description;
     
-    //show time button
-    self.timeButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.timeButton addTarget:self action:@selector(touchTimeButton:) forControlEvents:UIControlEventTouchUpInside];
-    [self.timeButton setTitle:@"Start" forState:UIControlStateNormal];
-    self.timeButton.frame = CGRectMake(80, 200, 160, 40);
-    [self.view addSubview:self.timeButton];
-    
     //show gen random word button
     self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.generateRandomWordButton addTarget:self action:@selector(generateRandomWord) forControlEvents:UIControlEventTouchUpInside];
     [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
-    self.generateRandomWordButton.frame = CGRectMake(80, 250, 200, 40);
+    self.generateRandomWordButton.frame = CGRectMake(50, 310, 200, 30);
+    [self.generateRandomWordButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BODY_FONT]];
+    [self.generateRandomWordButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
     [self.view addSubview:self.generateRandomWordButton];
-    
     
 }
 
@@ -431,6 +447,15 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //get rid of button
     [self.generateRandomWordButton removeFromSuperview];
     
+    //show time button
+    self.timeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.timeButton addTarget:self action:@selector(touchTimeButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.timeButton setTitle:@"Start" forState:UIControlStateNormal];
+    self.timeButton.frame = CGRectMake(50, 330, 200, 30);
+    [self.timeButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
+    [self.timeButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    [self.view addSubview:self.timeButton];
+    
     //get random word
     CardData *data = [[CardData alloc]init];
     int randomNum = arc4random();
@@ -439,8 +464,11 @@ NSString *const DRINK_MATE = @"Drink Mate";
     [data.charadesWords removeObjectAtIndex:index];
     
     //show random word
-    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 30)];
+    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(50, 310, 200, 30)];
     self.randomWordLabel.text = self.randomWord;
+    self.randomWordLabel.textAlignment = NSTextAlignmentCenter;
+    [self.randomWordLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
+    self.randomWordLabel.textColor = [UIColor kcMidGreen];
     [self.view addSubview:self.randomWordLabel];
     
 }
@@ -454,7 +482,10 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
     //create timer and call runTimer
     self.seconds = 60;
-    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(125, 200, 50, 40)];
+    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 310, 50, 40)];
+    [self.timerLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
+        self.timerLabel.textColor = [UIColor kcRed];
+    self.timerLabel.textAlignment = NSTextAlignmentCenter;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runTimer) userInfo:nil repeats:YES];
 }
 
@@ -465,7 +496,6 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //run timer every one second
     self.seconds = self.seconds - 1;
     self.timerLabel.text = [NSString stringWithFormat:@":%i", self.seconds];
-    self.timerLabel.textColor = [UIColor redColor];
     [self.view addSubview:self.timerLabel];
     
     //if at end of time display drink!
@@ -495,7 +525,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
     self.drawingButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.drawingButton addTarget:self action:@selector(touchDrawingButton:) forControlEvents:UIControlEventTouchUpInside];
     [self.drawingButton setTitle:@"start" forState:UIControlStateNormal];
-    self.drawingButton.frame = CGRectMake(80, 210, 160, 40);
+    self.drawingButton.frame = CGRectMake(66, 318, 160, 40);
+    [self.drawingButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:FONT_SIZE]];
+    [self.drawingButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
     [self.view addSubview:self.drawingButton];
     
 }
