@@ -142,6 +142,12 @@ NSString *const DRINK_MATE = @"Drink Mate";
     self.randomWordLabel.hidden = YES;
     [self disableButtons];
     
+    //stop animations
+    [self.cup.layer removeAllAnimations];
+    if (self.kingCount == 4) {
+        self.cup.image = [UIImage imageNamed:@"cup1.png"];
+    }
+    
     //if there was a card able to be drawn
     if (self.currentCard) {
         
@@ -150,7 +156,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
         [self highlightCurrentPlayer];
         
         //set card background
+        //TODO: why is this not working? button still see through
         [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateNormal];
+        [self.cardButton setBackgroundImage:[UIImage imageNamed:@"cardFront"] forState:UIControlStateHighlighted];
         
         //set all card data except description
         self.cardTitle.text = self.currentCard.title;
@@ -161,7 +169,6 @@ NSString *const DRINK_MATE = @"Drink Mate";
         //flip bottom bits
         self.faceBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
         self.suitBottom.transform = CGAffineTransformMakeRotation( M_PI/1 );
-        
         
         
         
@@ -193,8 +200,10 @@ NSString *const DRINK_MATE = @"Drink Mate";
         
     //else there are no more cards
     } else {
-        self.cardTitle.text = nil;
-        self.description.text = @"GAME OVER";
+        self.cardTitle.text = @"GAME OVER";
+        self.cardTitle.font = [self.cardTitle.font fontWithSize:BUTTON_FONT];
+        
+        self.description.text = nil;
         self.faceTop.text = nil;
         self.faceBottom.text = nil;
         self.suitTop.image = nil;
@@ -206,7 +215,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
         self.playAgainButton = [UIButton buttonWithType:UIButtonTypeSystem];
         [self.playAgainButton addTarget:self action:@selector(touchPlayAgainButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.playAgainButton setTitle:@"Play Again?" forState:UIControlStateNormal];
-        self.playAgainButton.frame = CGRectMake(100, 300, 60, 300);
+        self.playAgainButton.frame = CGRectMake(50, 250, 200, 30);
+        [self.playAgainButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
+        [self.playAgainButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
         [self.view addSubview:self.playAgainButton];
         
     }
@@ -241,6 +252,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //TODO: there must be a one incrementing because squares get farther apart each square
     //TODO: magic numbers?
     self.bufferWidth = 45;
+    //int minusCounter = [self.players count];
     
     Player *firstPlayer = [self.players objectAtIndex:0];
     
@@ -257,7 +269,8 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //get placement for rest of players
     for (int i=1; i<[self.players count]; i++) {
         self.bufferWidth++;
-        self.currentX = self.currentX + self.bufferWidth;
+        //minusCounter--;
+        self.currentX = (self.currentX + self.bufferWidth); //- minusCounter;
         
         Player *nextPlayer = [self.players objectAtIndex:i];
         nextPlayer.xPlacement = self.currentX;
@@ -271,7 +284,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
 - (void)displayPlayer:(Player *)player
 {
     //show player's name
-    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(player.xPlacement,22,32,20)];
+    player.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake((player.xPlacement - 11),22,55,20)];
     player.nameLabel.text = player.name;
     player.nameLabel.textAlignment = NSTextAlignmentCenter;
     player.nameLabel.font = [UIFont fontWithName:@"Pixelette" size:SMALL_FONT];
@@ -279,7 +292,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     [self.view addSubview:player.nameLabel];
     
     //show player's color square
-    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,42,32,32)];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,42,33,33)];
     player.colorSquare.backgroundColor = player.color;
     player.colorSquare.tag = player.number;
     [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
@@ -298,8 +311,8 @@ NSString *const DRINK_MATE = @"Drink Mate";
     Player *currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
     
     //make current player bigger
-    [currentPlayer.nameLabel.font fontWithSize:SMALL_FONT + 3];
-    currentPlayer.nameLabel.frame = CGRectMake(currentPlayer.xPlacement, 22 - 5, 30, 20);
+    currentPlayer.nameLabel.font = [currentPlayer.nameLabel.font fontWithSize:(SMALL_FONT + 1)];
+    currentPlayer.nameLabel.frame = CGRectMake(currentPlayer.xPlacement-12, 22-5, 55, 20);
     currentPlayer.colorSquare.frame = CGRectMake((currentPlayer.xPlacement - 5), (42 - 5), 40, 40);
     
     [currentPlayer.colorSquare setEnabled:NO];
@@ -324,10 +337,10 @@ NSString *const DRINK_MATE = @"Drink Mate";
     CGFloat bufferWidth = 0;
     
     for (int i=0; i<[self.currentPlayer.drinkMates count]; i++) {
-        UILabel *drinkMateLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.currentPlayer.xPlacement + bufferWidth), 87,6,6)];
+        UILabel *drinkMateLabel = [[UILabel alloc] initWithFrame:CGRectMake((self.currentPlayer.xPlacement + bufferWidth), 78,6,6)];
         drinkMateLabel.backgroundColor = [self.currentPlayer.drinkMates objectAtIndex:i];
         [self.view addSubview:drinkMateLabel];
-        bufferWidth = bufferWidth + 8;
+        bufferWidth = bufferWidth + 9;
     }
     
 }
@@ -404,14 +417,29 @@ NSString *const DRINK_MATE = @"Drink Mate";
             break;
             
         case 3:
+        
             self.description.text = card.description;
             self.cup.image = [UIImage imageNamed:@"cup4.png"];
             break;
             
         case 4:
             self.description.text = @"you must drink the whole cup!";
-            self.cup.image = [UIImage imageNamed:@"cup1.png"];
-            //TODO: animation
+            //self.cup.image = [UIImage imageNamed:@"cup1.png"];
+            NSArray *cupAnimationImages = [[NSArray alloc] initWithObjects:
+                                           //[UIImage imageNamed:@"cup4.png"],
+                                           [UIImage imageNamed:@"cup5.png"],
+                                           [UIImage imageNamed:@"cup4.png"],
+                                           [UIImage imageNamed:@"cup5.png"],
+                                           [UIImage imageNamed:@"cup4.png"],
+                                           [UIImage imageNamed:@"cup3.png"],
+                                           [UIImage imageNamed:@"cup2.png"],
+                                           [UIImage imageNamed:@"cup1.png"],
+                                           nil];
+            
+            self.cup.animationImages = cupAnimationImages;
+            self.cup.animationDuration = 2;
+            
+            [self.cup startAnimating];
             break;
             
     }
@@ -482,7 +510,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
     //create timer and call runTimer
     self.seconds = 60;
-    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, 310, 50, 40)];
+    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(45, 310, 200, 40)];
     [self.timerLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
         self.timerLabel.textColor = [UIColor kcRed];
     self.timerLabel.textAlignment = NSTextAlignmentCenter;
@@ -576,6 +604,12 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 - (IBAction)touchPlayAgainButton:(id)sender
 {
+    //reset drink mates
+    for (Player *player in self.players) {
+        player.drinkMates = nil;
+    }
+    
+    //init new kvc
     KingsCupViewController *kvc = [self.storyboard instantiateViewControllerWithIdentifier:@"kvc"];
     kvc.players = self.players;
     [self presentViewController:kvc animated:NO completion:nil];

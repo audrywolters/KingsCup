@@ -33,9 +33,10 @@
 
 @implementation PlayersViewController
 
-static const int MIN_PLAYERS = 2;
+//TODO: change min players!
+static const int MIN_PLAYERS = 1;
 static const int MAX_PLAYERS = 6;
-static const int MAX_NAME_LENGTH = 8;
+static const int MAX_NAME_LENGTH = 7;
 static const int FONT_SIZE = 17;
 static const int SMALL_FONT_SIZE = 11;
 

@@ -10,8 +10,11 @@
 //
 
 #import "DrawerView.h"
+#import "UIColor+KCColors.h"
 
 @implementation DrawerView
+
+
 
 
 - (id)initWithFrame:(CGRect)frame
@@ -20,7 +23,7 @@
     if (self)
     {
         [self setMultipleTouchEnabled:NO]; // (2)
-        [self setBackgroundColor:[UIColor whiteColor]];
+        [self setBackgroundColor:[UIColor kcLightGray]];
         self.path = [UIBezierPath bezierPath];
         [self.path setLineWidth:2.0];
     }
@@ -30,7 +33,7 @@
 
 - (void)drawRect:(CGRect)rect // (5)
 {
-    [[UIColor blueColor] setStroke];
+    [[UIColor kcDarkGray] setStroke];
     [self.path stroke];
 }
 

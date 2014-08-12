@@ -9,11 +9,13 @@
 #import "DrawingViewController.h"
 #import "CardData.h"
 #import "DrawerView.h"
+#import "UIColor+KCColors.h"
 
 @interface DrawingViewController ()
 
 @property (weak, nonatomic) UIButton *returnToGameButton;
 @property (weak, nonatomic) UIButton *generateRandomWordButton;
+@property (strong, nonatomic) UIButton *clearButton;
 @property (strong, nonatomic) UILabel *randomWordLabel;
 @property (weak, nonatomic) UIButton *startTimerButton;
 @property (nonatomic) int seconds;
@@ -29,7 +31,37 @@
 
 @implementation DrawingViewController
 
+static const int SMALL_FONT = 11;
+static const int BODY_FONT = 15;
+static const int BUTTON_FONT = 17;
 
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    [self setScreen];
+    
+    //make random word button
+    self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.generateRandomWordButton addTarget:self action:@selector(touchGenerateRandomWord:) forControlEvents:UIControlEventTouchUpInside];
+    [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
+    self.generateRandomWordButton.frame = CGRectMake(62, 250, 200, 30);
+    [self.generateRandomWordButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.generateRandomWordButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:SMALL_FONT]];
+    [self.generateRandomWordButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    [self.view addSubview:self.generateRandomWordButton];
+    
+    //make clear button
+    self.clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.clearButton addTarget:self action:@selector(touchClearButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.clearButton setTitle:@"Clear" forState:UIControlStateNormal];
+    self.clearButton.frame = CGRectMake(134, 38, 60, 30);
+    [self.clearButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BODY_FONT]];
+    [self.clearButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    [self.view addSubview:self.clearButton];
+    self.clearButton.hidden = YES;
+}
 
 
 - (IBAction)touchStartTimer:(id)sender
@@ -40,9 +72,13 @@
     //hide start button
     [self.startTimerButton removeFromSuperview];
     
+    //make clear button
+    self.clearButton.hidden = NO;
+    
     //start timer
     self.seconds = 60;
-    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 100, 100, 40)];
+    self.timerLabel = [[UILabel alloc] initWithFrame:CGRectMake(111, 10, 100, 40)];
+    self.timerLabel.textAlignment = NSTextAlignmentCenter;
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(runTimer) userInfo:nil repeats:YES];
     
 }
@@ -53,7 +89,8 @@
     //run timer every one second
     self.seconds = self.seconds - 1;
     self.timerLabel.text = [NSString stringWithFormat:@":%i", self.seconds];
-    self.timerLabel.textColor = [UIColor redColor];
+    self.timerLabel.textColor = [UIColor kcMidGreen];
+    self.timerLabel.font = [UIFont fontWithName:@"Pixelette" size:BUTTON_FONT];
     [self.view addSubview:self.timerLabel];
     
     //if at end of time display drink!
@@ -84,16 +121,25 @@
     NSString *randomWord = data.drawingWords[index];
     [data.drawingWords removeObjectAtIndex:index];
     
+    
+    
+    //random word & start button
     //show random word
-    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(81, 100, 100, 40)];
+    self.randomWordLabel = [[UILabel alloc] initWithFrame:CGRectMake(62, 250, 200, 30)];
     self.randomWordLabel.text = randomWord;
+    self.randomWordLabel.font = [UIFont fontWithName:@"Pixelette" size:BUTTON_FONT];
+    self.randomWordLabel.textColor = [UIColor kcDarkGray];
+    self.randomWordLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.randomWordLabel];
     
     //show start button
     self.startTimerButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.startTimerButton addTarget:self action:@selector(touchStartTimer:) forControlEvents:UIControlEventTouchUpInside];
     [self.startTimerButton setTitle:@"Start" forState:UIControlStateNormal];
-    self.startTimerButton.frame = CGRectMake(100, 100, 100, 40);
+    [self.startTimerButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.startTimerButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
+    [self.startTimerButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    self.startTimerButton.frame = CGRectMake(62, 290, 200, 30);
     [self.view addSubview:self.startTimerButton];
     
     
@@ -107,6 +153,7 @@
     
 }
 
+
 - (void)setScreen
 {
     //make the drawer view
@@ -117,53 +164,31 @@
     self.returnToGameButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.returnToGameButton addTarget:self action:@selector(touchReturnToGame:) forControlEvents:UIControlEventTouchUpInside];
     [self.returnToGameButton setTitle:@"back" forState:UIControlStateNormal];
-    self.returnToGameButton.frame = CGRectMake(80, 210, 160, 40);
+    self.returnToGameButton.frame = CGRectMake(80, 520, 160, 30);
+    [self.returnToGameButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BODY_FONT]];
+    [self.returnToGameButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
     [self.view addSubview:self.returnToGameButton];
-    
-    //make clear button
-    UIButton *clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [clearButton addTarget:self action:@selector(touchClearButton) forControlEvents:UIControlEventTouchUpInside];
-    [clearButton setTitle:@"Clear" forState:UIControlStateNormal];
-    clearButton.frame = CGRectMake(0, 10, 60, 30);
-    [self.view addSubview:clearButton];
     
     
 }
 
 - (void)touchClearButton
 {
-    //TODO: self.drawer = nil; not working
     [self setScreen];
-
-    //[self.drawer.path removeAllPoints];
-    //[[UIColor blueColor] setStroke];
-    //[self.drawer.path stroke];
     
-    //self.drawer.path = nil;
-    //self.drawer.path = [UIBezierPath bezierPath];
-    
-    //self.drawer = nil;
-    //self.drawer = [[DrawerView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    //[self.view insertSubview:self.drawer atIndex:2];
-    
+    //remake clear button
+    self.clearButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.clearButton addTarget:self action:@selector(touchClearButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.clearButton setTitle:@"Clear" forState:UIControlStateNormal];
+    self.clearButton.frame = CGRectMake(134, 38, 60, 30);
+    [self.clearButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BODY_FONT]];
+    [self.clearButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    [self.view addSubview:self.clearButton];
+ 
 }
 
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self setScreen];
-    //make random word button
-    self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    [self.generateRandomWordButton addTarget:self action:@selector(touchGenerateRandomWord:) forControlEvents:UIControlEventTouchUpInside];
-    [self.generateRandomWordButton setTitle:@"Generate Random Word" forState:UIControlStateNormal];
-    self.generateRandomWordButton.frame = CGRectMake(81, 100, 100, 40);
-    [self.view addSubview:self.generateRandomWordButton];
 
-
-   
-}
 
      
 
