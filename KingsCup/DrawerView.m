@@ -15,8 +15,6 @@
 @implementation DrawerView
 
 
-
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -67,10 +65,4 @@
 }
 
 
-
-
-
-
-
 @end
-

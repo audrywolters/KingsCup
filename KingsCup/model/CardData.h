@@ -13,15 +13,13 @@
 @property (strong, nonatomic) NSArray *suits; //of UIImage
 @property (strong, nonatomic) NSArray *faces; //NSString
 @property (strong, nonatomic) NSArray *titles; //NSString
-@property (strong, nonatomic) NSArray *descriptions; //NSString
+@property (strong, nonatomic) NSArray *actions; //NSString
 @property (strong, nonatomic) NSMutableArray *drawingWords; //NSString
 @property (strong, nonatomic) NSMutableArray *charadesWords; //NSString
 //to decide which deck data to send
 @property (nonatomic) BOOL isTraditional;
 
-
-- (void) makeTraditionalDeck;
-- (void) makeAlternateDeck;
+- (void) getCardData;
 
 
 @end

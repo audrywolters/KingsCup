@@ -14,11 +14,11 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) NSMutableArray *drinkMates;
+@property (nonatomic, strong) NSMutableArray *drinkMateSuit;
 @property (nonatomic) CGFloat xPlacement;
-@property (nonatomic) CGFloat yPlacement;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UIButton *colorSquare;
 
-- (NSString *)description;
+//- (NSString *)action;
 
 @end

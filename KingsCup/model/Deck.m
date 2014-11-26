@@ -13,7 +13,7 @@
 
 @interface Deck()
 //array that holds all cards
-@property (nonatomic, strong) NSMutableArray *cards;
+@property (nonatomic, strong) NSMutableArray *orderedCards;
 @property (nonatomic, weak)  UIImage *suit;
 @end
 
@@ -22,74 +22,82 @@
 
 
 //isTraditional comes from other viewControllers
-- (instancetype)initWithFlag:(BOOL)isTraditional_
+- (instancetype)init
 {
     self = [super init];
     
-    if (self) {
-        self.isTraditional = isTraditional_;
+    //make the ordered deck
+    CardData *cardData = [[CardData alloc]init];
+    [cardData getCardData];
         
-        CardData *cardData = [[CardData alloc]init];
-        
-        //get trad/alt info from card data
-        if (self.isTraditional) {
-            [cardData makeTraditionalDeck];
-        } else {
-            [cardData makeAlternateDeck];
-        }
-        
-        //loop 4x to make suit
-        for (int i=0; i<[cardData.suits count]; i++) {
-            self.suit = cardData.suits[i];
+    //loop 4x to make suit
+    for (int i=0; i<[cardData.suits count]; i++) {
+        self.suit = cardData.suits[i];
             
-            //loop 13x for rest of cards
-            for (int i=0; i<[cardData.faces count]; i++) {
+        //loop 13x for rest of cards
+        for (int i=0; i<[cardData.faces count]; i++) {
                 
-                //create card
-                Card *card = [[Card alloc] init];
-                card.suit = self.suit;
-                card.face = cardData.faces[i];
-                card.title = cardData.titles[i];
-                card.description = cardData.descriptions[i];
+            //create card
+            Card *card = [[Card alloc] init];
+            card.suit = self.suit;
+            card.face = cardData.faces[i];
+            card.title = cardData.titles[i];
+            card.action = cardData.actions[i];
                 
-                //add card to the cards array
-                [self.cards addObject:card];
-            }
-            
+            //add card to the cards array
+            [self.orderedCards addObject:card];
         }
-        
+            
     }
-
+    
+    while ([self.orderedCards count] > 0)
+    {
+        int randomNum = arc4random();
+        int index = randomNum % [self.orderedCards count];
+        //put card at random index into new card
+        Card *randomCard = [[Card alloc] init];
+        randomCard = self.orderedCards[index];
+        [self.orderedCards removeObjectAtIndex:index];
+        //put that card in the shuffled deck
+        [self.shuffledCards addObject:randomCard];
+    }
+    
+    //todo: destroy ordered Cards
+    
     return self;
     
 }
 
 
--(Card *)drawRandomCard
+-(Card *)drawCard
 {
-    Card *randomCard = nil;
+    Card *card = [[Card alloc] init];
     
     //if there are cards in the deck
-    if ([self.cards count]) {
+    if ([self.shuffledCards count]) {
         //create random number
-        int randomNum = arc4random();
-        int index = randomNum % [self.cards count];
-        //put card at random index into new card
-        randomCard = self.cards[index];
-        //remove that card from the cards array
-        [self.cards removeObjectAtIndex:index];
+      
     }
-    return randomCard;
+    return card;
 }
 
 
 //lazy instantiation of card array
--(NSMutableArray *)cards
+-(NSMutableArray *)orderedCards
 {
-    if (!_cards){
-        _cards = [[NSMutableArray alloc] init];
+    if (!_orderedCards){
+        _orderedCards = [[NSMutableArray alloc] init];
     }
-    return _cards;
+    return _orderedCards;
+}
+
+//lazy instantiation of card array
+-(NSMutableArray *)shuffledCards
+{
+    if (!_shuffledCards){
+        _shuffledCards = [[NSMutableArray alloc] init];
+    }
+    return _shuffledCards;
 }
 
 

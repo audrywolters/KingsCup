@@ -16,13 +16,17 @@
 
 @interface KingsCupViewController ()
 
+//cards
 @property (strong, nonatomic) Card *currentCard;
 @property (strong, nonatomic) Deck *deck;
+@property (nonatomic) NSInteger cardCount;
+//buttons
 @property (weak, nonatomic) IBOutlet UIButton *cardButton;
 @property (weak, nonatomic) IBOutlet UIButton *timeButton;
 @property (weak, nonatomic) IBOutlet UIButton *drawingButton;
 @property (weak, nonatomic) IBOutlet UILabel *cardTitle;
-@property (weak, nonatomic) IBOutlet UILabel *description;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UILabel *cardAction;
 @property (weak, nonatomic) IBOutlet UIButton *playAgainButton;
 @property (weak, nonatomic) IBOutlet UIButton *quitButton;
 //top graphics
@@ -37,9 +41,7 @@
 //who's turn it is
 @property (nonatomic) NSInteger playerTurn;
 @property (strong, nonatomic) Player *currentPlayer;
-//placement
-@property (nonatomic) CGFloat currentX;
-@property (nonatomic) CGFloat bufferWidth;
+//player placement
 @property (strong, nonatomic) NSMutableArray *colorSquares;
 //timer
 @property (nonatomic) NSTimer *timer;
@@ -50,10 +52,15 @@
 @property (nonatomic) NSString *randomWord;
 @property (nonatomic) UILabel *randomWordLabel;
 
+
+
 //cycle through cards
 - (IBAction)touchCardButton:(id)sender;
-- (void)trackTurns;
+//- (void)trackTurns;
 - (IBAction)touchPlayAgainButton:(id)sender;
+- (void)displayCard;
+- (IBAction)touchBackButton:(id)sender;
+- (void)gameOver;
 //display player
 - (void)findPlacement;
 - (void)displayPlayer:(Player *)player;
@@ -132,11 +139,42 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 #pragma mark <Cycle Through Cards>
 
+
 - (IBAction)touchCardButton:(id)sender
 {
-    //get a random card
-    self.currentCard = [self.deck drawRandomCard];
+    //player
+    self.playerTurn++;
+    [self highlightCurrentPlayer];
     
+    //cards
+    //if there are cards to be drawn
+    if (self.cardCount < 51){
+        //increment the card index
+        self.cardCount++;
+        self.currentCard = [self.deck.shuffledCards objectAtIndex:self.cardCount];
+        [self displayCard];
+    } else {
+        [self gameOver];
+    }
+}
+
+- (IBAction)touchBackButton:(id)sender
+{
+    //if there is a card
+    if (self.cardCount > 1){
+        
+        self.playerTurn--;
+        [self highlightCurrentPlayer];
+        
+        //back up the card index
+        self.cardCount--;
+        self.currentCard = [self.deck.shuffledCards objectAtIndex:self.cardCount];
+        [self displayCard];
+    }
+}
+
+- (void) displayCard
+{
     //hide buttons and labels
     //ranom word label must be hidden seperately cuz of timing
     self.randomWordLabel.hidden = YES;
@@ -147,13 +185,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
     if (self.kingCount == 4) {
         self.cup.image = [UIImage imageNamed:@"cup1.png"];
     }
-    
-    //if there was a card able to be drawn
-    if (self.currentCard) {
-        
         //track player turn and reset player squares
-        [self trackTurns];
-        [self highlightCurrentPlayer];
+        //[self trackTurns];
+        //[self highlightCurrentPlayer];
         
         //set card background
         //TODO: why is this not working? button still see through
@@ -187,59 +221,42 @@ NSString *const DRINK_MATE = @"Drink Mate";
             //if drink mate
         } else if ([self.currentCard.title isEqualToString:DRINK_MATE]){
             
-            self.description.text = self.currentCard.description;
+            self.cardAction.text = self.currentCard.action;
             [self enableDrinkMateButtons];
             
             //if not a special card
         } else {
             //set the description
-            self.description.text = self.currentCard.description;
+            self.cardAction.text = self.currentCard.action;
         }
-        
-        
-        
-    //else there are no more cards
-    } else {
-        self.cardTitle.text = @"GAME OVER";
-        self.cardTitle.font = [self.cardTitle.font fontWithSize:BUTTON_FONT];
-        
-        self.description.text = nil;
-        self.faceTop.text = nil;
-        self.faceBottom.text = nil;
-        self.suitTop.image = nil;
-        self.suitBottom.image = nil;
-        self.cardButton.enabled = NO;
-        //TODO: background see through
-        
-        //play again?
-        self.playAgainButton = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self.playAgainButton addTarget:self action:@selector(touchPlayAgainButton:) forControlEvents:UIControlEventTouchUpInside];
-        [self.playAgainButton setTitle:@"Play Again?" forState:UIControlStateNormal];
-        self.playAgainButton.frame = CGRectMake(50, 250, 200, 30);
-        [self.playAgainButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
-        [self.playAgainButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
-        [self.view addSubview:self.playAgainButton];
-        
-    }
-    
+
 }
 
 
-
-- (void)trackTurns
+- (void) gameOver
 {
-    //if the turn is at the end of of the players, or empty, reset
-    if (self.playerTurn == [self.players count] || self.playerTurn == 0) {
-        self.playerTurn = 1;
-        
-    //else increment
-    } else {
-        self.playerTurn++;
-    }
+    self.cardTitle.text = @"GAME OVER";
+    self.cardTitle.font = [self.cardTitle.font fontWithSize:BUTTON_FONT];
     
-    //set the current player
-    self.currentPlayer = [self.players objectAtIndex:self.playerTurn - 1];
+    self.cardAction.text = nil;
+    self.faceTop.text = nil;
+    self.faceBottom.text = nil;
+    self.suitTop.image = nil;
+    self.suitBottom.image = nil;
+    self.cardButton.enabled = NO;
+    //TODO: background see through
+    
+    //play again?
+    self.playAgainButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.playAgainButton addTarget:self action:@selector(touchPlayAgainButton:) forControlEvents:UIControlEventTouchUpInside];
+    [self.playAgainButton setTitle:@"Play Again?" forState:UIControlStateNormal];
+    self.playAgainButton.frame = CGRectMake(50, 250, 200, 30);
+    [self.playAgainButton.titleLabel setFont:[UIFont fontWithName:@"Pixelette" size:BUTTON_FONT]];
+    [self.playAgainButton setTitleColor:[UIColor kcRed] forState:UIControlStateNormal];
+    [self.view addSubview:self.playAgainButton];
+
 }
+
 
 
 
@@ -249,34 +266,28 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 - (void)findPlacement
 {
-    //TODO: there must be a one incrementing because squares get farther apart each square
-    //TODO: magic numbers?
-    self.bufferWidth = 45;
-    //int minusCounter = [self.players count];
+   
+    NSInteger playerSquareWidth = 33;
+    NSInteger bufferWidth = 11;
     
     Player *firstPlayer = [self.players objectAtIndex:0];
     
-    //middle of screen (for two players)
-    self.currentX = 175;
+    //find starting point of first square
+    NSInteger totalSizeOfAllPlayerSquares = ([self.players count] * playerSquareWidth);
+    NSInteger totalBufferWidth = (([self.players count] - 1) * bufferWidth);
+    NSInteger totalPlayerSpace = totalSizeOfAllPlayerSquares + totalBufferWidth;
+    NSInteger screenSize = self.view.frame.size.width;
+    NSInteger emptyScreenSpace =  screenSize - totalPlayerSpace;
+    NSInteger startX = emptyScreenSpace / 2;
     
-    //move starting point over 25 pixels for each player
-    for (int i=0; i<[self.players count]; i++){
-        self.currentX = self.currentX - 25;
-    }
-    firstPlayer.xPlacement = self.currentX;
-    
-    
-    //get placement for rest of players
-    for (int i=1; i<[self.players count]; i++) {
-        self.bufferWidth++;
-        //minusCounter--;
-        self.currentX = (self.currentX + self.bufferWidth); //- minusCounter;
-        
+    firstPlayer.xPlacement = startX;
+
+    //find placement for rest of squares
+    for (int i=1; i<[self.players count]; i++){
         Player *nextPlayer = [self.players objectAtIndex:i];
-        nextPlayer.xPlacement = self.currentX;
-        
+        nextPlayer.xPlacement = startX + ((bufferWidth + playerSquareWidth) * i);
     }
-    
+
 }
 
 
@@ -292,7 +303,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     [self.view addSubview:player.nameLabel];
     
     //show player's color square
-    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,42,33,33)];
+    player.colorSquare = [[UIButton alloc] initWithFrame:CGRectMake(player.xPlacement,42,30,30)];
     player.colorSquare.backgroundColor = player.color;
     player.colorSquare.tag = player.number;
     [player.colorSquare setImage:[UIImage imageNamed:@"tapped.png"] forState:UIControlStateHighlighted];
@@ -330,6 +341,9 @@ NSString *const DRINK_MATE = @"Drink Mate";
 }
 
 
+
+
+
 #pragma mark <Drink Mate>
 
 - (void)displayDrinkMates
@@ -357,6 +371,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
     //set that person to be the drink buddy
     [self.currentPlayer.drinkMates addObject:playerClicked.color];
+    [self.currentPlayer.drinkMateSuit addObject:self.currentCard.suit];
     
     //disable buttons
     [self disableDrinkMateButtons];
@@ -392,7 +407,6 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 
 
-
 #pragma mark <King>
 
 - (void)makeKingCard:(Card *)card
@@ -403,27 +417,27 @@ NSString *const DRINK_MATE = @"Drink Mate";
     
     switch (self.kingCount) {
         case 0:
-            self.description.text = card.description;
+            self.cardAction.text = card.action;
             break;
             
         case 1:
-            self.description.text = card.description;
+            self.cardAction.text = card.action;
             self.cup.image = [UIImage imageNamed:@"cup2.png"];
             break;
             
         case 2:
-            self.description.text = card.description;
+            self.cardAction.text = card.action;
             self.cup.image = [UIImage imageNamed:@"cup3.png"];
             break;
             
         case 3:
         
-            self.description.text = card.description;
+            self.cardAction.text = card.action;
             self.cup.image = [UIImage imageNamed:@"cup4.png"];
             break;
             
         case 4:
-            self.description.text = @"you must drink the whole cup!";
+            self.cardAction.text = @"you must drink the whole cup!";
             //self.cup.image = [UIImage imageNamed:@"cup1.png"];
             NSArray *cupAnimationImages = [[NSArray alloc] initWithObjects:
                                            //[UIImage imageNamed:@"cup4.png"],
@@ -435,6 +449,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
                                            [UIImage imageNamed:@"cup2.png"],
                                            [UIImage imageNamed:@"cup1.png"],
                                            nil];
+            //TODO: why is cup 4 commented out?
             
             self.cup.animationImages = cupAnimationImages;
             self.cup.animationDuration = 2;
@@ -455,7 +470,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
 - (void)makeCharadesCard:(Card *)card
 {
     //set description
-    self.description.text = card.description;
+    self.cardAction.text = card.action;
     
     //show gen random word button
     self.generateRandomWordButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -547,7 +562,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
 - (void)makeDrawingCard:(Card *)card
 {
     //set description
-    self.description.text = card.description;
+    self.cardAction.text = card.action;
     
     //show button
     self.drawingButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -623,7 +638,7 @@ NSString *const DRINK_MATE = @"Drink Mate";
 - (Deck *)deck
 {
     if (!_deck) {
-        _deck = [[Deck alloc]initWithFlag:self.isTraditional];
+        _deck = [[Deck alloc]init];
     }
     return _deck;
 }

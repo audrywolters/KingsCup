@@ -10,10 +10,11 @@
 #import "Card.h"
 @interface Deck : NSObject
 
-@property (nonatomic) BOOL isTraditional;
-
 //creates the deck
-- (instancetype)initWithFlag:(BOOL)isTraditional;
-- (Card *) drawRandomCard;
+
+@property (nonatomic, strong) NSMutableArray *shuffledCards;
+
+- (instancetype)init;
+- (Card *) drawCard;
 
 @end
