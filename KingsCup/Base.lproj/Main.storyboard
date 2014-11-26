@@ -73,8 +73,8 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q5m-ow-SJx">
-                                <rect key="frame" x="37" y="530" width="85" height="30"/>
-                                <state key="normal" title="Back a Card">
+                                <rect key="frame" x="43" y="530" width="73" height="30"/>
+                                <state key="normal" title="Back Card">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>

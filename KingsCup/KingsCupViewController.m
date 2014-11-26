@@ -142,17 +142,25 @@ NSString *const DRINK_MATE = @"Drink Mate";
 
 - (IBAction)touchCardButton:(id)sender
 {
-    //player
-    self.playerTurn++;
-    [self highlightCurrentPlayer];
-    
-    //cards
     //if there are cards to be drawn
     if (self.cardCount < 51){
+    
+        //players
+        if (self.playerTurn == self.players.count) {
+            self.playerTurn = 1;
+            [self highlightCurrentPlayer];
+        
+        } else {
+            self.playerTurn++;
+            [self highlightCurrentPlayer];
+        }
+    
+        //cards
         //increment the card index
         self.cardCount++;
         self.currentCard = [self.deck.shuffledCards objectAtIndex:self.cardCount];
         [self displayCard];
+    
     } else {
         [self gameOver];
     }
@@ -163,8 +171,13 @@ NSString *const DRINK_MATE = @"Drink Mate";
     //if there is a card
     if (self.cardCount > 1){
         
-        self.playerTurn--;
-        [self highlightCurrentPlayer];
+        if (self.playerTurn == 1) {
+            self.playerTurn = self.players.count;
+            [self highlightCurrentPlayer];
+        } else {
+            self.playerTurn--;
+            [self highlightCurrentPlayer];
+        }
         
         //back up the card index
         self.cardCount--;
