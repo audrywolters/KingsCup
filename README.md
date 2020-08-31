@@ -7,7 +7,7 @@ King's Cup
 
 ## Description
 King's Cup (also known as Categories) is a drinking game traditionally played with a deck of cards (and a lot of scribbly papers). 
-This is an iPhone version of that very game. 
+This is an iPhone version.. 
 2 - 6 players take turns drawing a random card. Depending on what the card says, someone will probably have to take a drink!
 Pictionary, charades, memory games, and impromptu dance parties are some of the fun things players get to do!
 
