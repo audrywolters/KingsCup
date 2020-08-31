@@ -18,4 +18,4 @@ I learned a very different way of structuring files and (at that time) iOS's app
 Tricky but I enjoyed it.
 
 ## Next Steps
-I would love to rebuild this in Swift and hopefully get it in the App Store.
+I would love to rebuild this in Swift and get it in the App Store.
