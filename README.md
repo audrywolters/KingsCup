@@ -1,4 +1,6 @@
 
+![KC Logo](https://raw.githubusercontent.com/audrywolters/KingsCup/master/KingsCup/Images.xcassets/deck.imageset/deck.png)
+
 ## Application Name
 King's Cup
 
